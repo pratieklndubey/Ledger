@@ -5,14 +5,17 @@
   "main": "app.js",
   "dependencies": {
     "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-ejs": "^2.0.0",
+    "express-ejs-layouts": "^2.5.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
     "nodemon": "^2.0.7"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devstart": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+        <title>lEdge | personal finance tracker</title>
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <meta name="turbolinks-cache-control" content="no-cache">
+        <meta name="author" content="Prateek Dubey">
+        <meta name="subject" content="Personal Finance Tracking Tool"/>
+        <meta name="classification" content="Finance"/>
+        <meta name="Language" content="English"/>
+        <meta name="Designer" content="Prateek Dubey"/>
+        <link rel="shortcut icon" href="images/icon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Roboto|Handlee" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav id = "home" style="height: 60px;"class="light-blue darken-4">
+            <div class = "nav-wrapper">
+                <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="about">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="images/icon.png"></a>
+            </div>
+        </nav>
+        <div class="section white ">
+            <h2  class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Select an account</h2>
+            <hr width="70%">
+            <div class="container">
+                <div class="row">
+                    <div class="col s4">
+                        <div class="z-depth-4 card">
+                            <div class="card-panel waves-block waves-light light-blue darken-4">
+                                <p class="card-title white-text center"> <%=name%>'s Account<br>Balance: 2,14,893.75&#8377;</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="z-depth-4 card">
+                            <div class="card-panel waves-block waves-light white">
+                                <p class="card-title blue-text text-darken-4 center" style="font-size: 35px;">+Account</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+        <script>
+            $(document).ready
+                (function()
+                    {
+                        $('.modal').modal
+                        (
+                            {
+                            dismissible: false
+                            }
+                        );
+                    }
+                );    
+        </script>
+
+        <footer class="page-footer grey lighten-2">
+            <h2  class="header center light-blue-text text-darken-4" style="font-family:Amatic SC;margin-top: -18px;">lEdge</h2>
+            <h4 class="red-text text-darken-2 center header col s12 white-text" style="font-family:Handlee;">Manage your personal finances professionally</h4>
+            <hr width="70%">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <ul>
+                            <li>
+                                <p class="black-text text-darken-4"style="font-family: Handlee; font-size: 20px;">lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but never really got an app with all the required features. So, I thought of creating this app with the features one require to manage their money seamlessly. I hope you would love it.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright light-blue darken-4">
+                <div class="container"> &copy;
+                    <script> 
+                        var dateobj = new Date(); 
+                        var crntYear = dateobj.getUTCFullYear(); 
+                        document.write(crntYear);                     
+                    </script>  
+                    Sho0nya, Inc.
+                    <a class="grey-text text-lighten-2 right" href="about" style="font-size: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;About</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+  </html>
