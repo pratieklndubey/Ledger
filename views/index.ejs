@@ -27,12 +27,12 @@
     <h5 class="header center light-blue-text text-darken-4" style="font-family:Handlee;">Open an Account</h5>
     <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
     <div class="row">
-      <form action="c/logingear/login.php" method="POST">
+      <form action="/account" method="POST">
         <div class="input-field col s6 offset-s3 center dark-blue-text" style="width: 50%; ">
-          <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true">
+          <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=account.title%>">
         </div>
         <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
-          <input name = "openbal" type="number" placeholder = "Opening Balance" class="validate" required="" aria-required="true">
+          <input name = "openbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=account.amount%>">
         </div>
         <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
           <input class="waves-effect waves-light btn light-blue darken-4 white-text" value="OPEN" type="submit">

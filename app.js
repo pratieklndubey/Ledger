@@ -3,6 +3,7 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts')
 const port = 3000;
 const hostname = 'localhost';
+const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index')
 const aboutRouter = require('./routes/about')
@@ -13,6 +14,7 @@ app.set('layout', 'layouts/layout');
 
 app.use(expressLayouts);
 app.use(express.static(__dirname+'/public'));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/Ledge', {useNewUrlParser: true, useUnifiedTopology: true});
