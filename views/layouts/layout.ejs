@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <html lang="en">
     <head>
-        <title>lEdge | personal finance tracker</title>
+        <title>lEdge | personal finance tracker | <%=title%></title>
         <meta name=viewport content="width=device-width, initial-scale=1">
         <meta name="turbolinks-cache-control" content="no-cache">
         <meta name="author" content="Prateek Dubey">
@@ -15,37 +15,14 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Roboto|Handlee" rel="stylesheet">
     </head>
-
-    <body>
-        <nav id = "home" style="height: 60px;"class="light-blue darken-4">
-            <div class = "nav-wrapper">
-                <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="about">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="images/icon.png"></a>
-            </div>
-        </nav>
-        <div class="section white ">
-            <h2  class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Select an account</h2>
-            <hr width="70%">
-            <div class="container">
-                <div class="row">
-                    <div class="col s4">
-                        <div class="z-depth-4 card">
-                            <div class="card-panel waves-block waves-light light-blue darken-4">
-                                <p class="card-title white-text center"> <%=name%>'s Account<br>Balance: 2,14,893.75&#8377;</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s4">
-                        <div class="z-depth-4 card">
-                            <div class="card-panel waves-block waves-light white">
-                                <p class="card-title blue-text text-darken-4 center" style="font-size: 35px;">+Account</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <nav id = "home" style="height: 60px;"class="light-blue darken-4">
+        <div class = "nav-wrapper">
+            <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="../">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="images/icon.png"></a>
         </div>
+    </nav>
+    <%- body %>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
         <script>
             $(document).ready
@@ -88,5 +65,4 @@
                 </div>
             </div>
         </footer>
-    </body>
   </html>

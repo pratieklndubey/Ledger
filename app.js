@@ -5,6 +5,7 @@ const port = 3000;
 const hostname = 'localhost';
 
 const indexRouter = require('./routes/index')
+const aboutRouter = require('./routes/about')
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -21,5 +22,6 @@ db.on('error', error => console.error(error));
 db.once('open', () => console.log('Connected to the Database'));
 
 app.use('/', indexRouter)
+app.use('/about', aboutRouter)
 
 app.listen(port,hostname, () => { console.log(`Server running at http://${hostname}:${port}/`);});
