@@ -29,10 +29,10 @@
     <div class="row">
       <form action="/account" method="POST">
         <div class="input-field col s6 offset-s3 center dark-blue-text" style="width: 50%; ">
-          <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=account.title%>">
+          <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=account.name%>">
         </div>
         <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
-          <input name = "openbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=account.amount%>">
+          <input id = "initbal" name = "initbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=account.initbal%>">
         </div>
         <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
           <input class="waves-effect waves-light btn light-blue darken-4 white-text" value="OPEN" type="submit">

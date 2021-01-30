@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index')
 const aboutRouter = require('./routes/about')
+const accountRouter = require('./routes/account')
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -25,5 +26,6 @@ db.once('open', () => console.log('Connected to the Database'));
 
 app.use('/', indexRouter)
 app.use('/about', aboutRouter)
+app.use('/account', accountRouter)
 
 app.listen(port,hostname, () => { console.log(`Server running at http://${hostname}:${port}/`);});
