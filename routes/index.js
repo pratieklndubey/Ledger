@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Account = require('../models/account')
 
-router.get('/', (req, res) => {
-    res.render('index', {title: 'Home', account: new Account()});
+router.get('/', async (req, res) => {
+    const account = await Account.find()
+    res.render('index', {title: 'Home', newaccount: new Account(), account: account, option: ''});
   })
 
 module.exports = router

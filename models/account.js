@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const transactionSchema = new mongoose.Schema({
+const activitySchema = new mongoose.Schema({
   id: {
     type: mongoose.Schema.Types.ObjectId,
     
@@ -27,8 +27,7 @@ const transactionSchema = new mongoose.Schema({
   },
   tstamp: {
     type: Date,
-    default: Date.now(),
-    
+    default: Date.now(),    
   },
   description: {
     type: String
@@ -44,7 +43,7 @@ const accountSchema = new mongoose.Schema({
     type: String,
     
   },
-  initbal:{
+  transum:{
     type: Number,
     
   },
@@ -52,8 +51,8 @@ const accountSchema = new mongoose.Schema({
     type: Number,
     
   },
-  transaction: {
-    type: [transactionSchema]
+  activity: {
+    type: [activitySchema]
   }
 })
 

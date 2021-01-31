@@ -1,0 +1,129 @@
+<div id = "options" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Select an Option</h5>
+  <hr width="85%">
+  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  <div class="container">
+    <div class="row center">
+      <div class="col s6"><a data-toggle="modal" class="modal-trigger btn green" href="#ctransaction">Create Transaction</a></div>
+      <div class="col s6"><a data-toggle="modal" class="modal-trigger btn green" href="#utransaction">Update Transaction</a></div>
+    </div>
+    <div class="row center">
+      <div class="col s12"><a data-toggle="modal" class="modal-trigger btn red" href="#dtransaction">Delete Transaction</a></div>
+    </div>
+    <hr width="70%">
+    <div class="row center">
+      <div class="col s12 "><a data-toggle="modal" class="modal-trigger btn blue" href="#ubalance">Update Balance</a></div>
+    </div>
+    
+  </div>
+</div>
+<div id = "ubalance" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Update Balance</h5>
+</div>
+<div id = "utransaction" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Update Transaction</h5>
+</div>
+<div id = "ctransaction" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Create Transaction</h5>
+</div>
+<div id = "dtransaction" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Delete Transaction</h5>
+</div>
+<head></head><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script></head>
+<div class="section white ">
+    <% account.forEach(element => { %>
+        <h2  class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0;">
+            <%=element.name%>'s Account
+        </h2>
+ 
+                
+                <hr width="70%">
+                <div class="container">
+                    <table class="striped centered responsive-table">
+                        <thead>
+                          <tr>
+                              <th>Balance</th>
+                              <th>Sum of Transactions</th>
+                              <th>Variance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                    const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'INR',
+  minimumFractionDigits: 2
+})%>
+                                  
+                          <tr style="font-weight:500;">
+                            
+                            <td><%= formatter.format(element.currbal)%></td>
+                            <td><%= formatter.format(element.transum)%></td>
+                            <td><%= formatter.format(element.currbal-element.transum)%></td>
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+               
+            </div>
+
+                
+            <hr>
+      
+            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;">Transactions</h4>
+   
+        <hr width="70%">
+    <div class="container">
+            <table class="highlight centered responsive-table">
+                <thead>
+                  <tr>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Description</th>
+                      <th>Balance</th>
+                      <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                    <% element.activity.forEach(entry => {%>  
+                          
+                  <tr style="font-weight:500;">
+                    <% 
+                    if(!entry.isexpense){
+                        var color = "green-text text-darken-1"
+                    var type = "Income "
+                var trend = "\u25B2"}
+                        else{
+                    var color = "red-text text-darken-1"
+                    var type = "Expense"
+                    var trend = "\u25BC"}
+                    %>
+                    <td><%= entry.title%></td>
+                    <td><%= entry.category%></td>
+                    <td> <script type="text/javascript">
+                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
+                    </script>    </td>
+                    
+                    <td class = "<%=color%>"><%= formatter.format(entry.isexpense?entry.amount*-1:entry.amount)%> <%=trend%></td>
+                    <td><%= entry.description%></td>
+                    <td><%= formatter.format(entry.postranbal)%></td>
+                    <td><%= type%></td>
+                    <%})%>
+                  </tr>
+                </tbody>
+              </table>
+       
+    </div>
+    <%});%>
+</div>
+
+
+
+
+
+
+

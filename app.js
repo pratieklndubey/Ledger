@@ -6,7 +6,6 @@ const hostname = 'localhost';
 const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index')
-const aboutRouter = require('./routes/about')
 const accountRouter = require('./routes/account')
 
 app.set('view engine', 'ejs');
@@ -18,14 +17,13 @@ app.use(express.static(__dirname+'/public'));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/Ledge', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/ledge', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection
 db.on('error', error => console.error(error));
 db.once('open', () => console.log('Connected to the Database'));
 
 app.use('/', indexRouter)
-app.use('/about', aboutRouter)
 app.use('/account', accountRouter)
 
 app.listen(port,hostname, () => { console.log(`Server running at http://${hostname}:${port}/`);});
