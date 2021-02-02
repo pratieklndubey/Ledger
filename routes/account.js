@@ -1,17 +1,42 @@
 const express = require('express')
-const { replaceOne } = require('../models/account')
 const router = express.Router()
 const Account = require('../models/account')
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
     let searchOptions = {}
-    searchOptions._id = req.query._id
+    searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
     res.render('account/index', {title:'Account', account: account, option: "\u2630"});
+    //res.send(account)
+  })
+  router.put('/:id/', async (req, res) => {
+    let account = await Account.findById(req.params.id)
+    account.currbal = req.body.currbal
+    await account.save()
+    res.redirect(req.params.id)
+  })
+  router.put('/:id/:tid', async (req, res) => {
+    if(req.body.amount != 0){
+      let account = await Account.findById(req.params.id)
+    let transaction = account.activity
+    let entry = transaction.find(entry => entry._id == req.params.tid)
+    entry.postranbal = entry.postranbal - entry.amount
+    entry.description = req.body.description
+    entry.amount = req.body.amount
+    if(entry.isexpense && entry.amount > 0)
+    {
+      entry.amount *= -1.00
+    }
+    entry.title = req.body.title
+    entry.postranbal = entry.postranbal + entry.amount
+    account.transum = entry.postranbal
+    await account.save()
+    }
+    res.redirect("../"+req.params.id)
   })
 
   router.post('/', async (req, res) => {
-    const formatter = new Intl.NumberFormat('hi-IN', {
+    const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'INR',
       minimumFractionDigits: 2
@@ -29,7 +54,7 @@ router.get('/', async (req, res) => {
      description: "Opened account with " + formatter.format(req.body.currbal)}]
     })
     const newAccount = await account.save()
-    res.redirect('account?_id='+account._id)
+    res.redirect('account/'+account._id)
   })
 
 module.exports = router
