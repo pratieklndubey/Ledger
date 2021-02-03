@@ -31,6 +31,10 @@ const activitySchema = new mongoose.Schema({
   },
   description: {
     type: String
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -50,6 +54,14 @@ const accountSchema = new mongoose.Schema({
   currbal: {
     type: Number,
     
+  },
+  isActive:{
+    type: Boolean,
+    default: true
+
+  },
+  passWord:{
+    type:String
   },
   activity: {
     type: [activitySchema]

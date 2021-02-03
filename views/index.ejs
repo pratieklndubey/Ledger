@@ -17,7 +17,7 @@
         <div class="z-depth-4 card">
           <div class="card-panel waves-block waves-light light-blue darken-4">
             <a href="/account/<%=element._id%>">
-              <p class="card-title white-text center"> <%=element.name%>'s Account<br>Balance: <%=formatter.format(element.currbal)%></p>
+              <p class="card-title white-text center"> <%=element.name%>'s Account<br>Balance: <%=formatter.format(element.transum)%></p>
             </a>
           </div>
         </div>
@@ -45,7 +45,10 @@
           <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=newaccount.name%>">
         </div>
         <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
-          <input id = "currbal" name = "currbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=newaccount.currbal%>">
+          <input  name = "currbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=newaccount.currbal%>">
+        </div>
+        <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
+          <input name = "pass" type="password" placeholder = "Password" class="validate" required="" aria-required="true" value = "<%=newaccount.passWord%>">
         </div>
         <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
           <input class="btn light-blue darken-4 white-text" value="OPEN" type="submit">

@@ -1,6 +1,15 @@
+<style>
+  .modal { overflow: visible; }
+.modal-body { overflow-y: visible !important; }
+</style>
 
 <% account.forEach(element => { %>
-
+  
+  <% const categoriesExpense = ["Food","Automobile","Donations","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gifts"]
+  const categoriesIncome = ["Savings","Salary","Interest","Gift"]
+  
+  %>
+  
   <%
   const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
@@ -24,7 +33,7 @@ minimumFractionDigits: 2
   <div class="row">
     <form action="/account/<%=element._id%>?_method=PUT" method="POST">
       <div class="input-field">
-        <input name = "id" type="hidden" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=element._id%>">
+        <input name = "action" type="hidden" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "UpBal">
       </div>
       <div class="input-field col s4 offset-s4 center">
         <input id = "currbal" name = "currbal" type="number" step="0.01" placeholder = "Current Balance" class="validate" required="" aria-required="true" value = "<%=element.currbal%>">
@@ -41,6 +50,39 @@ minimumFractionDigits: 2
 <div id = "ctransaction" class="modal white">
   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Create Transaction</h5>
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  
+    
+  <form action="/account/<%=element._id%>/?_method=PUT" method="POST">
+        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Creatran" />
+        <div class="row">
+        <div class="input-field col s4 offset-s1 center">
+        <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount" class="validate" required="" aria-required="true" value = "">
+        <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "">
+        
+        
+      </div>
+      <div class="input-field col s4 offset-s2 center" >
+        <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
+       <select name = "category" class="browser-default" style="margin-top:7px;">
+        <optgroup label = "Expense">
+        <%categoriesExpense.forEach(category => {%>
+        <option value="<%=category%>"><%=category%> </option>
+      <%})%>
+    </optgroup>
+    <optgroup label = "Income">
+      <%categoriesIncome.forEach(category => {%>
+        <option value="<%=category%>"><%=category%> </option>
+      <%})%>
+    </optgroup>
+      </select>
+      </div>
+      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+        <input class="btn light-blue darken-4 white-text" value="UPDATE" type="submit">
+      </div>
+    </div>
+      </form>
+    
+
 </div>
 <head></head><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script></head>
 <div class="section white ">
@@ -102,7 +144,8 @@ minimumFractionDigits: 2
                     let datecurrent = new Date(current.tstamp)
                     return datecurrent - datelast;
                     })%>
-                    <% element.activity.slice(-15).forEach(entry => {%>  
+                    <% element.activity.filter((entry => entry.isActive == true)).slice(-15).forEach(entry => {%>  
+
                           
                   <tr style="font-weight:500;">
                     <% 
@@ -124,7 +167,7 @@ minimumFractionDigits: 2
                     <td class = "<%=color%>"><%= formatter.format(entry.isexpense?entry.amount*-1:entry.amount)%> <%=trend%></td>
                     <td><%= entry.description%></td>
                     <td><%= formatter.format(entry.postranbal)%></td>
-                    <td id = "action"><a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#d<%=entry._id%>"><i class="material-icons">delete</i></a>&nbsp;
+                    <td><a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#d<%=entry._id%>"><i class="material-icons">delete</i></a>&nbsp;
                       <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#u<%=entry._id%>"><i class="material-icons">edit</i></a></td>
                       
 <div id = "u<%=entry._id%>" class="modal white">
@@ -136,14 +179,32 @@ minimumFractionDigits: 2
         <%if(entry.isexpense){
           entry.amount *=-1 
         }%>
+        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Update" />
         <div class="row">
         <div class="input-field col s4 offset-s1 center">
-        <input name = "amount" type="number" step="0.01" placeholder = "Amount" class="validate" required="" aria-required="true" value = "<%=entry.amount%>">
+        <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount" class="validate" required="" aria-required="true" value = "<%=entry.amount%>">
         <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "<%=entry.title%>">
+        
         
       </div>
       <div class="input-field col s4 offset-s2 center" >
         <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
+       <select name = "category" class="browser-default" style="margin-top:7px;">
+        <optgroup label = "Expense">
+        <%categoriesExpense.forEach(category => {%>
+        <option value="<%=category%>" <%if(entry.category == category){%> selected<%}%>> <%=category%></option>
+      <%})%>
+    </optgroup>
+    <optgroup label = "Income">
+      <%categoriesIncome.forEach(category => {%>
+        <option value="<%=category%>" <%if(entry.category == category){%> selected<%}%>> <%=category%></option>
+      <%})%>
+    </optgroup>
+      </select>
+    
+        
+       
+        
       </div>
       <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
         <input class="btn light-blue darken-4 white-text" value="UPDATE" type="submit">
@@ -158,7 +219,18 @@ minimumFractionDigits: 2
 <div id = "d<%=entry._id%>" class="modal white">
   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Delete Transaction</h5>
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
-  
+  <form action="/account/<%=element._id%>/<%=entry._id%>?_method=PUT" method="POST">
+  <div class="row">
+    <div class="input-field col s6 offset-s3 center">
+    <p>Can you please enter the password to delete the entry?</p>
+    <input name = "pass" type="password" placeholder = "Password" class="validate" required="" aria-required="true" value = "">
+    <input name = "action" type="hidden" placeholder = "Password" class="validate" required="" aria-required="true" value = "Delete" />
+</div>
+    </div>
+  <div class="input-field col s12 center">
+        <input class="btn light-blue darken-4 white-text" value="DELETE" type="submit">
+      </div>
+    </form>
 </div>
  <%})%>
                   </tr>
@@ -168,7 +240,7 @@ minimumFractionDigits: 2
     </div>
     <%});%>
 </div>
-  </script>
+
 
 
 
