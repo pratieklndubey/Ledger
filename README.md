@@ -2,11 +2,11 @@
 lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but never really got an app with all the required features. So, I thought of creating this app with the features one require to manage their money seamlessly. I hope you would love it.
 
 Installation Guide: 
-        1. Install Node-JS and MongoDB
-        2. Open Terminal at the current directory
-        3. Type in npm init
-        4. Type in npm install
-        5. Execute the run_server file
+        1. Install Node-JS and MongoDB<br/>
+        2. Open Terminal at the current directory<br/>
+        3. Type in npm init<br/>
+        4. Type in npm install<br/>
+        5. Execute the run_server file<br/>
 
 Snip of Account lists
 ![Account](https://user-images.githubusercontent.com/24636070/106957537-1d3c2600-675e-11eb-9cc2-1451216b2f4e.PNG)
