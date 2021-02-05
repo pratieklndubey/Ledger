@@ -30,9 +30,9 @@ router.get('/:id', async (req, res) => {
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
         actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
-        let newTransaction = {title: req.body.title, amount: actualAmount, category: req.body.category, description: req.body.description, isexpense: !checkExpense, postranbal: (account.transum+actualAmount)}
+        let newTransaction = {title: req.body.title, amount: actualAmount, category: req.body.category, description: req.body.description, isexpense: !checkExpense, postranbal: ((account.transum+actualAmount)*1.00)}
         account.activity.push(newTransaction)
-        account.transum = account.transum+actualAmount
+        account.transum = (account.transum+actualAmount)*1.00
         //res.send(newTransaction)
         await account.save()
         res.redirect("../"+req.params.id)

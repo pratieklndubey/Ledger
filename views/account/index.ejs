@@ -109,7 +109,13 @@ minimumFractionDigits: 2
                             
                             <td><%= formatter.format(element.currbal)%></td>
                             <td><%= formatter.format(element.transum)%></td>
-                            <td><%= formatter.format(element.currbal-element.transum)%></td>
+                            <% variance = element.currbal-element.transum
+                              if (variance < 0 && variance > -0.01)
+                              {
+                                variance *= -1.00
+                              }
+                            %>
+                            <td><%= formatter.format(variance)%></td>
                            
                             
                           </tr>
