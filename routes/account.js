@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Account = require('../models/account')
 const CryptoJS = require('crypto')
+
+router.get('/', async (req, res) => {
+  res.redirect('../')
+})
 router.get('/:id', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
