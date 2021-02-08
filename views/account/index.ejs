@@ -132,7 +132,7 @@ minimumFractionDigits: 2
    
         <hr width="70%">
     <div class="container">
-      <input class="form-control" id="myInput" type="text" placeholder="Type in to Search" widht="70%">
+      <input class="form-control" id="myInput" type="text" placeholder="&#128269;Type in to Search">
             <table class="highlight centered responsive-table">
                 <thead>
                   <tr>
@@ -169,7 +169,7 @@ minimumFractionDigits: 2
                     <td><%= entry.title%></td>
                     <td><%= entry.category%></td>
                     <td> <script type="text/javascript">
-                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
+                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
                     </script>    </td>
                     
                     <td class = "<%=color%>"><%= formatter.format(entry.isexpense?entry.amount*-1:entry.amount)%> <%=trend%></td>
