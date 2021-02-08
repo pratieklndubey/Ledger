@@ -10,7 +10,7 @@ router.get('/:id', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:"Account", account: account, option: "\u2630"});
+    res.render('account/index', {title:account[0].name, account: account, option: "\u2630"});
     //res.send(account)
   })
   router.put('/:id/', async (req, res) => {
