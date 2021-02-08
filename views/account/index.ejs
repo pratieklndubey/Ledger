@@ -5,7 +5,7 @@
 
 <% account.forEach(element => { %>
   
-  <% const categoriesExpense = ["Food","Automobile","Donations","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gifts"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gifts"]
   const categoriesIncome = ["Savings","Salary","Interest","Gift"]
   
   %>
@@ -132,6 +132,7 @@ minimumFractionDigits: 2
    
         <hr width="70%">
     <div class="container">
+      <input class="form-control" id="myInput" type="text" placeholder="Type in to Search" widht="70%">
             <table class="highlight centered responsive-table">
                 <thead>
                   <tr>
@@ -144,7 +145,7 @@ minimumFractionDigits: 2
                       <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                   
                     <%element.activity.sort((last,current) => {
                     let datelast = new Date(last.tstamp)                    
@@ -247,6 +248,8 @@ minimumFractionDigits: 2
     </div>
     <%});%>
 </div>
+
+
 
 
 
