@@ -152,7 +152,7 @@ minimumFractionDigits: 2
                     let datecurrent = new Date(current.tstamp)
                     return datecurrent - datelast;
                     })%>
-                    <% element.activity.filter((entry => entry.isActive == true)).slice(-15).forEach(entry => {%>  
+                    <% element.activity.filter(entry => entry.isActive == true).slice(-15).forEach(entry => {%>  
 
                           
                   <tr style="font-weight:500;">

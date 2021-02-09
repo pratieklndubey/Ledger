@@ -12,7 +12,7 @@
   <hr width="70%">
   <div class="container">
     <div class="row">
-      <% account.forEach(element => { %>
+      <% account.filter(element => element.isActive == true).forEach(element => { %>
       <div class="col s4">
         <div class="z-depth-4 card">
           <div class="card-panel waves-block waves-light light-blue darken-4">
