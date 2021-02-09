@@ -128,7 +128,11 @@ minimumFractionDigits: 2
                 
             <hr>
       
-            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;">Transactions</h4>
+            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;">Transactions for <script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM, YYYY")) 
+                    </script></h4>
+            
+            
    
         <hr width="70%">
     <div class="container">
@@ -147,13 +151,14 @@ minimumFractionDigits: 2
                 </thead>
                 <tbody id="myTable">
                   
-                    <%element.activity.sort((last,current) => {
+                    <%
+                    
+                    element.activity.sort((last,current) => {
                     let datelast = new Date(last.tstamp)                    
                     let datecurrent = new Date(current.tstamp)
                     return datecurrent - datelast;
                     })%>
-                    <% element.activity.filter(entry => entry.isActive == true).slice(-15).forEach(entry => {%>  
-
+                    <% element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>  
                           
                   <tr style="font-weight:500;">
                     <% 
@@ -246,6 +251,7 @@ minimumFractionDigits: 2
               </table>
        
     </div>
+    
     <%});%>
 </div>
 
