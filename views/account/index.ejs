@@ -94,7 +94,7 @@ minimumFractionDigits: 2
                 
                 <hr width="70%">
                 <div class="container">
-                    <table class="striped centered responsive-table">
+                    <table class="striped centered responsive-table">      
                         <thead>
                           <tr>
                               <th>Balance</th>
@@ -127,14 +127,57 @@ minimumFractionDigits: 2
 
                 
             <hr>
-      
-            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;">Transactions for <script type="text/javascript">
+            <%
+            transactionCount = 0
+            monthlyIncome = 0
+            monthlyExpense = 0
+             element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               transactionCount += 1
+               if(!entry.isexpense)
+               {
+                 monthlyIncome += entry.amount
+               }
+               else{
+                 monthlyExpense += entry.amount
+               }
+            })%>  
+            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount%> Transactions for <script type="text/javascript">
                          document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM, YYYY")) 
                     </script></h4>
             
             
    
         <hr width="70%">
+        <div class="container">
+                    <table class="striped centered responsive-table">      
+                        <thead>
+                          <tr>
+                              <th>Income</th>
+                              <th>Expense</th>
+                              <th>Savings</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+  
+                                  
+                          <tr style="font-weight:500;">
+                            
+                            <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(monthlyExpense*-1)%>&#x25bc;</td>
+                            
+                            <td><%= formatter.format(monthlyIncome+monthlyExpense)%></td>
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+               
+            </div>
+        
+        
+        <hr width="70%">
+        
+
     <div class="container">
       <input class="form-control" id="myInput" type="text" placeholder="&#128269;Type in to Search">
             <table class="highlight centered responsive-table">
@@ -164,7 +207,7 @@ minimumFractionDigits: 2
                     <% 
                     if(!entry.isexpense){
                         var color = "green-text text-darken-1"
-                    var type = "Income "
+                    var type = "Income"
                 var trend = "\u25B2"}
                         else{
                     var color = "red-text text-darken-1"
