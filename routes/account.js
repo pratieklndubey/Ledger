@@ -63,6 +63,12 @@ router.get('/:id', async (req, res) => {
       if(validate){
         entry.isActive = false
         account.transum = account.transum - entry.amount
+        if(entry.isexpense){
+          account.expense += entry.amount
+        }
+        else{
+          account.income -= entry.amount
+        }
         await account.save()
       }
     }
@@ -70,29 +76,12 @@ router.get('/:id', async (req, res) => {
     
     else if(req.body.action == 'Update'){
       if(req.body.amount != 0){
-      const categoriesExpense = ["Food","Automobile","Donations","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gifts"]
-      const categoriesIncome = ["Savings","Salary","Interest","Gift"]
       let account = await Account.findById(req.params.id)
       let transaction = account.activity
       let entry = transaction.find(entry => entry._id == req.params.tid)
-      entry.description = req.body.description
-      entry.postranbal = entry.postranbal - entry.amount
-      entry.amount = req.body.amount
+      entry.description = req.body.description      
       entry.title = req.body.title
-      entry.category = req.body.category
-      checkExpense = categoriesIncome.includes(entry.category)
-      if(checkExpense){
-        entry.isexpense = false
-      }
-      else{
-        entry.isexpense = true
-      }
-      if(entry.isexpense)
-      {
-        entry.amount *= -1.00
-      }
-      entry.postranbal = entry.postranbal + entry.amount
-      account.transum = entry.postranbal
+      entry.category = req.body.category      
       await account.save()
     }
     }

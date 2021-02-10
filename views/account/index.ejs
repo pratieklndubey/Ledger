@@ -241,20 +241,18 @@ minimumFractionDigits: 2
   
     
       <form action="/account/<%=element._id%>/<%=entry._id%>?_method=PUT" method="POST">
-        <%if(entry.isexpense){
-          entry.amount *=-1 
-        }%>
+       
         <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Update" />
         <div class="row">
         <div class="input-field col s4 offset-s1 center">
-        <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount" class="validate" required="" aria-required="true" value = "<%=entry.amount%>">
+        
         <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "<%=entry.title%>">
         
         
       </div>
       <div class="input-field col s4 offset-s2 center" >
-        <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
-       <select name = "category" class="browser-default" style="margin-top:7px;">
+        
+        <select name = "category" class="browser-default" style="margin-top:7px;">
         <optgroup label = "Expense">
         <%categoriesExpense.forEach(category => {%>
         <option value="<%=category%>" <%if(entry.category == category){%> selected<%}%>> <%=category%></option>
@@ -266,11 +264,10 @@ minimumFractionDigits: 2
       <%})%>
     </optgroup>
       </select>
-    
-        
-       
-        
       </div>
+      <div class="input-field col s8 offset-s2 center">
+        <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
+        </div>
       <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
         <input class="btn light-blue darken-4 white-text" value="UPDATE" type="submit">
       </div>
