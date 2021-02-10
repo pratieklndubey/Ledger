@@ -1,0 +1,290 @@
+
+<% account.forEach(element => { %>
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
+  const categoriesIncome = ["Savings","Salary","Interest","Gift","Credit"]
+  
+  %>
+  <%
+  const formatter = new Intl.NumberFormat('en-US', {
+style: 'currency',
+currency: 'INR',
+minimumFractionDigits: 2
+})%>
+<div class="section white" >
+  
+    
+      <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:10px;">Charts for <a class="blue-text text-darken-4" href="../<%=element._id%>"><%=element.name%></a></a></h2>
+      <hr width="70%">
+    
+    
+  
+</div>
+
+                <div class="container">
+                    <table class="striped centered responsive-table">      
+                        <thead>
+                          <tr>
+                            <th>Income</th>
+                              <th>Expense</th>
+                              <th>Balance</th>
+                              <th>Sum of Transactions</th>
+                              <th>Variance</th>
+                              
+                          </tr>
+                        </thead>
+                        <tbody>
+  
+                                  
+                          <tr style="font-weight:500;">
+                            <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
+                            
+
+                            <td><%= formatter.format(element.currbal)%></td>
+                            <td><%= formatter.format(element.transum)%></td>
+                            <% variance = element.currbal-element.transum
+                              if (variance < 0 && variance > -0.01)
+                              {
+                                variance *= -1.00
+                              }
+                            %>
+                            <td><%= formatter.format(variance)%></td>
+                            
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+               
+            </div>
+            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>'s Cashflow</h4>
+            
+            
+   
+        
+            <hr width="70%">
+        <div class="container">
+                    <table class="striped centered responsive-table">      
+                        <thead>
+                          <tr>
+                              <th>Income</th>
+                              <th>Expense</th>
+                              <th>Savings</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+  
+                                  
+                          <tr style="font-weight:500;">
+                            
+                            <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(monthlyExpense*-1)%>&#x25bc;</td>
+                            
+                            <td><%= formatter.format(monthlyIncome+monthlyExpense)%></td>
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+               
+            </div>
+
+                
+            <hr>
+<div id = "balcm" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances for Current Month</h5>
+  <hr width="85%">
+    <canvas id="balcmch"></canvas>
+  </div>
+  <div id = "balcy" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances for Current Year</h5>
+  <hr width="85%">
+    <canvas id="balcych"></canvas>
+  </div>
+  <div id = "exdiscm" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses for Current Month</h5>
+  <hr width="85%">
+    <canvas id="exdiscmch"></canvas>
+  </div>
+  <div id = "exdiscy" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses for Current Year</h5>
+  <hr width="85%">
+    <canvas id="exdiscych"></canvas>
+  </div>
+
+  <div class = "container">
+    <div class="row">
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcm">Balances (Current Month)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcy">Balances (Current Year)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscm">Expenses (Current Month)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscy">Expenses (Current Year)</a>
+      </div>
+    </div>
+  </div>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('exdiscmch').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+}
+});
+    </script>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('exdiscych').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"  
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+}
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('balcych').getContext('2d');
+    balance = []
+    points = []
+    counter = 1
+    "<%element.activity.filter(entry => (entry.isActive == true && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
+    balance.push("<%=entry.postranbal%>")
+  
+    points.push(counter)
+    counter++;
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: points,
+    datasets: [{
+        label: 'Balances',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: balance,
+    }]
+},
+options: {
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Transaction Count'
+      }
+    }]
+  }
+}
+});
+    </script>
+
+<script type = "text/javascript">
+    var ctx = document.getElementById('balcmch').getContext('2d');
+    balance = []
+    points = []
+    
+    counter = 1
+    "<%element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    balance.push("<%=entry.postranbal%>")
+    
+    points.push(counter)
+    counter++;
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: points,
+    datasets: [{
+        label: 'Balances',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: balance,
+    }]
+},
+options: {
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Transaction Count'
+      }
+    }]
+  }
+}
+});
+    </script>
+    <%})%>
+  

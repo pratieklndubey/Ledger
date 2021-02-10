@@ -9,6 +9,7 @@ const methodOverride = require('method-override');
 const indexRouter = require('./routes/index')
 const accountRouter = require('./routes/account')
 
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.set('layout', 'layouts/layout');
@@ -27,5 +28,6 @@ db.once('open', () => console.log('Connected to the Database'));
 
 app.use('/', indexRouter)
 app.use('/account', accountRouter)
+
 
 app.listen(port,hostname, () => { console.log(`Server running at http://${hostname}:${port}/`);});

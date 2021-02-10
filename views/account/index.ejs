@@ -5,8 +5,8 @@
 
 <% account.forEach(element => { %>
   
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gifts"]
-  const categoriesIncome = ["Savings","Salary","Interest","Gift"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
+  const categoriesIncome = ["Savings","Salary","Interest","Gift","Credit"]
   
   %>
   
@@ -22,8 +22,10 @@ minimumFractionDigits: 2
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
   <div class="container">
     <div class="row center">
-      <div class="col s6"><a data-toggle="modal" class="modal-trigger btn green" href="#ctransaction">Create Transaction</a></div>
-      <div class="col s6 "><a data-toggle="modal" class="modal-trigger btn blue" href="#ubalance">Update Balance</a></div>
+      <div class="col s5"><a data-toggle="modal" class="modal-trigger btn green" href="#ctransaction">Create Transaction</a></div>
+      <div class="col s2 "><a data-toggle="modal" class="modal-trigger btn red" href="/account/<%=element._id%>/chart">Charts</a></div>
+      <div class="col s5"><a data-toggle="modal" class="modal-trigger btn blue" href="#ubalance">Update Balance</a></div>
+      
     </div>
   </div>
 </div>
@@ -84,7 +86,7 @@ minimumFractionDigits: 2
     
 
 </div>
-<head><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script></head>
+
 <div class="section white ">
     
         <h2  class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0;">
@@ -97,16 +99,22 @@ minimumFractionDigits: 2
                     <table class="striped centered responsive-table">      
                         <thead>
                           <tr>
+                            <th>Income</th>
+                              <th>Expense</th>
                               <th>Balance</th>
                               <th>Sum of Transactions</th>
                               <th>Variance</th>
+                              
                           </tr>
                         </thead>
                         <tbody>
   
                                   
                           <tr style="font-weight:500;">
+                            <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
                             
+
                             <td><%= formatter.format(element.currbal)%></td>
                             <td><%= formatter.format(element.transum)%></td>
                             <% variance = element.currbal-element.transum
@@ -116,6 +124,7 @@ minimumFractionDigits: 2
                               }
                             %>
                             <td><%= formatter.format(variance)%></td>
+                            
                            
                             
                           </tr>
