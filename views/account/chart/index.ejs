@@ -111,30 +111,85 @@ minimumFractionDigits: 2
   <hr width="85%">
     <canvas id="exdiscych"></canvas>
   </div>
+  <div id = "income" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
+  <hr width="85%">
+    <canvas id="incomech"></canvas>
+  </div>
 
   <div class = "container">
     <div class="row">
       <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#balcm">Balances (Current Month)</a>
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcm">Balances (Monthly)</a>
       </div>
       <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#balcy">Balances (Current Year)</a>
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcy">Balances (Yearly)</a>
       </div>
       <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscm">Expenses (Current Month)</a>
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscm">Expenses (Monthly)</a>
       </div>
       <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscy">Expenses (Current Year)</a>
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscy">Expenses (Yearly)</a>
       </div>
     </div>
+    <div class="row">
+      <div class="col s12 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#income">Income</a>
+      </div>
+      </div>
   </div>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomech').getContext('2d');
+    balance = []
+    points = []
+    counter = 1
+    "<%element.activity.filter(entry => (entry.isActive == true && !entry.isexpense)).forEach(entry => {%>"
+    balance.push("<%=entry.amount%>")
+  
+    points.push(counter)
+    counter++;
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: points,
+    datasets: [{
+        label: 'Balances',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: balance,
+    }]
+},
+options: {
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Transaction Count'
+      }
+    }]
+  }
+}
+});
+    </script>
 
   <script type = "text/javascript">
     var ctx = document.getElementById('exdiscmch').getContext('2d');
     balance = []
+    
     category = []
     color = []
     "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
       balance.push(0)
@@ -161,6 +216,7 @@ data: {
     }]
 },
 options: {
+  
 }
 });
     </script>
@@ -266,6 +322,7 @@ data: {
         //lineTension:0,
         fill:false,
         data: balance,
+        
     }]
 },
 options: {
