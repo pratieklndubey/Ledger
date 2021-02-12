@@ -1,7 +1,7 @@
 {
   "name": "ledger",
   "version": "1.0.0",
-  "description": "lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but never really got an app with all the required features. So, I thought of creating this app with the features one require to manage their money seamlessly. I hope you would love it.",
+  "description": "lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but never really got an app with all the required features. So, I thought of creating this app with the features one requires to manage their money seamlessly. I hope you would love it.",
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.19.0",
