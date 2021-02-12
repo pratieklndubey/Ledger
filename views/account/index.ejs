@@ -151,7 +151,7 @@ minimumFractionDigits: 2
                }
             })%>  
             <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount%> Transactions for <script type="text/javascript">
-                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM, YYYY")) 
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM, YYYY")) 
                     </script></h4>
             
             
@@ -250,22 +250,8 @@ minimumFractionDigits: 2
         
         
       </div>
-      <div class="input-field col s4 offset-s2 center" >
-        
-        <select name = "category" class="browser-default" style="margin-top:7px;">
-        <optgroup label = "Expense">
-        <%categoriesExpense.forEach(category => {%>
-        <option value="<%=category%>" <%if(entry.category == category){%> selected<%}%>> <%=category%></option>
-      <%})%>
-    </optgroup>
-    <optgroup label = "Income">
-      <%categoriesIncome.forEach(category => {%>
-        <option value="<%=category%>" <%if(entry.category == category){%> selected<%}%>> <%=category%></option>
-      <%})%>
-    </optgroup>
-      </select>
-      </div>
-      <div class="input-field col s8 offset-s2 center">
+      
+      <div class="input-field col s4 offset-s2 center">
         <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
         </div>
       <div class="input-field col s6 offset-s3 left center" style="width: 50%;">

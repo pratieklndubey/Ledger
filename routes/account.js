@@ -80,8 +80,7 @@ router.get('/:id', async (req, res) => {
       let transaction = account.activity
       let entry = transaction.find(entry => entry._id == req.params.tid)
       entry.description = req.body.description      
-      entry.title = req.body.title
-      entry.category = req.body.category      
+      entry.title = req.body.title    
       await account.save()
     }
     }

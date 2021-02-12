@@ -92,71 +92,88 @@ minimumFractionDigits: 2
                 
             <hr>
 <div id = "balcm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances for Current Month</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>)</h5>
   <hr width="85%">
     <canvas id="balcmch"></canvas>
   </div>
   <div id = "balcy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances for Current Year</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
   <hr width="85%">
     <canvas id="balcych"></canvas>
   </div>
   <div id = "exdiscm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses for Current Month</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>)</h5>
   <hr width="85%">
     <canvas id="exdiscmch"></canvas>
   </div>
   <div id = "exdiscy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses for Current Year</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
   <hr width="85%">
     <canvas id="exdiscych"></canvas>
   </div>
   <div id = "income" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
   <hr width="85%">
     <canvas id="incomech"></canvas>
   </div>
 
   <div class = "container">
     <div class="row">
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#balcm">Balances (Monthly)</a>
+      <div class="col s2 offset-s1 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcm">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
       </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#balcy">Balances (Yearly)</a>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#balcy">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
       </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscm">Expenses (Monthly)</a>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscm">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
       </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscy">Expenses (Yearly)</a>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#exdiscy">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn green" href="#income">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
       </div>
     </div>
-    <div class="row">
-      <div class="col s12 center">
-        <a data-toggle="modal" class="modal-trigger btn green" href="#income">Income</a>
-      </div>
-      </div>
+    
   </div>
 
   <script type = "text/javascript">
     var ctx = document.getElementById('incomech').getContext('2d');
-    balance = []
-    points = []
-    counter = 1
-    "<%element.activity.filter(entry => (entry.isActive == true && !entry.isexpense)).forEach(entry => {%>"
-    balance.push("<%=entry.amount%>")
-  
-    points.push(counter)
-    counter++;
+    balance = [0,0,0,0,0,0,0,0,0,0,0,0]
+    income = [0,0,0,0,0,0,0,0,0,0,0,0]
+    expense = [0,0,0,0,0,0,0,0,0,0,0,0]
+    points = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
+    income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    
+    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
+    expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    for(i=0;i<balance.length;i++) {
+      balance[i] = income[i]-expense[i]
+    }
 var chart = new Chart(ctx, {
 type: 'line',
 data: {
-    labels: points,
-    datasets: [{
-        label: 'Balances',
+    labels: month,
+    datasets: [
+      {
+        label: 'Income',
+        borderColor: '#00c853',
+        //lineTension:0,
+        fill:false,
+        data: income,
+    },{
+        label: 'Expense',
+        borderColor: '#f44336',
+        //lineTension:0,
+        fill:false,
+        data: expense,
+    }
+    ,{
+        label: 'Savings',
         borderColor: '#0d47a1',
         //lineTension:0,
         fill:false,
@@ -164,6 +181,15 @@ data: {
     }]
 },
 options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
   scales:{
     yAxes:[{
       scaleLabel: {
@@ -174,7 +200,7 @@ options: {
     xAxes:[{
       scaleLabel: {
         display: true,
-        labelString: 'Transaction Count'
+        labelString: 'Month'
       }
     }]
   }
@@ -185,7 +211,6 @@ options: {
   <script type = "text/javascript">
     var ctx = document.getElementById('exdiscmch').getContext('2d');
     balance = []
-    
     category = []
     color = []
     "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
@@ -319,6 +344,8 @@ data: {
     datasets: [{
         label: 'Balances',
         borderColor: '#0d47a1',
+        //backgroundColor:'#2962ff',
+        //steppedLine:'true',
         //lineTension:0,
         fill:false,
         data: balance,
