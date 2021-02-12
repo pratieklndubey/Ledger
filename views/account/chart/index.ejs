@@ -251,47 +251,83 @@ minimumFractionDigits: 2
   <hr width="85%">
     <canvas id="incomecmch"></canvas>
   </div>
+  <div id = "incomecat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
+  <hr width="85%">
+  <div class="row">
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#income">Income (LifeTime)</a>
+      </div>       
+    </div>
+    
+  </div>
+  <div id = "expensecat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses</h5>
+  <hr width="85%">
+
+  <div class="row">
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscm">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscy">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expense">Expenses (LifeTime)</a>
+      </div>  
+    </div>
+  </div>
+  <div id = "balancecat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances</h5>
+  <hr width="85%">
+  <div class="row">
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcm">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+      </div>
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcy">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      </div>
+    
+  </div>
+  <div id = "cashflowcat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow</h5>
+  <hr width="85%">
+  <div class="row">
+        <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowy">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflow">Cashflow (LifeTime)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowc">Cashflow (Comparison)</a>
+      </div>
+    </div>
+  </div>
 
   <div class = "container">
     <div class="row">
-      <div class="col s2 offset-s1 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcm">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+     
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expensecat">Expenses</a>
       </div>
-      <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcy">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecat">Income</a>
       </div>
-      <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscm">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
-      </div>
-      <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscy">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
-      </div>
-      <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowy">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
-      </div>
-      
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balancecat">Balances</a>
+      </div> 
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowcat">Cashflow</a>
+      </div> 
     </div>
-    <div class="row">
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
-      </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
-      </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expense">Expenses (LifeTime)</a>
-      </div>
-      <div class="col s3 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#income">Income (LifeTime)</a>
-      </div>      
-    </div>
-    <div class="row"><div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflow">Cashflow (LifeTime)</a>
-      </div>
-      <div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowc">Cashflow (Comparison)</a>
-      </div>
-      </div>
     
   </div>
   <script type = "text/javascript">
