@@ -3,11 +3,12 @@ lEdge is something we all need. I always wanted to manage my money and analyse m
 
 Installation Guide: <br/>
         1. Install Node-JS and MongoDB<br/>
-        2. Clone the repository in the computer<br/>
-        3. Open Terminal at the current directory<br/>
-        4. Type in npm init<br/>
-        5. Type in npm install<br/>
-        6. Execute the run_server file<br/>
+        2. Clone the repository in your computer<br/>
+        3. Open Terminal in the current directory<br/>
+        4. Type in "npm init"<br/>
+        5. Type in "npm install"<br/>
+        6. Copy the shortcut provided at your preferred location (Desktop)<br/>
+        7. Manage your finances seamlessly
 
 Snip of Account lists
 ![Account](https://user-images.githubusercontent.com/24636070/106957537-1d3c2600-675e-11eb-9cc2-1451216b2f4e.PNG)
