@@ -54,14 +54,81 @@ minimumFractionDigits: 2
                       </table>
                
             </div>
-            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>'s Cashflow</h4>
+            
             
             
    
-        
-            <hr width="70%">
+            <%
+            transactionCount = 0
+            monthlyIncome = 0
+            monthlyExpense = 0
+             element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               transactionCount += 1
+               if(!entry.isexpense)
+               {
+                 monthlyIncome += entry.amount
+               }
+               else{
+                 monthlyExpense += entry.amount
+               }
+            })
+            yearlyIncome = 0
+            yearlyExpense = 0
+            element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               
+               if(!entry.isexpense)
+               {
+                 yearlyIncome += entry.amount
+               }
+               else{
+                 yearlyExpense += entry.amount
+               }
+            })
+            %>  
+            
+            <%
+            transactionCount = 0
+            monthlyIncome = 0
+            monthlyExpense = 0
+             element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               transactionCount += 1
+               if(!entry.isexpense)
+               {
+                 monthlyIncome += entry.amount
+               }
+               else{
+                 monthlyExpense += entry.amount
+               }
+            })
+            yearlyIncome = 0
+            yearlyExpense = 0
+            element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               
+               if(!entry.isexpense)
+               {
+                 yearlyIncome += entry.amount
+               }
+               else{
+                 yearlyExpense += entry.amount
+               }
+            })
+            %>  
+            
         <div class="container">
-                    <table class="striped centered responsive-table">      
+          <div class="row">
+            <div class="col s6">
+              <table class="striped centered responsive-table">
+                <thead>
+                          <tr>
+                              <th><script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM")) 
+                    </script>
+                    <hr>
+                    </th>                    
+                          </tr>
+                        </thead>
+                        <tbody>
+              <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
                               <th>Income</th>
@@ -83,6 +150,47 @@ minimumFractionDigits: 2
                           </tr>
                         </tbody>
                       </table>
+                    </tbody>
+                    </table>
+            </div>
+            <div class="col s6">
+              <table class="striped centered responsive-table">
+                <thead>
+                          <tr>
+                              <th><script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY")) 
+                    </script>
+                    <hr>
+                    </th>                    
+                          </tr>
+                        </thead>
+                        <tbody>
+              <table class="striped centered responsive-table" style="margin-top:-30px">      
+                        <thead>
+                          <tr>
+                              <th>Income</th>
+                              <th>Expense</th>
+                              <th>Savings</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+  
+                                  
+                          <tr style="font-weight:500;">
+                            
+                            <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(yearlyExpense*-1)%>&#x25bc;</td>
+                            
+                            <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+                    </tbody>
+                    </table>
+            </div>
+          </div>
                
             </div>
 
@@ -123,6 +231,26 @@ minimumFractionDigits: 2
   <hr width="85%">
     <canvas id="cashflowcch"></canvas>
   </div>
+  <div id = "income" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="incomech"></canvas>
+  </div>
+  <div id = "expense" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="expensech"></canvas>
+  </div>
+  <div id = "incomecy" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
+  <hr width="85%">
+    <canvas id="incomecych"></canvas>
+  </div>
+  <div id = "incomecm" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</h5>
+  <hr width="85%">
+    <canvas id="incomecmch"></canvas>
+  </div>
 
   <div class = "container">
     <div class="row">
@@ -143,6 +271,20 @@ minimumFractionDigits: 2
       </div>
       
     </div>
+    <div class="row">
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expense">Expenses (LifeTime)</a>
+      </div>
+      <div class="col s3 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#income">Income (LifeTime)</a>
+      </div>      
+    </div>
     <div class="row"><div class="col s6 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflow">Cashflow (LifeTime)</a>
       </div>
@@ -152,6 +294,155 @@ minimumFractionDigits: 2
       </div>
     
   </div>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomecmch').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+  
+}
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomecych').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+  
+}
+});
+    </script>
+  
+  <script type = "text/javascript">
+    var ctx = document.getElementById('expensech').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+  
+}
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomech').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+options: {
+  
+}
+});
+    </script>
   <script type = "text/javascript">
     balance = 0
     income = 0
