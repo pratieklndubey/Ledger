@@ -3,7 +3,7 @@ lEdge is something we all need. I always wanted to manage my money and analyse m
 
 Installation Guide: <br/>
         1. Install Node-JS and MongoDB<br/>
-        2. Clone it in the computer<br/>
+        2. Clone the repository in the computer<br/>
         3. Open Terminal at the current directory<br/>
         4. Type in npm init<br/>
         5. Type in npm install<br/>
