@@ -96,7 +96,7 @@ minimumFractionDigits: 2
                 
                 <hr width="70%">
                 <div class="container">
-                    <table class="striped centered responsive-table">      
+                    <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
                             <th>Income</th>
@@ -149,16 +149,36 @@ minimumFractionDigits: 2
                else{
                  monthlyExpense += entry.amount
                }
-            })%>  
-            <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount%> Transactions for <script type="text/javascript">
-                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM, YYYY")) 
-                    </script></h4>
+            })
+            yearlyIncome = 0
+            yearlyExpense = 0
+            element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+               
+               if(!entry.isexpense)
+               {
+                 yearlyIncome += entry.amount
+               }
+               else{
+                 yearlyExpense += entry.amount
+               }
+            })
+            %>  
             
-            
-   
-        <hr width="70%">
         <div class="container">
-                    <table class="striped centered responsive-table">      
+          <div class="row">
+            <div class="col s6">
+              <table class="striped centered responsive-table">
+                <thead>
+                          <tr>
+                              <th><script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM")) 
+                    </script>
+                    <hr>
+                    </th>                    
+                          </tr>
+                        </thead>
+                        <tbody>
+              <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
                               <th>Income</th>
@@ -180,13 +200,56 @@ minimumFractionDigits: 2
                           </tr>
                         </tbody>
                       </table>
+                    </tbody>
+                    </table>
+            </div>
+            <div class="col s6">
+              <table class="striped centered responsive-table">
+                <thead>
+                          <tr>
+                              <th><script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY")) 
+                    </script>
+                    <hr>
+                    </th>                    
+                          </tr>
+                        </thead>
+                        <tbody>
+              <table class="striped centered responsive-table" style="margin-top:-30px">      
+                        <thead>
+                          <tr>
+                              <th>Income</th>
+                              <th>Expense</th>
+                              <th>Savings</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+  
+                                  
+                          <tr style="font-weight:500;">
+                            
+                            <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(yearlyExpense*-1)%>&#x25bc;</td>
+                            
+                            <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
+                           
+                            
+                          </tr>
+                        </tbody>
+                      </table>
+                    </tbody>
+                    </table>
+            </div>
+          </div>
                
             </div>
         
         
-        <hr width="70%">
         
-
+        <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount%> Transactions for <script type="text/javascript">
+                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM, YYYY")) 
+                    </script></h4>
+        <hr width="70%">
     <div class="container">
       <input class="form-control" id="myInput" type="text" placeholder="&#128269;Type in to Search">
             <table class="highlight centered responsive-table">
