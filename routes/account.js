@@ -97,6 +97,7 @@ router.get('/:id', async (req, res) => {
       name: req.body.name,
       transum: req.body.currbal,
       currbal: req.body.currbal,
+      income: req.body.currbal,
       passWord: CryptoJS.createHash('sha256').update(req.body.pass).digest('hex'),
       activity:
      [{title:"Opening Balance", 

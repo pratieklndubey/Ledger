@@ -153,6 +153,7 @@ minimumFractionDigits: 2
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       balance[i] = income[i]-expense[i]
+      balance[i] = balance[i].toFixed(2)
     }
 var chart = new Chart(ctx, {
 type: 'line',

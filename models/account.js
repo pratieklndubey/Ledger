@@ -49,6 +49,7 @@ const accountSchema = new mongoose.Schema({
   },
   expense:{
     type: Number,
+    default:0
   },
   income:{
     type: Number,
