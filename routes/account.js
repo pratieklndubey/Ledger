@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
     {
       if(req.body.amount != 0){
         const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
-        const categoriesIncome = ["Savings","Salary","Interest","Gift","Credit"]
+        const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
@@ -90,7 +90,7 @@ router.get('/:id', async (req, res) => {
   router.post('/', async (req, res) => {
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'INR',
+      currency: req.body.currency,
       minimumFractionDigits: 2
     })
     const account = new Account({
@@ -98,6 +98,7 @@ router.get('/:id', async (req, res) => {
       transum: req.body.currbal,
       currbal: req.body.currbal,
       income: req.body.currbal,
+      currency : req.body.currency,
       passWord: CryptoJS.createHash('sha256').update(req.body.pass).digest('hex'),
       activity:
      [{title:"Opening Balance", 

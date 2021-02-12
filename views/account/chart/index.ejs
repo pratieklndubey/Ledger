@@ -1,13 +1,10 @@
 
 <% account.forEach(element => { %>
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
-  const categoriesIncome = ["Savings","Salary","Interest","Gift","Credit"]
   
-  %>
   <%
   const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
-currency: 'INR',
+currency: element.currency,
 minimumFractionDigits: 2
 })%>
 <div class="section white" >

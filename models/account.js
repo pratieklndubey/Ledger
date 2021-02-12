@@ -58,6 +58,9 @@ const accountSchema = new mongoose.Schema({
     type: Number,
     
   },
+  currency:{
+    type:String,
+  },
   currbal: {
     type: Number,
     
