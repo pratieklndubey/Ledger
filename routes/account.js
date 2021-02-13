@@ -13,12 +13,37 @@ router.get('/:id/chart', async (req, res) => {
     res.render('account/chart/index', {title:account[0].name, account: account, option: "",relative:'../../'});
   //res.send(account)
 })
-router.get('/:id', async (req, res) => {
+router.get('/:id/', async (req, res) => {
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
+  let searchOptions = {}
+  searchOptions._id = req.params.id
+  const account = await Account.find(searchOptions)
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "\u2630",relative:'../'});
+})
+router.get('/:id/:year/:month', async (req, res) => {
+    year = req.params.year
+    yearCart = []
+    count = new Date().getUTCFullYear() - 2021
+    for(i = 0;i<=count;i++){
+      yearCart.push(new Date().getUTCFullYear()-i)
+    }
+    month = req.params.month-1
+    if((month < 0 || month > 11) || isNaN(month))
+    {
+      month = new Date().getMonth()
+    }
+    if(!yearCart.includes(year))
+    {
+      year = new Date().getUTCFullYear()
+    }
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:account[0].name, account: account, option: "\u2630",relative:'../'});
-    //res.send(account)
+    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "\u2630",relative:'../../../'});
+  })
+  router.put('/', async (req, res) => {
+    res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
   })
   router.put('/:id/', async (req, res) => {
     let account = await Account.findById(req.params.id)
