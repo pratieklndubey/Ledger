@@ -594,10 +594,10 @@ options: {
     var ctx = document.getElementById('cashflowch').getContext('2d');
     
     "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense))).forEach(entry => {%>"
-    income["<%=year-2020%>"] += parseFloat("<%=entry.amount%>")
+    income["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
     "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense))).forEach(entry => {%>"
-    expense["<%=year-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       balance[i] = income[i]-expense[i]
@@ -664,10 +664,10 @@ options: {
     expense = [0,0,0,0,0,0,0,0,0,0,0,0]
     month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
-    income["<%=month-1%>"] += parseFloat("<%=entry.amount%>")
+    income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
     "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
-    expense["<%=month-1%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       balance[i] = income[i]-expense[i]
