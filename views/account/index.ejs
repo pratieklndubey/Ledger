@@ -22,8 +22,14 @@ minimumFractionDigits: 2
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
   <div class="container">
     <div class="row center">
+      <%      
+            link = '/'+year+'/'+parseFloat(month+1)
+            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+              link = ''
+            }
+      %>
       <div class="col s5"><a data-toggle="modal" class="modal-trigger btn blue" href="#chperiod">Change Period</a></div>
-      <div class="col s2"><a data-toggle="modal" class="modal-trigger btn red" href="/account/<%=element._id%>/chart">Charts</a></div>
+      <div class="col s2"><a data-toggle="modal" class="modal-trigger btn red" href="/account/<%=element._id%>/chart<%=link%>">Charts</a></div>
       <div class="col s5"><a data-toggle="modal" class="modal-trigger btn blue" href="#ubalance">Update Balance</a></div>
     </div>
     <div class="row center">
@@ -37,7 +43,6 @@ minimumFractionDigits: 2
   <div class="row">
     <form action="/account?_method=PUT" method="POST">
       <div class="input-field">
-        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "UpBal">
         <input name = "id" type="hidden" class="validate" required="" aria-required="true" value = "<%=element._id %>">
       </div>
       <div class="input-field col s5 offset-s1 center">

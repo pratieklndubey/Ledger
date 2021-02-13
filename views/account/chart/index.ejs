@@ -1,6 +1,8 @@
 
 <% account.forEach(element => { %>
-  
+  <%
+  const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  %>
   <%
   const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
@@ -62,7 +64,7 @@ minimumFractionDigits: 2
             transactionCount = 0
             monthlyIncome = 0
             monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
                if(!entry.isexpense)
                {
@@ -74,7 +76,7 @@ minimumFractionDigits: 2
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => (entry.isActive == true && (year == new Date().getUTCFullYear()))).forEach(entry => {
                
                if(!entry.isexpense)
                {
@@ -90,7 +92,7 @@ minimumFractionDigits: 2
             transactionCount = 0
             monthlyIncome = 0
             monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
                if(!entry.isexpense)
                {
@@ -102,7 +104,7 @@ minimumFractionDigits: 2
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => (entry.isActive == true && (year == new Date().getUTCFullYear()))).forEach(entry => {
                
                if(!entry.isexpense)
                {
@@ -120,9 +122,7 @@ minimumFractionDigits: 2
               <table class="striped centered responsive-table">
                 <thead>
                           <tr>
-                              <th><script type="text/javascript">
-                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM")) 
-                    </script>
+                              <th><%=monthCart[month]%>
                     <hr>
                     </th>                    
                           </tr>
@@ -142,7 +142,7 @@ minimumFractionDigits: 2
                           <tr style="font-weight:500;">
                             
                             <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
-                            <td class = "red-text text-darken-1"><%= formatter.format(monthlyExpense*-1)%>&#x25bc;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
                             
                             <td><%= formatter.format(monthlyIncome+monthlyExpense)%></td>
                            
@@ -157,9 +157,7 @@ minimumFractionDigits: 2
               <table class="striped centered responsive-table">
                 <thead>
                           <tr>
-                              <th><script type="text/javascript">
-                         document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY")) 
-                    </script>
+                              <th><%=year%>
                     <hr>
                     </th>                    
                           </tr>
@@ -179,7 +177,7 @@ minimumFractionDigits: 2
                           <tr style="font-weight:500;">
                             
                             <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
-                            <td class = "red-text text-darken-1"><%= formatter.format(yearlyExpense*-1)%>&#x25bc;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
                             
                             <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
                            
@@ -196,28 +194,65 @@ minimumFractionDigits: 2
 
                 
             <hr>
+            <div id = "options" class="modal white">
+              <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>
+  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  <div class="row">
+    <form action="/account/chart?_method=PUT" method="POST">
+      <div class="input-field">
+        <input name = "id" type="hidden" class="validate" required="" aria-required="true" value = "<%=element._id %>">
+      </div>
+      <div class="input-field col s5 offset-s1 center">
+        <select name = "month" class="browser-default" style="margin-top:7px;">
+        <%for(i = 0;i < 12;i++){%>
+        <option value="<%=i+1%>" <%= month == i?'selected':''%>><%=monthCart[i]%></option>
+      <%}%>
+      </select>
+      </div>
+      <%
+      yearCart = []
+    count = new Date().getUTCFullYear() - 2021
+    for(i = 0;i<=count;i++){
+      yearCart.push(new Date().getUTCFullYear()-i)
+    }
+      %>
+      
+      <div class="input-field col s5 center">
+        <select name = "year" class="browser-default" style="margin-top:7px;">
+        <%yearCart.forEach(year => {%>
+        <option value="<%=year%>"><%=year%> </option>
+      <%})%>
+      </select>
+      </div>
+      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+        <input class="btn light-blue darken-4 white-text" value="CHANGE" type="submit">
+      </div>
+      </form>
+    </div>
+
+  </div>            
 <div id = "balcm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="balcmch"></canvas>
   </div>
   <div id = "balcy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="balcych"></canvas>
   </div>
   <div id = "exdiscm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMMM"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="exdiscmch"></canvas>
   </div>
   <div id = "exdiscy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="exdiscych"></canvas>
   </div>
   <div id = "cashflowy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="cashflowych"></canvas>
   </div>
@@ -242,12 +277,12 @@ minimumFractionDigits: 2
     <canvas id="expensech"></canvas>
   </div>
   <div id = "incomecy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="incomecych"></canvas>
   </div>
   <div id = "incomecm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</h5>
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="incomecmch"></canvas>
   </div>
@@ -256,10 +291,10 @@ minimumFractionDigits: 2
   <hr width="85%">
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<%=year%>)</a>
       </div>
       <div class="col s4 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#income">Income (LifeTime)</a>
@@ -273,10 +308,10 @@ minimumFractionDigits: 2
 
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscm">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscm">Expenses (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscy">Expenses (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscy">Expenses (<%=year%>)</a>
       </div>
       <div class="col s4 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expense">Expenses (LifeTime)</a>
@@ -288,10 +323,10 @@ minimumFractionDigits: 2
   <hr width="85%">
   <div class="row">
       <div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcm">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcm">Balances (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcy">Balances (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcy">Balances (<%=year%>)</a>
       </div>
       </div>
     
@@ -301,7 +336,7 @@ minimumFractionDigits: 2
   <hr width="85%">
   <div class="row">
         <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowy">Cashflow (<script type="text/javascript">document.write(moment(new Date(),"ddd MMM DD YYYY HH:MM:SS ZZ").format("YYYY"))</script>)</a>
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowy">Cashflow (<%=year%>)</a>
       </div>
       <div class="col s4 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflow">Cashflow (LifeTime)</a>
@@ -335,7 +370,7 @@ minimumFractionDigits: 2
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -372,7 +407,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -559,10 +594,10 @@ options: {
     var ctx = document.getElementById('cashflowch').getContext('2d');
     
     "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense))).forEach(entry => {%>"
-    income["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount%>")
+    income["<%=year-2020%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
     "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense))).forEach(entry => {%>"
-    expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    expense["<%=year-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       balance[i] = income[i]-expense[i]
@@ -628,11 +663,11 @@ options: {
     income = [0,0,0,0,0,0,0,0,0,0,0,0]
     expense = [0,0,0,0,0,0,0,0,0,0,0,0]
     month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
-    income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
+    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    income["<%=month-1%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
-    expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    expense["<%=month-1%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       balance[i] = income[i]-expense[i]
@@ -697,7 +732,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -735,7 +770,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"  
+    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"  
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
       balance.push(0)
@@ -770,7 +805,7 @@ options: {
     balance = []
     points = []
     counter = 1
-    "<%element.activity.filter(entry => (entry.isActive == true && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (entry.isActive == true && year == new Date().getUTCFullYear())).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
   
     points.push(counter)
@@ -814,7 +849,7 @@ options: {
     points = []
     
     counter = 1
-    "<%element.activity.filter(entry => (entry.isActive == true && (entry.tstamp.getMonth() == new Date().getMonth() && entry.tstamp.getUTCFullYear() == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
     
     points.push(counter)
