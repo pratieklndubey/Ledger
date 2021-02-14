@@ -19,14 +19,15 @@ minimumFractionDigits: 2
   
 </div>
 
-                <div class="container">
-                    <table class="striped centered responsive-table">      
+<div class="container">
+                    <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
                             <th>Income</th>
                               <th>Expense</th>
                               <th>Balance</th>
                               <th>Sum of Transactions</th>
+                              <th>On Hold</th>
                               <th>Variance</th>
                               
                           </tr>
@@ -41,7 +42,8 @@ minimumFractionDigits: 2
 
                             <td><%= formatter.format(element.currbal)%></td>
                             <td><%= formatter.format(element.transum)%></td>
-                            <% variance = element.currbal-element.transum
+                            <td><%= formatter.format(element.onhold)%></td>
+                            <% variance = element.currbal-(element.transum+element.onhold)
                               if (variance < 0 && variance > -0.01)
                               {
                                 variance *= -1.00
@@ -56,61 +58,32 @@ minimumFractionDigits: 2
                       </table>
                
             </div>
+           
             
-            
-            
-   
-            <%
-            transactionCount = 0
-            monthlyIncome = 0
-            monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {
-               transactionCount += 1
-               if(!entry.isexpense)
-               {
-                 monthlyIncome += entry.amount
-               }
-               else{
-                 monthlyExpense += entry.amount
-               }
-            })
-            yearlyIncome = 0
-            yearlyExpense = 0
-            element.activity.filter(entry => (entry.isActive == true && (year == new Date().getUTCFullYear()))).forEach(entry => {
-               
-               if(!entry.isexpense)
-               {
-                 yearlyIncome += entry.amount
-               }
-               else{
-                 yearlyExpense += entry.amount
-               }
-            })
-            %>  
             
             <%
             transactionCount = 0
             monthlyIncome = 0
             monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {
+             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year  == new Date().getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
-               if(!entry.isexpense)
+               if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
                  monthlyIncome += entry.amount
                }
-               else{
+               else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
                  monthlyExpense += entry.amount
                }
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => (entry.isActive == true && (year == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == new Date().getUTCFullYear()))).forEach(entry => {
                
-               if(!entry.isexpense)
+              if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
                  yearlyIncome += entry.amount
                }
-               else{
+               else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
                  yearlyExpense += entry.amount
                }
             })
@@ -177,7 +150,7 @@ minimumFractionDigits: 2
                           <tr style="font-weight:500;">
                             
                             <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
-                            <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
+                            <td class = "red-text text-darken-1"><%= formatter.format(yearlyExpense*-1)%>&#x25bc;</td>
                             
                             <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
                            
@@ -370,7 +343,7 @@ minimumFractionDigits: 2
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -407,7 +380,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense) && (year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -419,7 +392,7 @@ options: {
     }
     if(category.includes("<%=entry.category%>")){
       i = category.indexOf("<%=entry.category%>")
-      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
     }
     "<%})%>"
    
@@ -445,7 +418,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -482,7 +455,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&!entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -521,10 +494,10 @@ options: {
  
     var ctx = document.getElementById('cashflowcch').getContext('2d');
     
-    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
     income += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     expense += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
       balance = income-expense
@@ -593,10 +566,10 @@ options: {
     year = year.reverse()
     var ctx = document.getElementById('cashflowch').getContext('2d');
     
-    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
     income["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
@@ -663,10 +636,10 @@ options: {
     income = [0,0,0,0,0,0,0,0,0,0,0,0]
     expense = [0,0,0,0,0,0,0,0,0,0,0,0]
     month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    "<%element.activity.filter(entry => ((entry.isActive == true && !entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
     income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
     expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
@@ -732,7 +705,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true&&entry.isexpense) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -770,7 +743,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => ((entry.isActive == true && entry.isexpense) && year == new Date().getUTCFullYear())).forEach(entry => {%>"  
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"  
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
       balance.push(0)
@@ -803,11 +776,18 @@ options: {
   <script type = "text/javascript">
     var ctx = document.getElementById('balcych').getContext('2d');
     balance = []
+    actualBalance = []
     points = []
     counter = 1
     "<%element.activity.filter(entry => (entry.isActive == true && year == new Date().getUTCFullYear())).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
-  
+    if("<%=entry.category%>" == 'Debit')
+    {
+      actualBalance.push("<%=entry.postranbal-entry.amount%>")
+    }
+    else{
+      actualBalance.push("<%=entry.postranbal%>")
+    }
     points.push(counter)
     counter++;
     "<%})%>"
@@ -817,14 +797,31 @@ type: 'line',
 data: {
     labels: points,
     datasets: [{
-        label: 'Balances',
-        borderColor: '#0d47a1',
+        label: 'Balance',
+        borderColor: '#000000',
         //lineTension:0,
         fill:false,
         data: balance,
-    }]
+    },
+    {
+        label: 'Actual Balance',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: actualBalance,
+    }
+  ]
 },
 options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
   scales:{
     yAxes:[{
       scaleLabel: {
@@ -847,11 +844,17 @@ options: {
     var ctx = document.getElementById('balcmch').getContext('2d');
     balance = []
     points = []
-    
+    actualBalance = []
     counter = 1
     "<%element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
-    
+    if("<%=entry.category%>" == 'Debit')
+    {
+      actualBalance.push("<%=entry.postranbal-entry.amount%>")
+    }
+    else{
+      actualBalance.push("<%=entry.postranbal%>")
+    }
     points.push(counter)
     counter++;
     "<%})%>"
@@ -862,16 +865,32 @@ data: {
     labels: points,
     datasets: [{
         label: 'Balances',
-        borderColor: '#0d47a1',
+        borderColor: '#000000',
         //backgroundColor:'#2962ff',
         //steppedLine:'true',
         //lineTension:0,
         fill:false,
         data: balance,
         
+    },
+    {
+        label: 'Actual Balance',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: actualBalance,
     }]
 },
 options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
   scales:{
     yAxes:[{
       scaleLabel: {

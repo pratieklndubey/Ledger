@@ -15,7 +15,7 @@
         <div class="z-depth-4 card">
           <div class="card-panel waves-block waves-light light-blue darken-4">
             <a href="/account/<%=element._id%>">
-              <p class="card-title white-text center"> <%=element.name%>'s Account<br>Balance: <%=formatter.format(element.transum)%></p>
+              <p class="card-title white-text center"> <%=element.name%>'s Account<br>Balance: <%=formatter.format(element.transum+element.onhold)%></p>
             </a>
           </div>
         </div>

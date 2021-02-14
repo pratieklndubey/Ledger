@@ -5,8 +5,8 @@
 
 <% account.forEach(element => { %>
   
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
-  const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
+  const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   %>
   
@@ -149,6 +149,7 @@ minimumFractionDigits: 2
                               <th>Expense</th>
                               <th>Balance</th>
                               <th>Sum of Transactions</th>
+                              <th>On Hold</th>
                               <th>Variance</th>
                               
                           </tr>
@@ -163,7 +164,8 @@ minimumFractionDigits: 2
 
                             <td><%= formatter.format(element.currbal)%></td>
                             <td><%= formatter.format(element.transum)%></td>
-                            <% variance = element.currbal-element.transum
+                            <td><%= formatter.format(element.onhold)%></td>
+                            <% variance = element.currbal-(element.transum+element.onhold)
                               if (variance < 0 && variance > -0.01)
                               {
                                 variance *= -1.00
@@ -189,23 +191,23 @@ minimumFractionDigits: 2
             monthlyExpense = 0
              element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year  == new Date().getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
-               if(!entry.isexpense)
+               if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
                  monthlyIncome += entry.amount
                }
-               else{
+               else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
                  monthlyExpense += entry.amount
                }
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => (entry.isActive == true && (year == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == new Date().getUTCFullYear()))).forEach(entry => {
                
-               if(!entry.isexpense)
+              if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
                  yearlyIncome += entry.amount
                }
-               else{
+               else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
                  yearlyExpense += entry.amount
                }
             })

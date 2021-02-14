@@ -84,8 +84,8 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
-        const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment"]
+        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
+        const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
@@ -93,12 +93,21 @@ router.get('/:id/:year/:month', async (req, res) => {
         let newTransaction = {title: req.body.title, amount: actualAmount, category: req.body.category, description: req.body.description, isexpense: !checkExpense, postranbal: ((account.transum+actualAmount)*1.00)}
         account.activity.push(newTransaction)
         account.transum = (account.transum+actualAmount)*1.00
-        if(checkExpense)
+        if(checkExpense && req.body.category != "Credit")
         {
           account.income += req.body.amount*1.00
         }
-        else{
+        if(!checkExpense && req.body.category != "Debit"){
+
           account.expense += req.body.amount*1.00
+        }
+        if(req.body.category == 'Debit')
+        {
+          account.onhold += req.body.amount*1.00
+        }
+        if(req.body.category == 'Credit')
+        {
+          account.onhold -= req.body.amount*1.00
         }
         //res.send(newTransaction)
         await account.save()
@@ -116,11 +125,24 @@ router.get('/:id/:year/:month', async (req, res) => {
       if(validate){
         entry.isActive = false
         account.transum = account.transum - entry.amount
+        if(entry.category != "Debit" && entry.category != "Credit"){
+          
         if(entry.isexpense){
           account.expense += entry.amount
         }
         else{
           account.income -= entry.amount
+        }
+
+        }
+        else{
+        if(entry.category == "Debit"){
+          account.onhold += entry.amount
+        }
+        if(entry.category == "Credit"){
+          account.onhold += entry.amount
+        }
+
         }
         await account.save()
       }
