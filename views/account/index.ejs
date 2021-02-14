@@ -189,7 +189,7 @@ minimumFractionDigits: 2
             transactionCount = 0
             monthlyIncome = 0
             monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year  == new Date().getUTCFullYear()))).forEach(entry => {
+             element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
                if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
@@ -201,7 +201,7 @@ minimumFractionDigits: 2
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
                
               if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
@@ -316,7 +316,7 @@ minimumFractionDigits: 2
                     let datecurrent = new Date(current.tstamp)
                     return datecurrent - datelast;
                     })%>
-                    <% element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>  
+                    <% element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>  
                           
                   <tr style="font-weight:500;">
                     <% 
@@ -338,7 +338,7 @@ minimumFractionDigits: 2
                     <td class = "<%=color%>"><%= formatter.format(entry.isexpense?entry.amount*-1:entry.amount)%> <%=trend%></td>
                     <td><%= entry.description%></td>
                     <td><%= formatter.format(entry.postranbal)%></td>
-                    <td><a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#d<%=entry._id%>"><i class="material-icons">delete</i></a>&nbsp;
+                    <td>
                       <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#u<%=entry._id%>"><i class="material-icons">edit</i></a></td>
                       
 <div id = "u<%=entry._id%>" class="modal white">

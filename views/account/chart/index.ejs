@@ -65,7 +65,7 @@ minimumFractionDigits: 2
             transactionCount = 0
             monthlyIncome = 0
             monthlyExpense = 0
-             element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year  == new Date().getUTCFullYear()))).forEach(entry => {
+             element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
                transactionCount += 1
                if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
@@ -77,7 +77,7 @@ minimumFractionDigits: 2
             })
             yearlyIncome = 0
             yearlyExpense = 0
-            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == new Date().getUTCFullYear()))).forEach(entry => {
+            element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
                
               if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
                {
@@ -343,7 +343,7 @@ minimumFractionDigits: 2
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -380,7 +380,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -636,10 +636,10 @@ options: {
     income = [0,0,0,0,0,0,0,0,0,0,0,0]
     expense = [0,0,0,0,0,0,0,0,0,0,0,0]
     month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
@@ -705,7 +705,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
@@ -743,7 +743,7 @@ options: {
     balance = []
     category = []
     color = []
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == new Date().getUTCFullYear())).forEach(entry => {%>"  
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"  
     if(!category.includes("<%=entry.category%>")){
       category.push("<%=entry.category%>")
       balance.push(0)
@@ -779,15 +779,27 @@ options: {
     actualBalance = []
     points = []
     counter = 1
-    "<%element.activity.filter(entry => (entry.isActive == true && year == new Date().getUTCFullYear())).forEach(entry => {%>"
+    onholdBalance = []
+    moneyOnHold = []
+    moneyOnHold.push(0)
+    "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
+    
     if("<%=entry.category%>" == 'Debit')
     {
-      actualBalance.push("<%=entry.postranbal-entry.amount%>")
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value+parseFloat("<%=entry.amount*-1.00%>"))
     }
-    else{
-      actualBalance.push("<%=entry.postranbal%>")
+    if("<%=entry.category%>" == 'Credit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
     }
+    lo = moneyOnHold.length-1
+    actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
+    onholdBalance.push(moneyOnHold[lo])
     points.push(counter)
     counter++;
     "<%})%>"
@@ -809,6 +821,14 @@ data: {
         //lineTension:0,
         fill:false,
         data: actualBalance,
+    },
+    {
+        label: 'On Hold',
+        borderColor: '#ff5722',
+        //lineTension:0,
+        fill:false,
+        data: onholdBalance,
+        hidden: true
     }
   ]
 },
@@ -846,15 +866,26 @@ options: {
     points = []
     actualBalance = []
     counter = 1
-    "<%element.activity.filter(entry => (entry.isActive == true && (month == new Date().getMonth() && year == new Date().getUTCFullYear()))).forEach(entry => {%>"
+    onholdBalance = []
+    moneyOnHold = []
+    moneyOnHold.push(0)
+    "<%element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
     if("<%=entry.category%>" == 'Debit')
     {
-      actualBalance.push("<%=entry.postranbal-entry.amount%>")
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value+parseFloat("<%=entry.amount*-1.00%>"))
     }
-    else{
-      actualBalance.push("<%=entry.postranbal%>")
+    if("<%=entry.category%>" == 'Credit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
     }
+    lo = moneyOnHold.length-1
+    actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
+    onholdBalance.push(moneyOnHold[lo])
     points.push(counter)
     counter++;
     "<%})%>"
@@ -879,6 +910,14 @@ data: {
         //lineTension:0,
         fill:false,
         data: actualBalance,
+    },
+    {
+        label: 'On Hold',
+        borderColor: '#ff5722',
+        //lineTension:0,
+        fill:false,
+        data: onholdBalance,
+        hidden: true
     }]
 },
 options: {
