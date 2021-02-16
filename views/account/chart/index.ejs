@@ -778,13 +778,14 @@ options: {
     balance = []
     actualBalance = []
     points = []
+    amounts = []
     counter = 1
     onholdBalance = []
     moneyOnHold = []
     moneyOnHold.push(0)
     "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
-    
+    amounts.push("<%=entry.amount%>")
     if("<%=entry.category%>" == 'Debit')
     {
       li = moneyOnHold.length-1
@@ -829,6 +830,14 @@ data: {
         fill:false,
         data: onholdBalance,
         hidden: true
+    },
+    {
+        label: 'Amount',
+        borderColor: '#009688',
+        //lineTension:0,
+        fill:false,
+        data: amounts,
+        hidden: true
     }
   ]
 },
@@ -864,6 +873,7 @@ options: {
     var ctx = document.getElementById('balcmch').getContext('2d');
     balance = []
     points = []
+    amounts = []
     actualBalance = []
     counter = 1
     onholdBalance = []
@@ -871,6 +881,7 @@ options: {
     moneyOnHold.push(0)
     "<%element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
+    amounts.push("<%=entry.amount%>")
     if("<%=entry.category%>" == 'Debit')
     {
       li = moneyOnHold.length-1
@@ -917,6 +928,14 @@ data: {
         //lineTension:0,
         fill:false,
         data: onholdBalance,
+        hidden: true
+    },
+    {
+        label: 'Amount',
+        borderColor: '#009688',
+        //lineTension:0,
+        fill:false,
+        data: amounts,
         hidden: true
     }]
 },
