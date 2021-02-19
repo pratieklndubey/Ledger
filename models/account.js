@@ -75,9 +75,9 @@ const accountSchema = new mongoose.Schema({
     default: true
 
   },
-  passWord:{
+  /*passWord:{
     type:String
-  },
+  },*/
   activity: {
     type: [activitySchema]
   }
