@@ -500,6 +500,8 @@ options: {
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     expense += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
+    income = income.toFixed(2)
+      expense = expense.toFixed(2)
       balance = income-expense
       balance = balance.toFixed(2)
 var chart = new Chart(ctx, {
@@ -573,6 +575,8 @@ options: {
     expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
+      income[i] = income[i].toFixed(2)
+      expense[i] = expense[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
     }
@@ -643,6 +647,8 @@ options: {
     expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
+      income[i] = income[i].toFixed(2)
+      expense[i] = expense[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
     }
@@ -782,7 +788,20 @@ options: {
     counter = 1
     onholdBalance = []
     moneyOnHold = []
-    moneyOnHold.push(0)
+    money = 0
+    if(parseFloat("<%=element.onhold%>") > 0)
+    {
+      "<%element.activity.filter(entry => ((entry.isActive == true && (entry.category == 'Debit' || entry.category == 'Credit')) && (year > entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
+          if("<%=entry.category%>" == 'Debit')
+          {
+            money -= parseFloat("<%=entry.amount%>")
+          }
+          else{
+            money -= parseFloat("<%=entry.amount%>")
+          }
+      "<%})%>"
+    }
+      moneyOnHold.push(money)
     "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
@@ -878,10 +897,25 @@ options: {
     counter = 1
     onholdBalance = []
     moneyOnHold = []
-    moneyOnHold.push(0)
+    isDebit = false
+    money = 0
+    if(parseFloat("<%=element.onhold%>") > 0)
+    {
+      "<%element.activity.filter(entry => ((entry.isActive == true && (entry.category == 'Debit' || entry.category == 'Credit')) && (entry.tstamp.getMonth() < month && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
+          if("<%=entry.category%>" == 'Debit')
+          {
+            money -= parseFloat("<%=entry.amount%>")
+          }
+          else{
+            money -= parseFloat("<%=entry.amount%>")
+          }
+      "<%})%>"
+    }
+      moneyOnHold.push(money)
     "<%element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
+    
     if("<%=entry.category%>" == 'Debit')
     {
       li = moneyOnHold.length-1
