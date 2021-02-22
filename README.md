@@ -5,9 +5,9 @@ Installation Guide: <br/>
         1. Install Node-JS and MongoDB<br/>
         2. Clone the repository in your computer<br/>
         3. Open Terminal in the current directory<br/>
-        4. Type in "npm init"<br/>
-        5. Type in "npm install"<br/>
-        6. Copy the shortcut provided at your preferred location (Desktop)<br/>
+        4. Execute "install.bat"<br/>
+        5. Copy the shortcut provided at your preferred location (Desktop)<br/>
+        6. excute the shortcut/run_server.bat<br/>
         7. Manage your finances seamlessly
 
 Snip of Account lists
