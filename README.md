@@ -11,11 +11,10 @@ Installation Guide: <br/>
         7. Manage your finances seamlessly
 
 Snip of Account lists
-<img src = "screenshots/Account.png">
 ![Account](screenshots/Account.png)
 
 Snip of Transactions and Balances
-![Ledger](https://user-images.githubusercontent.com/24636070/106957540-1f9e8000-675e-11eb-8973-89b15d9ae239.PNG)
+![Ledger](screenshots/Ledger.png)
 
 
 
