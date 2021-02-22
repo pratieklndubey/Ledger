@@ -10,12 +10,32 @@ Installation Guide: <br/>
         6. excute the shortcut/run_server.bat<br/>
         7. Manage your finances seamlessly
 
-Snip of Account lists
+Account lists
 ![Account](screenshots/Account.png)
 
-Snip of Transactions and Balances
+Transactions and Balances
 ![Ledger](screenshots/Ledger.png)
 
+Charts
+![Charts](screenshots/charts.png)
+
+Expenses
+![Charts](screenshots/expenses.png)
+
+Income
+![Income](screenshots/income.png)
+
+Balances
+![Balances](screenshots/balances.png)
+
+Yearly Cashflow
+![Yearly Cashflow](screenshots/cashflowyearly.png)
+
+Lifetime Cashflow
+![Lifetime Cashflow](screenshots/cashflowlt.png)
+
+Cashflow Comparison
+![Cashflow Comparison](screenshots/cashflow.png)
 
 
 
