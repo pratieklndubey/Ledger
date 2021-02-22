@@ -16,7 +16,7 @@ Snip of Account lists
 Snip of Transactions and Balances
 ![Ledger](https://user-images.githubusercontent.com/24636070/106957540-1f9e8000-675e-11eb-8973-89b15d9ae239.PNG)
 
-<img src = "blob/screenshots/ledger.png">
-![](/screenshots/ledger.png)
+<img src = "blob/main/screenshots/Account.png">
+![](blob/main/screenshots/Account.png)
 
 
