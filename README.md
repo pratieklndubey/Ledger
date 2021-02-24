@@ -5,7 +5,7 @@ Installation Guide: <br/>
         1. Install [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community)<br/>
         2. Clone the repository in your computer<br/>
         3. Execute "install.bat"<br/>
-        4. Copy the shortcut provided at your preferred location (Desktop)<br/>
+        4. Copy the shortcut ("lEdge.lnk") at your preferred location (Desktop)<br/>
         5. excute the shortcut/run_server.bat<br/>
         6. Manage your finances seamlessly
 
