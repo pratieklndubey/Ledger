@@ -2,7 +2,7 @@
 lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but never really got an app with all the required features. So, I thought of creating this app with the features one requires to manage their money seamlessly. I hope you would love it.
 
 Installation Guide: <br/>
-        1. Install Node-JS (https://nodejs.org/en/download/) and MongoDB (https://www.mongodb.com/try/download/community)<br/>
+        1. Install [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community)<br/>
         2. Clone the repository in your computer<br/>
         3. Open Terminal in the current directory<br/>
         4. Execute "install.bat"<br/>
