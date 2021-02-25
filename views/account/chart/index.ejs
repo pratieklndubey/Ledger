@@ -29,9 +29,9 @@ minimumFractionDigits: 2
                     <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
-                            <th>Income</th>
-                              <th>Expense</th>
-                              <th>Balance</th>
+                            <th>Income (100%)</th>
+                              <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
+                              <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
                               <th>Sum of Transactions</th>
                               <th>On Hold</th>
                               <th>Variance</th>
@@ -65,8 +65,10 @@ minimumFractionDigits: 2
                
             </div>
            
-            
-            
+
+              
+               
+            <hr>
             <%
             transactionCount = 0
             monthlyIncome = 0
@@ -110,9 +112,9 @@ minimumFractionDigits: 2
               <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
-                              <th>Income</th>
-                              <th>Expense</th>
-                              <th>Savings</th>
+                              <th>Income (100%)</th>
+                              <th>Expense (<%=(monthlyExpense*-100/monthlyIncome).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(100 - monthlyExpense*-100/monthlyIncome).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -145,9 +147,9 @@ minimumFractionDigits: 2
               <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
-                              <th>Income</th>
-                              <th>Expense</th>
-                              <th>Savings</th>
+                            <th>Income (100%)</th>
+                              <th>Expense (<%=(yearlyExpense*-100/yearlyIncome).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(100 - yearlyExpense*-100/yearlyIncome).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -506,18 +508,9 @@ options: {
 });
     </script>
   <script type = "text/javascript">
-    balance = 0
-    income = 0
-    expense = 0
- 
     var ctx = document.getElementById('cashflowcch').getContext('2d');
-    
-    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
-    income += parseFloat("<%=entry.amount%>")
-    "<%})%>"
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
-    expense += parseFloat("<%=entry.amount*-1.00%>")
-    "<%})%>"
+    income = parseFloat("<%=element.income%>")
+    expense = parseFloat("<%=element.expense%>")
     income = income.toFixed(2)
       expense = expense.toFixed(2)
       balance = income-expense
