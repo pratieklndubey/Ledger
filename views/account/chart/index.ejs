@@ -113,8 +113,8 @@ minimumFractionDigits: 2
                         <thead>
                           <tr>
                               <th>Income (100%)</th>
-                              <th>Expense (<%=(monthlyExpense*-100/monthlyIncome).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(100 - monthlyExpense*-100/monthlyIncome).toFixed(2)%>%)</th>
+                              <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(monthlyIncome==0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -148,8 +148,8 @@ minimumFractionDigits: 2
                         <thead>
                           <tr>
                             <th>Income (100%)</th>
-                              <th>Expense (<%=(yearlyExpense*-100/yearlyIncome).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(100 - yearlyExpense*-100/yearlyIncome).toFixed(2)%>%)</th>
+                            <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(yearlyIncome==0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
