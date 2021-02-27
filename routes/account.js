@@ -6,6 +6,14 @@ const CryptoJS = require('crypto')
 router.get('/', async (req, res) => {
   res.redirect('../')
 })
+router.get('/:id/assets', async (req, res) => {
+  let searchOptions = {}
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
+    searchOptions._id = req.params.id
+    const account = await Account.find(searchOptions)
+    res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../'});
+})
 router.get('/:id/chart', async (req, res) => {
   let searchOptions = {}
   year = new Date().getUTCFullYear()
@@ -44,7 +52,7 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "\u2630",relative:'../'});
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../'});
 })
 router.get('/:id/:year/:month', async (req, res) => {
     year = req.params.year

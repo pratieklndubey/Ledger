@@ -43,7 +43,8 @@
     <nav id = "home" style="height: 60px;"class="light-blue darken-4">
         <div class = "nav-wrapper">
             <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>
-            <h1 style="margin-right: 40px;font-size: 25px;font-family: Handlee; margin-top: 18px;" class="right"><a data-toggle="modal" class="modal-trigger" href="#options"><%=option%></a></h1>
+            <h1 style="margin-right: 40px;font-size: 25px;font-family: Handlee; margin-top: 18px;" class="right"><a data-toggle="modal" class="modal-trigger" href="#options"><%=option%></a></h1>           
+            
         </div>
     </nav>
     <%- body %>
@@ -63,6 +64,11 @@
         </script>
         
         <script>
+            $(document).ready(function(){
+    $('.fixed-action-btn').floatingActionButton({
+             hoverEnabled: false
+  });
+  });
             $(document).ready
                 (function()
                     {

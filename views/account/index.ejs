@@ -5,7 +5,7 @@
 
 <% account.forEach(element => { %>
   
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Investment","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel/Vacation","Phone","House Hold","Health Care", "Gift"]
   const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   %>
@@ -16,7 +16,26 @@ style: 'currency',
 currency: element.currency,
 minimumFractionDigits: 2
 })%>
-<div id = "options" class="modal white">
+<div class="fixed-action-btn">
+  <%      
+            link = '/'+year+'/'+parseFloat(month+1)
+            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+              link = ''
+            }
+      %>
+  <a class="btn-floating btn-large light-blue darken-4">
+    <i class="large material-icons">tune</i>
+  </a>
+  <ul>
+   
+    <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
+    <li><a title="Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">insights</i></a></li>
+    <li><a title="Update Balance" data-toggle="modal" href="#ubalance" class="btn-floating green modal-trigger"><i class="material-icons">published_with_changes</i></a></li>
+    <li><a title="Create Transactions" data-toggle="modal" href="#ctransaction" class="btn-floating blue modal-trigger"><i class="material-icons">account_balance_wallet</i></a></li>
+    <li><a title="Asset Management" data-toggle="modal" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>
+  </ul>
+</div>
+<!--<div id = "options" class="modal white">
   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Select an Option</h5>
   <hr width="85%">
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
@@ -35,8 +54,10 @@ minimumFractionDigits: 2
     <div class="row center">
       <div class="col s12"><a data-toggle="modal" class="modal-trigger btn green" href="#ctransaction">Create Transaction</a></div>
     </div>
+    
+    
   </div>
-</div>
+</div>-->
 <div id = "chperiod" class="modal white">
   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
@@ -106,12 +127,11 @@ minimumFractionDigits: 2
         <div class="input-field col s4 offset-s1 center">
         <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount" class="validate" required="" aria-required="true" value = "">
         <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "">
-        
-        
       </div>
       <div class="input-field col s4 offset-s2 center" >
         <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
        <select name = "category" class="browser-default" style="margin-top:7px;">
+        <option disabled>Scroll for More Options</option>
         <optgroup label = "Expense">
         <%categoriesExpense.forEach(category => {%>
         <option value="<%=category%>"><%=category%> </option>

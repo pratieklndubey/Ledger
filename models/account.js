@@ -38,6 +38,38 @@ const activitySchema = new mongoose.Schema({
   }
 })
 
+const assetSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    
+  },
+  title: {
+    type: String,
+    
+  },
+  amount: {
+    type: Number,
+  },
+  units: {
+    type: Number,
+  },
+  unitprice: {
+    type: Number,
+  },
+  category: {
+    type: String,
+    
+  },
+  tstamp: {
+    type: Date,
+    default: Date.now(),    
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const accountSchema = new mongoose.Schema({
   id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -80,6 +112,9 @@ const accountSchema = new mongoose.Schema({
   },*/
   activity: {
     type: [activitySchema]
+  },
+  asset: {
+    type: [assetSchema]
   }
 })
 
