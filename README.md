@@ -15,6 +15,9 @@ Account lists
 Transactions and Balances
 ![Ledger](screenshots/Ledger.png)
 
+Pivots
+![Pivots](screenshots/pivot.png)
+
 Charts
 ![Charts](screenshots/charts.png)
 
