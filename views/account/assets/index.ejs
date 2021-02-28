@@ -1,4 +1,20 @@
 <% account.forEach(element => { %>
+  
+  <div class="fixed-action-btn">
+    <%      
+              link = '/'+year+'/'+parseFloat(month+1)
+              if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+                link = ''
+              }
+        %>
+    <a class="btn-floating btn-large light-blue darken-4">
+      <i class="large material-icons">tune</i>
+    </a>
+    <ul>
+      <li><a title="Chart Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">insights</i></a></li>
+      <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+    </ul>
+  </div>
 <div class="section white" >
     <div class="row" style="margin-bottom: -10px;">
       <div class="col s1 left">
