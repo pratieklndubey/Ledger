@@ -18,11 +18,11 @@ Transactions and Balances
 Charts
 ![Charts](screenshots/charts.png)
 
-Expenses
-![Charts](screenshots/expenses.png)
-
 Income
 ![Income](screenshots/income.png)
+
+Expenses
+![Charts](screenshots/expenses.png)
 
 Balances
 ![Balances](screenshots/balances.png)
