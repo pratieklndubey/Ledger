@@ -12,7 +12,14 @@ minimumFractionDigits: 2
 <div class="section white" >
 <div class="row" style="margin-bottom: -10px;">
   <div class="col s1 left">
-    <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=element._id%>"><i class="material-icons">keyboard_arrow_left</i></a>
+    <%
+        link = element._id
+        if(month != new Date().getMonth())
+        {
+          link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
+        }
+    %>
+    <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">keyboard_arrow_left</i></a>
   </div>
 <div class="col s11">
         <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Charts for <%=element.name%></h2>
