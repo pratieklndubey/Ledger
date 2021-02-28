@@ -1,0 +1,394 @@
+<% account.forEach(element => { %>
+    <%
+    const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    %>
+    <%
+    const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: element.currency,
+  minimumFractionDigits: 2
+  })%>
+  <div class="section white" >
+  <div class="row" style="margin-bottom: -10px;">
+    <div class="col s1 left">
+      <%
+          link = element._id
+          if(month != new Date().getMonth())
+          {
+            link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
+          }
+      %>
+      <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">keyboard_arrow_left</i></a>
+    </div>
+  <div class="col s11">
+          <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Pivots for <%=element.name%></h2>
+    </div>
+          
+    </div>
+    <hr width="70%">
+      
+      
+    
+  </div>
+  
+  <div class="container">
+                      <table class="striped centered responsive-table"style="margin-top:-20px">      
+                          <thead>
+                            <tr>
+                              <th>Income (100%)</th>
+                                <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
+                                <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
+                                <th>Sum of Transactions</th>
+                                <th>On Hold</th>
+                                <th>Variance</th>
+                                
+                            </tr>
+                          </thead>
+                          <tbody>
+    
+                                    
+                            <tr style="font-weight:500;">
+                              <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
+                              <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
+                              
+  
+                              <td><%= formatter.format(element.currbal)%></td>
+                              <td><%= formatter.format(element.transum)%></td>
+                              <td><%= formatter.format(element.onhold)%></td>
+                              <% variance = element.currbal-(element.transum+element.onhold)
+                                if (variance < 0 && variance > -0.01)
+                                {
+                                  variance *= -1.00
+                                }
+                              %>
+                              <td><%= formatter.format(variance)%></td>
+                              
+                             
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+                 
+              </div>
+             
+  
+                
+                 
+              <hr>
+              <%
+              transactionCount = 0
+              monthlyIncome = 0
+              monthlyExpense = 0
+              
+               element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                 transactionCount += 1
+                 if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+                 {
+                   monthlyIncome += entry.amount
+                 }
+                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
+                   monthlyExpense += entry.amount
+                 }
+              })
+             
+              yearlyIncome = 0
+              yearlyExpense = 0
+              element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                 
+                if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+                 {
+                   yearlyIncome += entry.amount
+                 }
+                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
+                   yearlyExpense += entry.amount
+                 }
+              })
+              %>  
+              
+              
+          <div class="container">
+            <div class="row">
+              <div class="col s6">
+                <table class="striped centered responsive-table">
+                  <thead>
+                            <tr>
+                                <th><%=monthCart[month]%>
+                      <hr>
+                      </th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                <table class="striped centered responsive-table" style="margin-top:-30px">      
+                          <thead>
+                            <tr>
+                                <th>Income (100%)</th>
+                                <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                                <th>Savings (<%=(monthlyIncome==0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+    
+                                    
+                            <tr style="font-weight:500;">
+                              
+                              <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
+                              <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
+                              
+                              <td><%= formatter.format(monthlyIncome+monthlyExpense)%></td>
+                             
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tbody>
+                      </table>
+              </div>
+              <div class="col s6">
+                <table class="striped centered responsive-table">
+                  <thead>
+                            <tr>
+                                <th><%=year%>
+                      <hr>
+                      </th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                <table class="striped centered responsive-table" style="margin-top:-30px">      
+                          <thead>
+                            <tr>
+                              <th>Income (100%)</th>
+                              <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                                <th>Savings (<%=(yearlyIncome==0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+    
+                                    
+                            <tr style="font-weight:500;">
+                              
+                              <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
+                              <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
+                              
+                              <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
+                             
+                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tbody>
+                      </table>
+              </div>
+            </div>
+                 
+              </div>
+  
+                  
+              <hr>
+              <%
+              transactionCount = 0
+              monthlyIncome = 0
+              monthlyExpense = 0
+              categories = []
+              balance = []
+              monthlycategories = []
+              monthlybalance = []
+              yearlycategories = []
+              yearlybalance = []
+               element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                 transactionCount += 1
+                 if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+                 {
+                   monthlyIncome += entry.amount
+                 }
+                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
+                   monthlyExpense += entry.amount
+                 }
+              })
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {
+                if(!categories.includes(entry.category)){
+                 categories.push(entry.category)
+                    balance.push(0)
+                }
+                if(categories.includes(entry.category)){
+                i = categories.indexOf(entry.category)
+                    balance[i] += parseFloat(entry.amount*-1.00)
+                    }
+              })
+              
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                if(!monthlycategories.includes(entry.category)){
+                 monthlycategories.push(entry.category)
+                    monthlybalance.push(0)
+                }
+                if(monthlycategories.includes(entry.category)){
+                i = monthlycategories.indexOf(entry.category)
+                    monthlybalance[i] += parseFloat(entry.amount*-1.00)
+                    }
+              })
+
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                if(!yearlycategories.includes(entry.category)){
+                 yearlycategories.push(entry.category)
+                    yearlybalance.push(0)
+                }
+                if(yearlycategories.includes(entry.category)){
+                i = yearlycategories.indexOf(entry.category)
+                    yearlybalance[i] += parseFloat(entry.amount*-1.00)
+                    }
+              })
+              yearlyIncome = 0
+              yearlyExpense = 0
+              element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+                 
+                if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+                 {
+                   yearlyIncome += entry.amount
+                 }
+                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
+                   yearlyExpense += entry.amount
+                 }
+              })
+              %>  
+          <div class="container">
+            <div class="row">
+              <div class="col s4">
+                <table class="striped centered responsive-table">
+                  <thead>
+                            <tr>
+                                <th><%=monthCart[month]%>
+                      <hr>
+                      </th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                <table class="striped centered responsive-table" style="margin-top:-30px">      
+                          <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Percent</th>
+                                
+                            </tr>
+                          </thead>
+                          <tbody>
+    
+                                    
+                            <%monthlycategories.forEach((monthlycategory,index) => {%>
+                            <tr style="font-weight:500;">
+                                <td><%=monthlycategory%></td>    
+                                <td><%=formatter.format(monthlybalance[index])%></td>    
+                                <td><%=(monthlybalance[index]*-100/monthlyExpense).toFixed(2)%></td>
+                              <%})%>                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tbody>
+                      </table>
+              </div>
+              <div class="col s4">
+                <table class="striped centered responsive-table">
+                  <thead>
+                            <tr>
+                                <th><%=year%>
+                      <hr>
+                      </th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                <table class="striped centered responsive-table" style="margin-top:-30px">      
+                          <thead>
+                            <tr>
+                              <th>Category</th>
+                              <th>Amount</th>
+                              <th>Percent</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+    
+                                    
+                            <%yearlycategories.forEach((yearlycategory,index) => {%>
+                            <tr style="font-weight:500;">
+                                <td><%=yearlycategory%></td>    
+                                <td><%=formatter.format(yearlybalance[index])%></td>    
+                                <td><%=(yearlybalance[index]*-100/yearlyExpense).toFixed(2)%></td>
+                              <%})%>                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tbody>
+                      </table>
+              </div>
+              <div class="col s4">
+    
+                <table class="striped centered responsive-table">
+                  <thead>
+                            <tr>
+                                <th>Lifetime
+                      <hr>
+                      </th>                    
+                            </tr>
+                          </thead>
+                          <tbody>
+                <table class="striped centered responsive-table" style="margin-top:-30px">      
+                          <thead>
+                            <tr>
+                              <th>Category</th>
+                              <th>Amount</th>
+                              <th>Percent</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <%categories.forEach((category,index) => {%>
+                            <tr style="font-weight:500;">
+                                <td><%=category%></td>    
+                                <td><%=formatter.format(balance[index])%></td>    
+                                <td><%=(balance[index]*100/element.expense).toFixed(2)%></td>                                
+                              <%})%>                              
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tbody>
+                      </table>
+              </div>
+            </div>
+                 
+              </div>
+              
+              <div id = "options" class="modal white">
+                <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>
+    <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+    <div class="row">
+      <form action="/account/pivots?_method=PUT" method="POST">
+        <div class="input-field">
+          <input name = "id" type="hidden" class="validate" required="" aria-required="true" value = "<%=element._id %>">
+        </div>
+        <div class="input-field col s5 offset-s1 center">
+          <select name = "month" class="browser-default" style="margin-top:7px;">
+          <%for(i = 0;i < 12;i++){%>
+          <option value="<%=i+1%>" <%= month == i?'selected':''%>><%=monthCart[i]%></option>
+        <%}%>
+        </select>
+        </div>
+        <%
+        yearCart = []
+      count = new Date().getUTCFullYear() - 2021
+      for(i = 0;i<=count;i++){
+        yearCart.push(new Date().getUTCFullYear()-i)
+      }
+        %>
+        
+        <div class="input-field col s5 center">
+          <select name = "year" class="browser-default" style="margin-top:7px;">
+          <%yearCart.forEach(year => {%>
+          <option value="<%=year%>"><%=year%> </option>
+        <%})%>
+        </select>
+        </div>
+        <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+          <input class="btn light-blue darken-4 white-text" value="CHANGE" type="submit">
+        </div>
+        </form>
+      </div>
+    </div>            
+
+    <%})%>

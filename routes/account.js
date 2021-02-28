@@ -14,6 +14,39 @@ router.get('/:id/assets', async (req, res) => {
     const account = await Account.find(searchOptions)
     res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../'});
 })
+
+router.get('/:id/pivots', async (req, res) => {
+  let searchOptions = {}
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
+    searchOptions._id = req.params.id
+    const account = await Account.find(searchOptions)
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../'});
+  //res.send(account)
+})
+
+router.get('/:id/pivots/:year/:month', async (req, res) => {
+  year = req.params.year
+    yearCart = []
+    count = new Date().getUTCFullYear() - 2021
+    for(i = 0;i<=count;i++){
+      yearCart.push(new Date().getUTCFullYear()-i)
+    }
+    month = req.params.month-1
+    if((month < 0 || month > 11) || isNaN(month))
+    {
+      month = new Date().getMonth()
+    }
+    if(!yearCart.includes(year))
+    {
+      year = new Date().getUTCFullYear()
+    }
+  let searchOptions = {}
+    searchOptions._id = req.params.id
+    const account = await Account.find(searchOptions)
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../'});
+  //res.send(account)
+})
 router.get('/:id/chart', async (req, res) => {
   let searchOptions = {}
   year = new Date().getUTCFullYear()
@@ -80,6 +113,9 @@ router.get('/:id/:year/:month', async (req, res) => {
   })
   router.put('/chart', async (req, res) => {
     res.redirect(req.body.id+"/chart/"+req.body.year+"/"+req.body.month)
+  })
+  router.put('/pivots', async (req, res) => {
+    res.redirect(req.body.id+"/pivots/"+req.body.year+"/"+req.body.month)
   })
   router.put('/:id/', async (req, res) => {
     let account = await Account.findById(req.params.id)
