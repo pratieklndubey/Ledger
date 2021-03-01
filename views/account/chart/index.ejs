@@ -149,7 +149,7 @@ minimumFractionDigits: 2
                             <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
                             
-                            <td><%= formatter.format(monthlyIncome+monthlyExpense)%></td>
+                            <td><%= formatter.format(monthlyIncome+monthlyExpense>0?monthlyIncome+monthlyExpense:0.00)%></td>
                            
                             
                           </tr>
@@ -184,7 +184,7 @@ minimumFractionDigits: 2
                             <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
                             
-                            <td><%= formatter.format(yearlyIncome+yearlyExpense)%></td>
+                            <td><%= formatter.format(yearlyIncome+yearlyExpense>0?yearlyIncome+yearlyExpense:0.00)%></td>
                            
                             
                           </tr>
@@ -614,6 +614,10 @@ options: {
       expense[i] = expense[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
+      if(balance[i] < 0)
+      {
+        balance[i] = 0.00
+      }
     }
 var chart = new Chart(ctx, {
 type: 'line',
@@ -686,6 +690,10 @@ options: {
       expense[i] = expense[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
+      if(balance[i] < 0)
+      {
+        balance[i] = 0.00
+      }
     }
 var chart = new Chart(ctx, {
 type: 'line',
