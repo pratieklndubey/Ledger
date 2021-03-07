@@ -241,9 +241,14 @@
               })
               %>  
               <div class="container">
+                <ul class="collapsible">
+    <li>
+      <div class="collapsible-header"><h5><i class="material-icons">category</i>Categorywise Expense</h5></div>
+      <div class="collapsible-body">
             <div class="row">
               
               <div class="col s12">
+  
                 <table class="striped centered responsive-table">
                  
                           <tbody>
@@ -283,10 +288,13 @@
                         </table>
                       </tbody>
                       </table>
+                   
               </div>
             </div>
-                 
-              </div>
+          </div>
+                      </li>
+                      
+              
               
               <%
               
@@ -329,7 +337,9 @@
                     }
               })
               %>  
-          <div class="container">
+              <li>
+      <div class="collapsible-header"><h5><i class="material-icons">category</i>Categorywise Income</h5></div>
+      <div class="collapsible-body">
             <div class="row">
               <%if(monthlyExpense < 0){%>
               <div class="col s4">
@@ -450,7 +460,9 @@
                       </table>
               </div>
             </div>
-                 
+                 </div>
+                 </li>
+                 </ul>
               </div>
               
               <div id = "chperiod" class="modal white">

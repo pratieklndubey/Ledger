@@ -1,5 +1,5 @@
 .env
 node_modules
-index.html.bak
-accounts.json
 backup
+ledge.js
+runServer.bat
