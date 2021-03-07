@@ -32,7 +32,7 @@ minimumFractionDigits: 2
     <li><a title="Create Transactions" data-toggle="modal" href="#ctransaction" class="btn-floating blue modal-trigger"><i class="material-icons">account_balance_wallet</i></a></li>
     <li><a title="Chart Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">insights</i></a></li>
     <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
-    <li><a title="Asset Management" data-toggle="modal" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
+    <!--<li><a title="Asset Management" data-toggle="modal" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    -->
   </ul>
 </div>
 <div id = "chperiod" class="modal white">
@@ -142,6 +142,7 @@ minimumFractionDigits: 2
                     <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
+                            
                             <th>Income (100%)</th>
                               <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
                               <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
@@ -155,10 +156,9 @@ minimumFractionDigits: 2
   
                                   
                           <tr style="font-weight:500;">
+                            
                             <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
-                            
-
                             <td><%= formatter.format(element.currbal)%></td>
                             <td><%= formatter.format(element.transum)%></td>
                             <td><%= formatter.format(element.onhold)%></td>

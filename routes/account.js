@@ -3,6 +3,7 @@ const router = express.Router()
 const Account = require('../models/account')
 const CryptoJS = require('crypto')
 
+
 router.get('/', async (req, res) => {
   res.redirect('../')
 })
@@ -15,6 +16,13 @@ router.get('/:id/assets', async (req, res) => {
     res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../'});
 })
 
+router.put('/:id/assets', async (req, res) => {
+    let account = await Account.findById(req.params.id)
+    let newAsset = {title:req.body.title,units:req.body.units,amount:req.body.units*req.body.uprice,category:req.body.category}
+    account.asset.push(newAsset)
+    await account.save()
+    res.redirect("../assets")
+})
 router.get('/:id/pivots', async (req, res) => {
   let searchOptions = {}
   year = new Date().getUTCFullYear()
@@ -24,6 +32,7 @@ router.get('/:id/pivots', async (req, res) => {
     res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../'});
   //res.send(account)
 })
+
 
 router.get('/:id/pivots/:year/:month', async (req, res) => {
   year = req.params.year

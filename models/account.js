@@ -41,11 +41,9 @@ const activitySchema = new mongoose.Schema({
 const assetSchema = new mongoose.Schema({
   id: {
     type: mongoose.Schema.Types.ObjectId,
-    
   },
   title: {
     type: String,
-    
   },
   amount: {
     type: Number,
@@ -53,12 +51,8 @@ const assetSchema = new mongoose.Schema({
   units: {
     type: Number,
   },
-  unitprice: {
-    type: Number,
-  },
   category: {
     type: String,
-    
   },
   tstamp: {
     type: Date,
@@ -107,9 +101,9 @@ const accountSchema = new mongoose.Schema({
     default: true
 
   },
-  /*passWord:{
+  passWord:{
     type:String
-  },*/
+  },
   activity: {
     type: [activitySchema]
   },
