@@ -1,24 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const Account = require('../models/account')
-const CryptoJS = require('crypto')
-
+const fs = require('fs')
+const { reset } = require('nodemon')
 
 router.get('/', async (req, res) => {
   res.redirect('../')
 })
 router.get('/:id/assets', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let searchOptions = {}
   year = new Date().getUTCFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../'});
+    res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceGold:goldData,priceSilver:silverData});
 })
 
 router.put('/:id/assets', async (req, res) => {
     let account = await Account.findById(req.params.id)
-    let newAsset = {title:req.body.title,units:req.body.units,amount:req.body.units*req.body.uprice,category:req.body.category}
+    account.assetValue = req.body.uprice*req.body.units
+    let newAsset = {uprice:req.body.uprice,units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newAsset)
     await account.save()
     res.redirect("../assets")
@@ -63,7 +66,7 @@ router.get('/:id/chart', async (req, res) => {
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
     res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../'});
-  //res.send(account)
+  
 })
 
 router.get('/:id/chart/:year/:month', async (req, res) => {

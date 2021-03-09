@@ -38,12 +38,17 @@ const activitySchema = new mongoose.Schema({
   }
 })
 
+
+
 const assetSchema = new mongoose.Schema({
   id: {
     type: mongoose.Schema.Types.ObjectId,
   },
-  title: {
-    type: String,
+  description: {
+    type: String
+  },
+  uprice: {
+    type: Number,
   },
   amount: {
     type: Number,
@@ -100,9 +105,6 @@ const accountSchema = new mongoose.Schema({
     type: Boolean,
     default: true
 
-  },
-  passWord:{
-    type:String
   },
   activity: {
     type: [activitySchema]

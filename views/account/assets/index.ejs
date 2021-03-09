@@ -1,7 +1,19 @@
 
 
 <% account.forEach(element => { %>
-  <%const categoriesAsset = ["Metal","Security","Real Estate"]%>
+  <%
+  const categoriesMetal = ["Gold","Silver"]
+  const categoriesEstate = ["Bunglow","Plot","Flat","Office Space","Shop"]
+  const categoriesSecurity = []
+ 
+  %>
+
+<%
+const formatter = new Intl.NumberFormat('en-US', {
+style: 'currency',
+currency: element.currency,
+minimumFractionDigits: 2
+})%>
   
   <div class="fixed-action-btn">
     <%      
@@ -16,7 +28,7 @@
     <ul>
       <li><a title="Chart Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">insights</i></a></li>
       <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
-      <!--<li><a title="Add Asset" data-toggle="modal" href="#aasset" class="btn-floating orange accent-4 modal-trigger"><i class="material-icons">local_mall</i></a></li>-->
+      <li><a title="Add Asset" data-toggle="modal" href="#aasset" class="btn-floating orange accent-4 modal-trigger"><i class="material-icons">local_mall</i></a></li>
     </ul>
   </div>
   
@@ -25,23 +37,40 @@
   <form action="/account/<%=element._id%>/assets/?_method=PUT" method="POST">
         <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "addAsset" />
         <div class="row">
-        <div class="input-field col s4 offset-s1 center">
-        <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "">
-        <input name = "uprice" type="number" step="0.01" min="0" placeholder = "Unit Price" class="validate" required="" aria-required="true" value = "">
+          <div class="input-field col s5 offset-s1 center">
+          <input name = "units" type="number" step="0.01" min="0" placeholder = "Units" class="validate" required="" aria-required="true" value = "">
+          <input name = "uprice" type="number" step="0.01" min="0" placeholder = "Unit Price (Excluding Extra Charges)" class="validate" required="" aria-required="true" value = "">
+        </div>
+        <div class="input-field col s5 center" >
+          <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount (Including Extra Charges)" class="validate" required="" aria-required="true" value = "">
+         <select name = "category" class="browser-default" style="margin-top:7px;">
+          <option disabled>Scroll for More Options</option>
+          <optgroup label = "Metal">
+          <%categoriesMetal.forEach(category => {%>
+          <option value="<%=category%>"><%=category%></option>
+        <%})%>
+      </optgroup>
+      <optgroup label = "Real Estate">
+        <%categoriesEstate.forEach(category => {%>
+          <option value="<%=category%>"><%=category%></option>
+        <%})%>
+      </optgroup>
+      <optgroup label = "Securities">
+        <%categoriesSecurity.forEach(category => {%>
+          <option value="<%=category%>"><%=category%></option>
+        <%})%>
+      </optgroup>
+        </select>
+        </div>
+
+        <div class="input-field col s6 offset-s3 center">
+          <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
+        </div>
+          
+        <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+          <input class="btn light-blue darken-4 white-text" value="ADD" type="submit">
+        </div>
       </div>
-      <div class="input-field col s4 offset-s2 center" >
-        <input name = "units" type="number" step="0.01" min="0" placeholder = "Units" class="validate" required="" aria-required="true" value = "">
-       <select name = "category" class="browser-default" style="margin-top:7px;">
-        <option disabled>Select a Category</option>
-        <%categoriesAsset.forEach(category => {%>
-        <option value="<%=category%>"><%=category%> </option>
-      <%})%>
-      </select>
-      </div>
-      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
-        <input class="btn light-blue darken-4 white-text" value="Add" type="submit">
-      </div>
-    </div>
       </form>
   
 
@@ -56,9 +85,185 @@
       </div>
       </div>
       <hr width="70%">
-      <%=element.asset%>
-    
+
+      <div class="container">
+        <table class="striped centered responsive-table"style="margin-top:-20px">      
+            <thead>
+              <tr>
+                
+                <th>Income (100%)</th>
+                  <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
+                  <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
+                  <th>Sum of Transactions</th>
+                  <th>On Hold</th>
+                  <th>Variance</th>
+                  
+              </tr>
+            </thead>
+            <tbody>
+
+                      
+              <tr style="font-weight:500;">
+                
+                <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
+                <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
+                <td><%= formatter.format(element.currbal)%></td>
+                <td><%= formatter.format(element.transum)%></td>
+                <td><%= formatter.format(element.onhold)%></td>
+                <% variance = element.currbal-(element.transum+element.onhold)
+                  if (variance < 0 && variance > -0.01)
+                  {
+                    variance *= -1.00
+                  }
+                %>
+                <td><%= formatter.format(variance)%></td>
+                
+               
+                
+              </tr>
+            </tbody>
+          </table>
+   
+</div>
+<hr width="70%">
+<div class="container">
+        <div class="row">
+          
+          </div>
+        </div>
+
+<div class="container">
+        <div class="row">
+          <% 
+          invested = 0
+          currval = 0
+          color = "black-text"
+            sign = 0.00
+            trend = "\u25B2"
+          element.asset.forEach(entry => {
+            if(entry.category == "Gold"){
+                  assetPrice = priceGold                  
+                }
+                else if(entry.category == "Silver"){
+                  assetPrice = priceSilver
+                }
+            invested += entry.amount
+            currval += assetPrice*entry.units
+            if((currval - invested) > 0)
+                {
+                  color = "green-text text-darken-1"
+                  trend = "\u25B2"
+                  sign = 1.00
+                }
+                else if((currval - invested) < 0){
+                  color = "red-text text-darken-1"
+                  trend = "\u25BC"
+                  sign = -1.00
+                }
+            })%>
+            
+            
+            <div class="col s8">
+              
+              <table class="highlight centered responsive-table">
+                <thead>
+                 <tr> 
+                  <th>Invested</th>
+                  <th>Current Value</th>
+                  <th>P&L Change</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="font-weight:500;">
+                      <td><%=formatter.format(invested)%></td>
+                      <td><%=formatter.format(currval)%></td>
+                      <td class="<%=color%>"><%=formatter.format((currval - invested)*sign)%> (<%=(isNaN((currval - invested)*100/invested*sign)?0.00:(currval - invested)*100/invested*sign).toFixed(2)%>%) <%=trend%></td>
+                      </tr>
+                    </tbody>
+                </table></div>
+            <div class="col s4">
+              <table class="highlight centered responsive-table">
+            <thead>
+             <tr> 
+              <th>Gold Price</th>
+              <th>Silver Price</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr style="font-weight:500;">
+                  <td><%=formatter.format(priceGold)%>/gram</td>
+                  <td><%=formatter.format(priceSilver)%>/gram</td>
+                  </tr>
+                </tbody>
+            </table></div>
+          </div>
+        </div>
+      
+      
+
+      
+      
+
+      <div class="container">
+        <div class="row">
+          <%if(element.asset != ""){%>
+          <table class="highlight centered responsive-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Purchase Date</th>
+                <th>Amount</th>
+                <th>Purchase Value</th>
+                <th>Current Value</th>
+                <th>P&L Change</th>
+                <!--<th>Extra Charges</th>-->
+              </tr>
+            </thead>
+            <tbody>
+              <% element.asset.forEach(entry => {%> 
+                <%
+                if(entry.category == "Gold"){
+                  assetPrice = priceGold                  
+                }
+                else if(entry.category == "Silver"){
+                  assetPrice = priceSilver
+                }
+                PLc = assetPrice*entry.units-entry.amount 
+                if(PLc > 0)
+                {
+                  var color = "green-text text-darken-1"
+                  var trend = "\u25B2"
+                  sign = 1.00
+                }
+                else{
+                  var color = "red-text text-darken-1"
+                  var trend = "\u25BC"
+                  sign = -1.00
+                }
+                %>
+              <tr style="font-weight:500;">
+                <td><%=entry.category%></td>
+                <td><script type="text/javascript">
+                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                    </script>    </td>
+                <td><%=formatter.format(entry.amount)%></td>
+                <td><%=formatter.format(entry.uprice*entry.units)%></td>
+                <td><%=formatter.format(assetPrice*entry.units)%></td>
+                <td class="<%=color%>"><%=formatter.format(PLc*sign)%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
+                <!--<td><%=entry.amount-entry.uprice*entry.units%></td>-->
+              </tr>
+              <%})%>
+              </tbody>
+          </table>
+          <%}else{%>
+            <h3 class="center blue-text text-darken-4">INVEST FOR YOUR FUTURE</h3>
+<%}%>
+        </div>
+      </div>
+
     </div>
     <%})%>
+
+  
 
     
