@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Account = require('../models/account')
 const fs = require('fs')
-const { reset } = require('nodemon')
+
 
 router.get('/', async (req, res) => {
   res.redirect('../')
