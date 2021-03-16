@@ -100,17 +100,41 @@ router.put('/:id/assets', async(req, res) => {
     
 })
 router.get('/:id/pivots', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   let searchOptions = {}
   year = new Date().getUTCFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../'});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers});
   //res.send(account)
 })
 
 
 router.get('/:id/pivots/:year/:month', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   year = req.params.year
     yearCart = []
     count = new Date().getUTCFullYear() - 2021
@@ -129,20 +153,44 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../'});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
   //res.send(account)
 })
 router.get('/:id/chart', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   let searchOptions = {}
   year = new Date().getUTCFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../'});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers});
   
 })
 
 router.get('/:id/chart/:year/:month', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   year = req.params.year
     yearCart = []
     count = new Date().getUTCFullYear() - 2021
@@ -161,18 +209,42 @@ router.get('/:id/chart/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../'});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
   //res.send(account)
 })
 router.get('/:id/', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   year = new Date().getUTCFullYear()
   month = new Date().getMonth()
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../'});
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers});
 })
 router.get('/:id/:year/:month', async (req, res) => {
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
     year = req.params.year
     yearCart = []
     count = new Date().getUTCFullYear() - 2021
@@ -191,7 +263,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../../../'});
+    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
   })
   router.put('/', async (req, res) => {
     res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)

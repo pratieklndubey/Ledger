@@ -20,7 +20,12 @@ with open('stockData.csv', 'w', newline='') as file:
     """header = ['Ticker', 'Price']
     writer.writerow(header)"""
     for entry in stocks:
-        ticker = nse.get_quote(listToString(entry))
-        outPut = [ticker['symbol'],ticker['lastPrice']]
+        if entry == ['NIFTYBEES']:
+            outPut = ['NIFTYBEES',159.91]
+        elif entry == ['ICICIB22']:
+            outPut = ['ICICIB22',37.56]
+        else:
+            ticker = nse.get_quote(listToString(entry))
+            outPut = [ticker['symbol'],ticker['lastPrice']]
         writer.writerow(outPut)
     print("Writing Complete!!")

@@ -2,6 +2,8 @@
 <% account.forEach(element => { %>
   <%
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  const stockList = tickerStocks
+  const stockValues = priceStocks
   %>
   <%
   const formatter = new Intl.NumberFormat('en-US', {
@@ -54,6 +56,7 @@ notation: "compact",
                     <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
+                            <th>Networth</th>
                             <th>Income (100%)</th>
                               <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
                               <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
@@ -64,9 +67,27 @@ notation: "compact",
                           </tr>
                         </thead>
                         <tbody>
-  
+                          <% 
+              assetsWorth = 0
+              element.asset.forEach(entry => {
+                if(entry.category == "Gold"){
+                  assetPrice = priceGold*entry.units                  
+                }
+                else if(entry.category == "Silver"){
+                  assetPrice = priceSilver*entry.units
+                }
+                else if(entry.category == "Equity"){
+                  position = stockList.indexOf(entry.description)
+                  assetPrice = stockValues[position]*entry.units
+                }
+                else{
+                  assetPrice = entry.amount*entry.units
+                }
+                assetsWorth += assetPrice
+              })%> 
                                   
                           <tr style="font-weight:500;">
+                            <td><%= formatter.format(element.transum+element.onhold+assetsWorth)%></td>
                             <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
                             
