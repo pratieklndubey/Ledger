@@ -3,5 +3,3 @@ node_modules
 backup
 goldPrice.txt
 silverPrice.txt
-stocks.csv
-stockData.csv
