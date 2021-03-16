@@ -47,9 +47,6 @@ const assetSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  uprice: {
-    type: Number,
-  },
   amount: {
     type: Number,
   },
@@ -58,10 +55,6 @@ const assetSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-  },
-  tstamp: {
-    type: Date,
-    default: Date.now(),    
   },
   isActive: {
     type: Boolean,

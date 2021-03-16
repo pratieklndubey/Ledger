@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Account = require('../models/account')
 const fs = require('fs')
-
+const spawn = require('child_process').spawn
+const util = require('util')
 
 router.get('/', async (req, res) => {
   res.redirect('../')
@@ -10,21 +11,93 @@ router.get('/', async (req, res) => {
 router.get('/:id/assets', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   let searchOptions = {}
   year = new Date().getUTCFullYear()
   month = new Date().getMonth()
-    searchOptions._id = req.params.id
-    const account = await Account.find(searchOptions)
-    res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceGold:goldData,priceSilver:silverData});
+  searchOptions._id = req.params.id
+  const account = await Account.find(searchOptions)
+  res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
 })
 
-router.put('/:id/assets', async (req, res) => {
-    let account = await Account.findById(req.params.id)
-    account.assetValue = req.body.uprice*req.body.units
-    let newAsset = {uprice:req.body.uprice,units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
+router.put('/:id/assets', async(req, res) => {
+  let account = await Account.findById(req.params.id)
+  let transaction = account.asset
+  assetCategory = []
+  equityCategory = []
+  let matchCriteria = /(?<=\[).*?(?=\])/;
+  transaction.forEach(investment => {
+    if(!assetCategory.includes(investment.category)){
+    assetCategory.push(investment.category)
+    }
+    if(investment.category == "Equity")
+    {
+      equityCategory.push(investment.description)
+    }
+  })
+  
+  if(req.body.category == "Equity"){
+    let ticker = req.body.description.match(matchCriteria)
+    if(!ticker){
+      res.redirect("../assets")
+    }
+    else{
+      ticker = ticker.toString()
+      ticker = ticker.toUpperCase()
+      if(!equityCategory.includes(ticker))
+      {
+      const process = spawn('python', ['./addStock.py',ticker])
+      process.stdout.on('data', (data) => {
+        if(data.toString().trim() == "True"){
+          let newEquity = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:ticker}
+          account.asset.push(newEquity)
+          account.save()
+        }
+        res.redirect('../assets')
+      })
+      }
+      else{
+        let equity = transaction.find(item => item.description == ticker)
+        equity.units += parseFloat(req.body.units)
+        equity.amount += parseFloat(req.body.amount)
+        await account.save()
+        res.redirect("../assets")        
+      }
+    }
+    
+}
+  else if(req.body.category == "Gold" || req.body.category == "Silver"){    
+  initiate = assetCategory.includes(req.body.category)
+  if(!initiate) {
+    let newMetal = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
+    account.asset.push(newMetal)
+  }
+  else{
+    let entry = transaction.find(entry => entry.category == req.body.category)
+    entry.units += parseFloat(req.body.units)
+    entry.amount += parseFloat(req.body.amount)
+  }
+  await account.save()
+  res.redirect("../assets")
+  }
+  else{
+    let newAsset = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newAsset)
     await account.save()
-    res.redirect("../assets")
+  res.redirect("../assets")
+  }
+    
 })
 router.get('/:id/pivots', async (req, res) => {
   let searchOptions = {}
@@ -140,7 +213,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
+        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investement","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
         const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity

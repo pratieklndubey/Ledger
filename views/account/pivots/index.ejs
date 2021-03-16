@@ -6,7 +6,8 @@
     const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: element.currency,
-  minimumFractionDigits: 2
+  notation: "compact",
+  compactDisplay: "short"
   })%>
   <div class="fixed-action-btn">
   <%      
@@ -464,6 +465,8 @@
                  </li>
                  </ul>
               </div>
+
+              
               
               <div id = "chperiod" class="modal white">
                 <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>

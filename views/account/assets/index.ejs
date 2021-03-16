@@ -4,15 +4,18 @@
   <%
   const categoriesMetal = ["Gold","Silver"]
   const categoriesEstate = ["Bunglow","Plot","Flat","Office Space","Shop"]
-  const categoriesSecurity = []
- 
+  const categoriesSecurity = ["Equity"]
+  const stockList = stockTickers
+  const stockValues = stockPrices  
   %>
+
 
 <%
 const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
 currency: element.currency,
-minimumFractionDigits: 2
+notation: "compact",
+  compactDisplay: "short"
 })%>
   
   <div class="fixed-action-btn">
@@ -39,10 +42,10 @@ minimumFractionDigits: 2
         <div class="row">
           <div class="input-field col s5 offset-s1 center">
           <input name = "units" type="number" step="0.01" min="0" placeholder = "Units" class="validate" required="" aria-required="true" value = "">
-          <input name = "uprice" type="number" step="0.01" min="0" placeholder = "Unit Price (Excluding Extra Charges)" class="validate" required="" aria-required="true" value = "">
+          <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
         </div>
         <div class="input-field col s5 center" >
-          <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount (Including Extra Charges)" class="validate" required="" aria-required="true" value = "">
+          <input name = "amount" type="number" step="0.01" min="0" placeholder = "Total Amount" class="validate" required="" aria-required="true" value = "">
          <select name = "category" class="browser-default" style="margin-top:7px;">
           <option disabled>Scroll for More Options</option>
           <optgroup label = "Metal">
@@ -64,7 +67,7 @@ minimumFractionDigits: 2
         </div>
 
         <div class="input-field col s6 offset-s3 center">
-          <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
+          <p> Put ticker inside '[ ]' for equity in description</p>
         </div>
           
         <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
@@ -85,12 +88,11 @@ minimumFractionDigits: 2
       </div>
       </div>
       <hr width="70%">
-
       <div class="container">
         <table class="striped centered responsive-table"style="margin-top:-20px">      
             <thead>
               <tr>
-                
+                <th>Networth</th>
                 <th>Income (100%)</th>
                   <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
                   <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
@@ -101,10 +103,26 @@ minimumFractionDigits: 2
               </tr>
             </thead>
             <tbody>
-
-                      
+              <% 
+              assetsWorth = 0
+              element.asset.forEach(entry => {
+                if(entry.category == "Gold"){
+                  assetPrice = priceGold*entry.units                  
+                }
+                else if(entry.category == "Silver"){
+                  assetPrice = priceSilver*entry.units
+                }
+                else if(entry.category == "Equity"){
+                  position = stockList.indexOf(entry.description)
+                  assetPrice = stockValues[position]*entry.units
+                }
+                else{
+                  assetPrice = entry.amount*entry.units
+                }
+                assetsWorth += assetPrice
+              })%>
               <tr style="font-weight:500;">
-                
+                <td><%= formatter.format(element.transum+element.onhold+assetsWorth)%></td>
                 <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
                 <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
                 <td><%= formatter.format(element.currbal)%></td>
@@ -139,13 +157,20 @@ minimumFractionDigits: 2
           currval = 0
           color = "black-text"
             sign = 0.00
-            trend = "\u25B2"
+            trend = ""
           element.asset.forEach(entry => {
             if(entry.category == "Gold"){
                   assetPrice = priceGold                  
                 }
                 else if(entry.category == "Silver"){
                   assetPrice = priceSilver
+                }
+                else if(entry.category == "Equity"){
+                  position = stockList.indexOf(entry.description)
+                  assetPrice = stockValues[position]
+                }
+                else{
+                  assetPrice = entry.amount
                 }
             invested += entry.amount
             currval += assetPrice*entry.units
@@ -170,7 +195,7 @@ minimumFractionDigits: 2
                  <tr> 
                   <th>Invested</th>
                   <th>Current Value</th>
-                  <th>P&L Change</th>
+                  <th>P/L Change</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -191,8 +216,8 @@ minimumFractionDigits: 2
               </thead>
               <tbody>
                 <tr style="font-weight:500;">
-                  <td><%=formatter.format(priceGold)%>/gram</td>
-                  <td><%=formatter.format(priceSilver)%>/gram</td>
+                  <td><%=formatter.format(priceGold)%>/gm</td>
+                  <td><%=formatter.format(priceSilver)%>/gm</td>
                   </tr>
                 </tbody>
             </table></div>
@@ -211,12 +236,11 @@ minimumFractionDigits: 2
             <thead>
               <tr>
                 <th>Category</th>
-                <th>Purchase Date</th>
+                <th>Description</th>
                 <th>Amount</th>
-                <th>Purchase Value</th>
                 <th>Current Value</th>
-                <th>P&L Change</th>
-                <!--<th>Extra Charges</th>-->
+                <th>P/L Change</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -227,6 +251,13 @@ minimumFractionDigits: 2
                 }
                 else if(entry.category == "Silver"){
                   assetPrice = priceSilver
+                }
+                else if(entry.category == "Equity"){
+                  position = stockList.indexOf(entry.description)
+                  assetPrice = stockValues[position]
+                }
+                else{
+                  assetPrice = entry.amount
                 }
                 PLc = assetPrice*entry.units-entry.amount 
                 if(PLc > 0)
@@ -243,14 +274,21 @@ minimumFractionDigits: 2
                 %>
               <tr style="font-weight:500;">
                 <td><%=entry.category%></td>
-                <td><script type="text/javascript">
-                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-                    </script>    </td>
+                <%if(entry.category == "Equity"){
+                  description = entry.units+" shares of "+entry.description
+                }
+                else if(entry.category == "Gold" || entry.category == "Silver"){
+                  description = entry.units+" grams of "+entry.category
+                }
+                else{
+                  description = entry.description
+                }
+                  %>
+                <td><%=description%></td>
                 <td><%=formatter.format(entry.amount)%></td>
-                <td><%=formatter.format(entry.uprice*entry.units)%></td>
                 <td><%=formatter.format(assetPrice*entry.units)%></td>
                 <td class="<%=color%>"><%=formatter.format(PLc*sign)%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
-                <!--<td><%=entry.amount-entry.uprice*entry.units%></td>-->
+                
               </tr>
               <%})%>
               </tbody>

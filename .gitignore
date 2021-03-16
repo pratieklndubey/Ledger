@@ -1,7 +1,5 @@
 .env
 node_modules
 backup
-ledge.js
-runServer.bat
 goldPrice.txt
 silverPrice.txt
