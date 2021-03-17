@@ -488,6 +488,231 @@
             </div>
                  </div>
                  </li>
+
+                 <%
+
+                           months = []
+                           balance = []
+                           years = []
+                           yearBalance = []
+                           element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
+                             if(!months.includes(entry.tstamp.getMonth())){
+                              months.push(entry.tstamp.getMonth())
+                                 balance.push(0)
+                             }
+                             if(months.includes(entry.tstamp.getMonth())){
+                             i = months.indexOf(entry.tstamp.getMonth())
+                                 balance[i] += parseFloat(entry.amount*1.00)
+                                 }
+             
+                                 if(!years.includes(entry.tstamp.getUTCFullYear())){
+                              years.push(entry.tstamp.getUTCFullYear())
+                                 yearBalance.push(0)
+                             }
+                             if(years.includes(entry.tstamp.getUTCFullYear())){
+                             i = years.indexOf(entry.tstamp.getUTCFullYear())
+                                 yearBalance[i] += parseFloat(entry.amount*1.00)
+                                 }
+                             
+                           })
+             
+                              %>
+                               
+                           <li>
+                             <div class="collapsible-header"><h5><i class="material-icons">today</i>Periodwise Income</h5></div>
+                             <div class="collapsible-body">
+                                   <div class="row">
+                                     <%yearGrid = "s6" %>
+                                     <%if(yearlyExpense < 0){%>
+                                     <div class="col <%=yearGrid%>">
+                                       <table class="striped centered responsive-table">
+                                         <thead>
+                                                   <tr>
+                                                       <th><%=year%>
+                                             <hr>
+                                             </th>                    
+                                                   </tr>
+                                                 </thead>
+                                                 <tbody>
+                                       <table class="striped centered responsive-table" style="margin-top:-30px">      
+                                                 <thead>
+                                                   <tr>
+                                                     <th>Month</th>
+                                                     <th>Amount</th>
+                                                     <th>Percent</th>
+                                                   </tr>
+                                                 </thead>
+                                                 <tbody>
+                           
+                                                           
+                                                   <%months.forEach((month,index) => {%>
+                                                   <tr style="font-weight:500;">
+                                                       <td><%=monthCart[month]%></td>    
+                                                       <td><%=formatter.format(balance[index])%></td>    
+                                                       <td><%=(balance[index]*100/yearlyIncome).toFixed(2)%></td>
+                                                     <%})%>                              
+                                                   </tr>
+                                                 </tbody>
+                                               </table>
+                                             </tbody>
+                                             </table>
+                                     </div>
+                                     <%}%>
+                                     <%Grid = "s6"
+                                     if(yearlyExpense >= 0)
+                                     {
+                                       Grid = "s12"
+                                     }
+                                     %>
+                                     <div class="col <%=Grid%>">
+                           
+                                       <table class="striped centered responsive-table">
+                                         <thead>
+                                                   <tr>
+                                                       <th>Lifetime
+                                             <hr>
+                                             </th>                    
+                                                   </tr>
+                                                 </thead>
+                                                 <tbody>
+                                       <table class="striped centered responsive-table" style="margin-top:-30px">      
+                                                 <thead>
+                                                   <tr>
+                                                     <th>Year</th>
+                                                     <th>Amount</th>
+                                                     <th>Percent</th>
+                                                   </tr>
+                                                 </thead>
+                                                 <tbody>
+                                                   <%years.forEach((year,index) => {%>
+                                                   <tr style="font-weight:500;">
+                                                       <td><%=year%></td>    
+                                                       <td><%=formatter.format(yearBalance[index])%></td>    
+                                                       <td><%=(yearBalance[index]*100/element.income).toFixed(2)%></td>                                
+                                                     <%})%>                              
+                                                   </tr>
+                                                 </tbody>
+                                               </table>
+                                             </tbody>
+                                             </table>
+                                     </div>
+                                   </div>
+                                        </div>
+                                        </li>
+
+                 <%
+
+              months = []
+              balance = []
+              years = []
+              yearBalance = []
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {
+                if(!months.includes(entry.tstamp.getMonth())){
+                 months.push(entry.tstamp.getMonth())
+                    balance.push(0)
+                }
+                if(months.includes(entry.tstamp.getMonth())){
+                i = months.indexOf(entry.tstamp.getMonth())
+                    balance[i] += parseFloat(entry.amount*-1.00)
+                    }
+
+                    if(!years.includes(entry.tstamp.getUTCFullYear())){
+                 years.push(entry.tstamp.getUTCFullYear())
+                    yearBalance.push(0)
+                }
+                if(years.includes(entry.tstamp.getUTCFullYear())){
+                i = years.indexOf(entry.tstamp.getUTCFullYear())
+                    yearBalance[i] += parseFloat(entry.amount*-1.00)
+                    }
+                
+              })
+
+                 %>
+
+
+                  
+              <li>
+                <div class="collapsible-header"><h5><i class="material-icons">today</i>Periodwise Expense</h5></div>
+                <div class="collapsible-body">
+                      <div class="row">
+                        <%yearGrid = "s6" %>
+                        <%if(yearlyExpense < 0){%>
+                        <div class="col <%=yearGrid%>">
+                          <table class="striped centered responsive-table">
+                            <thead>
+                                      <tr>
+                                          <th><%=year%>
+                                <hr>
+                                </th>                    
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                          <table class="striped centered responsive-table" style="margin-top:-30px">      
+                                    <thead>
+                                      <tr>
+                                        <th>Month</th>
+                                        <th>Amount</th>
+                                        <th>Percent</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+              
+                                              
+                                      <%months.forEach((month,index) => {%>
+                                      <tr style="font-weight:500;">
+                                          <td><%=monthCart[month]%></td>    
+                                          <td><%=formatter.format(balance[index])%></td>    
+                                          <td><%=(balance[index]*-100/yearlyExpense).toFixed(2)%></td>
+                                        <%})%>                              
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </tbody>
+                                </table>
+                        </div>
+                        <%}%>
+                        <%Grid = "s6"
+                        if(yearlyExpense >= 0)
+                        {
+                          Grid = "s12"
+                        }
+                        %>
+                        <div class="col <%=Grid%>">
+              
+                          <table class="striped centered responsive-table">
+                            <thead>
+                                      <tr>
+                                          <th>Lifetime
+                                <hr>
+                                </th>                    
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                          <table class="striped centered responsive-table" style="margin-top:-30px">      
+                                    <thead>
+                                      <tr>
+                                        <th>Year</th>
+                                        <th>Amount</th>
+                                        <th>Percent</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <%years.forEach((year,index) => {%>
+                                      <tr style="font-weight:500;">
+                                          <td><%=year%></td>    
+                                          <td><%=formatter.format(yearBalance[index])%></td>    
+                                          <td><%=(yearBalance[index]*100/element.expense).toFixed(2)%></td>                                
+                                        <%})%>                              
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </tbody>
+                                </table>
+                        </div>
+                      </div>
+                           </div>
+                           </li>
+                           
                  </ul>
               </div>
 
