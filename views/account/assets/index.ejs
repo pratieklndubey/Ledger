@@ -14,9 +14,15 @@
 const formatter = new Intl.NumberFormat('en-US', {
 style: 'currency',
 currency: element.currency,
+minimumFractionDigits: 2
+})
+const formatterDashboard = new Intl.NumberFormat('en-US', {
+style: 'currency',
+currency: element.currency,
 notation: "compact",
   compactDisplay: "short"
-})%>
+})
+%>
   
   <div class="fixed-action-btn">
     <%      
@@ -63,6 +69,9 @@ notation: "compact",
           <option value="<%=category%>"><%=category%></option>
         <%})%>
       </optgroup>
+      <optgroup label = "Miscellaneous">
+          <option value="Extra Charge">Extra Charge</option>
+      </optgroup>
         </select>
         </div>
 
@@ -81,7 +90,7 @@ notation: "compact",
 <div class="section white" >
     <div class="row" style="margin-bottom: -10px;">
       <div class="col s1 left">
-        <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=element._id%>"><i class="material-icons">keyboard_arrow_left</i></a>
+        <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=element._id%>"><i class="material-icons">home</i></a>
       </div>
     <div class="col s11">
             <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;"><%=element.name%>'s Assets</h2>
@@ -116,25 +125,28 @@ notation: "compact",
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
                 }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
+                }
                 else{
                   assetPrice = entry.amount*entry.units
                 }
                 assetsWorth += assetPrice
               })%>
               <tr style="font-weight:500;">
-                <td><%= formatter.format(element.transum+element.onhold+assetsWorth)%></td>
-                <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
-                <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
-                <td><%= formatter.format(element.currbal)%></td>
-                <td><%= formatter.format(element.transum)%></td>
-                <td><%= formatter.format(element.onhold)%></td>
+                <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
+                <td><%= formatterDashboard.format(element.currbal)%></td>
+                <td><%= formatterDashboard.format(element.transum)%></td>
+                <td><%= formatterDashboard.format(element.onhold)%></td>
                 <% variance = element.currbal-(element.transum+element.onhold)
                   if (variance < 0 && variance > -0.01)
                   {
                     variance *= -1.00
                   }
                 %>
-                <td><%= formatter.format(variance)%></td>
+                <td><%= formatterDashboard.format(variance)%></td>
                 
                
                 
@@ -168,6 +180,9 @@ notation: "compact",
                 else if(entry.category == "Equity"){
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]
+                }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
                 }
                 else{
                   assetPrice = entry.amount
@@ -255,6 +270,9 @@ notation: "compact",
                 else if(entry.category == "Equity"){
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]
+                }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
                 }
                 else{
                   assetPrice = entry.amount

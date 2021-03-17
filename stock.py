@@ -20,6 +20,7 @@ with open('stockData.csv', 'w', newline='') as file:
     """header = ['Ticker', 'Price']
     writer.writerow(header)"""
     for entry in stocks:
+        print(entry)
         if entry == ['NIFTYBEES']:
             outPut = ['NIFTYBEES',159.91]
         elif entry == ['ICICIB22']:

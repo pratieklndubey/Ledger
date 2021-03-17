@@ -5,13 +5,19 @@
   const stockList = tickerStocks
   const stockValues = priceStocks
   %>
-  <%
-  const formatter = new Intl.NumberFormat('en-US', {
-style: 'currency',
-currency: element.currency,
-notation: "compact",
-  compactDisplay: "short"
-})%>
+ <%
+ const formatter = new Intl.NumberFormat('en-US', {
+ style: 'currency',
+ currency: element.currency,
+ minimumFractionDigits: 2
+ })
+ const formatterDashboard = new Intl.NumberFormat('en-US', {
+ style: 'currency',
+ currency: element.currency,
+ notation: "compact",
+   compactDisplay: "short"
+ })
+ %>
 
 <div class="fixed-action-btn">
   <%      
@@ -39,7 +45,7 @@ notation: "compact",
           link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
         }
     %>
-    <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">keyboard_arrow_left</i></a>
+    <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">home</i></a>
   </div>
 <div class="col s11">
         <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Charts for <%=element.name%></h2>
@@ -86,26 +92,24 @@ notation: "compact",
                 assetsWorth += assetPrice
               })%> 
                                   
-                          <tr style="font-weight:500;">
-                            <td><%= formatter.format(element.transum+element.onhold+assetsWorth)%></td>
-                            <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
-                            <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
-                            
-
-                            <td><%= formatter.format(element.currbal)%></td>
-                            <td><%= formatter.format(element.transum)%></td>
-                            <td><%= formatter.format(element.onhold)%></td>
-                            <% variance = element.currbal-(element.transum+element.onhold)
-                              if (variance < 0 && variance > -0.01)
-                              {
-                                variance *= -1.00
-                              }
-                            %>
-                            <td><%= formatter.format(variance)%></td>
-                            
-                           
-                            
-                          </tr>
+                                  <tr style="font-weight:500;">
+                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                                    <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
+                                    <td><%= formatterDashboard.format(element.currbal)%></td>
+                                    <td><%= formatterDashboard.format(element.transum)%></td>
+                                    <td><%= formatterDashboard.format(element.onhold)%></td>
+                                    <% variance = element.currbal-(element.transum+element.onhold)
+                                      if (variance < 0 && variance > -0.01)
+                                      {
+                                        variance *= -1.00
+                                      }
+                                    %>
+                                    <td><%= formatterDashboard.format(variance)%></td>
+                                    
+                                   
+                                    
+                                  </tr>
                         </tbody>
                       </table>
                
@@ -313,6 +317,12 @@ notation: "compact",
   <hr width="85%">
     <canvas id="incomecmch"></canvas>
   </div>
+  <div id = "invret" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">InvRet (Comparison)</h5>
+  <hr width="85%">
+    <canvas id="invretch"></canvas>
+  </div>
+
   <div id = "incomecat" class="modal white">
     <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
   <hr width="85%">
@@ -373,25 +383,119 @@ notation: "compact",
       </div>
     </div>
   </div>
+  
+  <div id = "assetscat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Assets</h5>
+  <hr width="85%">
+  <div class="row">
+        
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invcat">Asset Categories</a>
+      </div>
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invret">InvRet (Comparison)</a>
+      </div>
+    </div>
+  </div>
 
   <div class = "container">
     <div class="row">
      
-      <div class="col s3 center">
+      <div class="col s2 offset-s1 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expensecat">Expenses</a>
       </div>
-      <div class="col s3 center">
+      <div class="col s2 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecat">Income</a>
       </div>
-      <div class="col s3 center">
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#assetscat">Assets</a>
+      </div> 
+      <div class="col s2 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balancecat">Balances</a>
       </div> 
-      <div class="col s3 center">
+      <div class="col s2 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowcat">Cashflow</a>
       </div> 
+     
     </div>
     
   </div>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('invretch').getContext('2d');
+    investment = 0
+    value = 0
+    "<%element.asset.forEach(entry => {%>"
+    investment += parseFloat("<%=entry.amount%>")
+    if("<%=entry.category%>" == "Equity"){
+      "<%index = stockList.indexOf(entry.description)%>"
+      "<%index = parseFloat(index)%>"
+      value += parseFloat("<%=stockValues[index]*entry.units%>")
+    }
+    else if("<%=entry.category%>" == "Gold"){
+      value += parseFloat("<%=entry.units*priceGold%>")
+    }
+    else if("<%=entry.category%>" == "Silver"){
+      value += parseFloat("<%=entry.units*priceSilver%>")
+    }
+    else if("<%=entry.category%>" == "Extra Charge"){
+      value += 0
+    }
+    else{
+      value += parseFloat("<%=entry.amount%>")
+    }
+    "<%})%>"
+    investment = investment.toFixed(2)
+    value = value.toFixed(2)
+    returns = (value-investment).toFixed(2)
+var chart = new Chart(ctx, {
+type: 'bar',
+data: {
+    labels: [''],
+    datasets: [
+      {
+        label: 'Investment',
+        stack: 1,
+        backgroundColor: '#ff9800',
+        //lineTension:0,
+        fill:false,
+        data: [investment],
+    },{
+        label: 'Value',
+        stack: 2,
+        backgroundColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: [value],
+    },
+    {
+        label: 'Returns',
+        stack: 3,
+        backgroundColor: '#00c853',
+        //lineTension:0,
+        fill:false,
+        data: [returns],
+    }
+    ]
+},
+options: {
+  scales:{
+    yAxes:[{
+      
+      stacked:true,
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      
+      stacked:true,
+      
+    }]
+  }
+}
+});
+    </script>
   <script type = "text/javascript">
     var ctx = document.getElementById('incomecmch').getContext('2d');
     balance = []

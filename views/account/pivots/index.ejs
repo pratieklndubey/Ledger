@@ -4,13 +4,19 @@
     const stockList = tickerStocks
   const stockValues = priceStocks
     %>
-    <%
-    const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: element.currency,
-  notation: "compact",
-  compactDisplay: "short"
-  })%>
+   <%
+   const formatter = new Intl.NumberFormat('en-US', {
+   style: 'currency',
+   currency: element.currency,
+   minimumFractionDigits: 2
+   })
+   const formatterDashboard = new Intl.NumberFormat('en-US', {
+   style: 'currency',
+   currency: element.currency,
+   notation: "compact",
+     compactDisplay: "short"
+   })
+   %>
   <div class="fixed-action-btn">
   <%      
             link = '/'+year+'/'+parseFloat(month+1)
@@ -37,7 +43,7 @@
             link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
           }
       %>
-      <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">keyboard_arrow_left</i></a>
+      <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">home</i></a>
     </div>
   <div class="col s11">
           <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Pivots for <%=element.name%></h2>
@@ -84,26 +90,24 @@
                 assetsWorth += assetPrice
               })%>
                                     
-                            <tr style="font-weight:500;">
-                              <td><%= formatter.format(element.transum+element.onhold+assetsWorth)%></td>
-                              <td class = "green-text text-darken-1"><%= formatter.format(element.income)%>&#9650;</td>
-                              <td class = "red-text text-darken-1"><%= formatter.format(element.expense)%>&#x25bc;</td>
-                              
-  
-                              <td><%= formatter.format(element.currbal)%></td>
-                              <td><%= formatter.format(element.transum)%></td>
-                              <td><%= formatter.format(element.onhold)%></td>
-                              <% variance = element.currbal-(element.transum+element.onhold)
-                                if (variance < 0 && variance > -0.01)
-                                {
-                                  variance *= -1.00
-                                }
-                              %>
-                              <td><%= formatter.format(variance)%></td>
-                              
-                             
-                              
-                            </tr>
+                                    <tr style="font-weight:500;">
+                                      <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                                      <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                                      <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
+                                      <td><%= formatterDashboard.format(element.currbal)%></td>
+                                      <td><%= formatterDashboard.format(element.transum)%></td>
+                                      <td><%= formatterDashboard.format(element.onhold)%></td>
+                                      <% variance = element.currbal-(element.transum+element.onhold)
+                                        if (variance < 0 && variance > -0.01)
+                                        {
+                                          variance *= -1.00
+                                        }
+                                      %>
+                                      <td><%= formatterDashboard.format(variance)%></td>
+                                      
+                                     
+                                      
+                                    </tr>
                           </tbody>
                         </table>
                  

@@ -34,6 +34,7 @@ router.get('/:id/assets', async (req, res) => {
 router.put('/:id/assets', async(req, res) => {
   let account = await Account.findById(req.params.id)
   let transaction = account.asset
+  //let assetCreation = account.activity
   assetCategory = []
   equityCategory = []
   let matchCriteria = /(?<=\[).*?(?=\])/;
@@ -62,6 +63,11 @@ router.put('/:id/assets', async(req, res) => {
         if(data.toString().trim() == "True"){
           let newEquity = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:ticker}
           account.asset.push(newEquity)
+          descriptionTransaction = req.body.units + " shares of "+ticker
+          let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+          account.activity.push(newTransaction)
+          account.transum -= req.body.amount*1.00
+          account.expense += req.body.amount*1.00
           account.save()
         }
         res.redirect('../assets')
@@ -71,6 +77,11 @@ router.put('/:id/assets', async(req, res) => {
         let equity = transaction.find(item => item.description == ticker)
         equity.units += parseFloat(req.body.units)
         equity.amount += parseFloat(req.body.amount)
+        descriptionTransaction = req.body.units + " shares of "+ticker
+        let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+        account.activity.push(newTransaction)
+        account.transum -= req.body.amount*1.00
+        account.expense += req.body.amount*1.00
         await account.save()
         res.redirect("../assets")        
       }
@@ -82,24 +93,67 @@ router.put('/:id/assets', async(req, res) => {
   if(!initiate) {
     let newMetal = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newMetal)
+    descriptionTransaction = req.body.units + " grams of "+req.body.category
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    account.activity.push(newTransaction)
+    account.transum -= req.body.amount*1.00
+    account.expense += req.body.amount*1.00
   }
   else{
     let entry = transaction.find(entry => entry.category == req.body.category)
     entry.units += parseFloat(req.body.units)
     entry.amount += parseFloat(req.body.amount)
+    descriptionTransaction = req.body.units + " grams of "+req.body.category
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    account.activity.push(newTransaction)
+    account.transum -= req.body.amount*1.00
+    account.expense += req.body.amount*1.00
   }
   await account.save()
   res.redirect("../assets")
   }
+  else if(req.body.category == "Extra Charge")
+  {
+    initiate = assetCategory.includes(req.body.category)
+    if(!initiate) {
+      let newCharge = {units:1,amount:req.body.amount,category:req.body.category,description:req.body.description}
+      account.asset.push(newCharge)
+    descriptionTransaction = "Extra Charge on Investment"
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    account.activity.push(newTransaction)
+    account.transum -= req.body.amount*1.00
+    account.expense += req.body.amount*1.00
+    }
+    else{
+      let entry = transaction.find(entry => entry.category == req.body.category)
+      entry.units += 1
+      entry.amount += parseFloat(req.body.amount)
+      descriptionTransaction = req.body.units + " units of "+req.body.category
+      let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+      account.activity.push(newTransaction)
+      account.transum -= req.body.amount*1.00
+      account.expense += req.body.amount*1.00
+    }
+    await account.save()
+  res.redirect("../assets")
+
+  }
   else{
     let newAsset = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newAsset)
+    descriptionTransaction = req.body.units + " units of "+req.body.category
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    account.activity.push(newTransaction)
+    account.transum -= req.body.amount*1.00
+    account.expense += req.body.amount*1.00
     await account.save()
   res.redirect("../assets")
   }
     
 })
 router.get('/:id/pivots', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -117,12 +171,14 @@ router.get('/:id/pivots', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 
 
 router.get('/:id/pivots/:year/:month', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -153,10 +209,12 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/chart', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -174,11 +232,13 @@ router.get('/:id/chart', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   
 })
 
 router.get('/:id/chart/:year/:month', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -209,10 +269,12 @@ router.get('/:id/chart/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -230,9 +292,11 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers});
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
 })
 router.get('/:id/:year/:month', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
   stockData = String(stockData)
   stockData = stockData.split("\r\n")
@@ -263,7 +327,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers});
+    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   })
   router.put('/', async (req, res) => {
     res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
