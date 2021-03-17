@@ -322,7 +322,12 @@
   <hr width="85%">
     <canvas id="invretch"></canvas>
   </div>
-
+  <div id = "invcat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Asset Categories</h5>
+  <hr width="85%">
+    <canvas id="invcatch"></canvas>
+  </div>
+  
   <div id = "incomecat" class="modal white">
     <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
   <hr width="85%">
@@ -388,13 +393,18 @@
     <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Assets</h5>
   <hr width="85%">
   <div class="row">
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invcat">Investment Categories</a>
+      </div>
+      
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invret">Inv-Ret (Comparison)</a>
+        </div>
         
-      <div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invcat">Asset Categories</a>
       </div>
-      <div class="col s6 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invret">InvRet (Comparison)</a>
-      </div>
+    </div>
+    <div class="row">
+      
     </div>
   </div>
 
@@ -420,6 +430,37 @@
     </div>
     
   </div>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('invcatch').getContext('2d');
+    investment = []
+    sector = []
+    color = []
+    "<%element.asset.forEach(entry => {%>"
+    if(!sector.includes("<%=entry.category%>")){
+      sector.push("<%=entry.category%>")
+      investment.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(sector.includes("<%=entry.category%>")){
+      i = sector.indexOf("<%=entry.category%>")
+      investment[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: sector,
+    datasets: [{
+        data: investment,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
   <script type = "text/javascript">
     var ctx = document.getElementById('invretch').getContext('2d');
     investment = 0
@@ -516,9 +557,6 @@ options: {
       balance[i] += parseFloat("<%=entry.amount*1.00%>")
     }
     "<%})%>"
-   
-    
-    
 var chart = new Chart(ctx, {
 type: 'doughnut',
 data: {
@@ -528,12 +566,6 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-  rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-  
-}
 });
     </script>
   <script type = "text/javascript">
@@ -568,12 +600,6 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-  rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-  
-}
 });
     </script>
   
@@ -609,12 +635,6 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-  rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-  
-}
 });
     </script>
   <script type = "text/javascript">
@@ -649,12 +669,7 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-  rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-  
-}
+
 });
     </script>
   <script type = "text/javascript">
@@ -907,11 +922,6 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-    rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-}
 });
     </script>
 
@@ -946,11 +956,6 @@ data: {
         backgroundColor: color,
     }]
 },
-options: {
-  rotation: 1 * Math.PI,
-    circumference: 1 * Math.PI,
-    cutoutPercentage: 50
-}
 });
     </script>
   <script type = "text/javascript">

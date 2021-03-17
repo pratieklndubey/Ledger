@@ -278,6 +278,9 @@ notation: "compact",
                   assetPrice = entry.amount
                 }
                 PLc = assetPrice*entry.units-entry.amount 
+                if(entry.category == "Extra Charge"){
+                  PLc = -entry.amount
+                }
                 if(PLc > 0)
                 {
                   var color = "green-text text-darken-1"
@@ -305,7 +308,7 @@ notation: "compact",
                 <td><%=description%></td>
                 <td><%=formatter.format(entry.amount)%></td>
                 <td><%=formatter.format(assetPrice*entry.units)%></td>
-                <td class="<%=color%>"><%=formatter.format(PLc*sign)%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
+                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
                 
               </tr>
               <%})%>
