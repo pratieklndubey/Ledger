@@ -271,53 +271,127 @@
     <li>
       <div class="collapsible-header"><h5><i class="material-icons">category</i>Categorywise Income</h5></div>
       <div class="collapsible-body">
-            <div class="row">
-              
-              <div class="col s12">
-  
-                <table class="striped centered responsive-table">
-                 
-                          <tbody>
-                <table class="striped centered responsive-table">      
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <%categories.forEach(category => {%>
-                                <th><%=category%></th>
-                              <%})%>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <%if(monthlyIncome > 0){%>
-                              <tr style="font-weight:500;">
-                              <td><%=monthCart[month]%></td>
-                              <%monthlybalance.forEach(value =>{%>
-                                <td><%=formatter.format(value)%></td>
-                              <%})%>
-                            </tr>
-                              <%}%>
-                              <%if(yearlyIncome > 0){%>
-                            <tr style="font-weight:500;">
-                              <td><%=year%></td>
-                              <%yearlybalance.forEach(value =>{%>
-                                <td><%=formatter.format(value)%></td>
-                              <%})%>
-                            </tr>
-                            <%}%>
-                            <tr style="font-weight:500;">
-                              <td>Lifetime</td>
-                              <%balance.forEach(value =>{%>
-                                <td><%=formatter.format(value)%></td>
-                              <%})%>
-                            </tr>
-                          </tbody>
-                        </table>
+        <div class="row">
+          <%if(monthlyIncome > 0){%>
+          <div class="col s4">
+            <table class="striped centered responsive-table">
+              <thead>
+                        <tr>
+                            <th><%=monthCart[month]%>
+                  <hr>
+                  </th>                    
+                        </tr>
+                      </thead>
+                      <tbody>
+            <table class="striped centered responsive-table" style="margin-top:-30px">      
+                      <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Percent</th>
+                            
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                                
+                        <%monthlycategories.forEach((monthlycategory,index) => {%>
+                        <tr style="font-weight:500;">
+                            <td><%=monthlycategory%></td>    
+                            <td><%=formatter.format(monthlybalance[index])%></td>    
+                            <td><%=(monthlybalance[index]*100/monthlyIncome).toFixed(2)%></td>
+                          <%})%>                              
+                        </tr>
                       </tbody>
-                      </table>
-                   
-              </div>
-            </div>
+                    </table>
+                  </tbody>
+                  </table>
+          </div><%}%>
+          <%yearGrid = "s4"
+          if(monthlyIncome <= 0)
+          {
+            yearGrid = "s6"
+          }
+          %>
+          <%if(yearlyIncome > 0){%>
+          <div class="col <%=yearGrid%>">
+            <table class="striped centered responsive-table">
+              <thead>
+                        <tr>
+                            <th><%=year%>
+                  <hr>
+                  </th>                    
+                        </tr>
+                      </thead>
+                      <tbody>
+            <table class="striped centered responsive-table" style="margin-top:-30px">      
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Amount</th>
+                          <th>Percent</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                                
+                        <%yearlycategories.forEach((yearlycategory,index) => {%>
+                        <tr style="font-weight:500;">
+                            <td><%=yearlycategory%></td>    
+                            <td><%=formatter.format(yearlybalance[index])%></td>    
+                            <td><%=(yearlybalance[index]*100/yearlyIncome).toFixed(2)%></td>
+                          <%})%>                              
+                        </tr>
+                      </tbody>
+                    </table>
+                  </tbody>
+                  </table>
           </div>
+          <%}%>
+          <%Grid = "s4"
+          if(monthlyIncome <= 0)
+          {
+            Grid = "s6"
+          }
+          else if(yearlyIncome <= 0)
+          {
+            Grid = "s12"
+          }
+          %>
+          <div class="col <%=Grid%>">
+
+            <table class="striped centered responsive-table">
+              <thead>
+                        <tr>
+                            <th>Lifetime
+                  <hr>
+                  </th>                    
+                        </tr>
+                      </thead>
+                      <tbody>
+            <table class="striped centered responsive-table" style="margin-top:-30px">      
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Amount</th>
+                          <th>Percent</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%categories.forEach((category,index) => {%>
+                        <tr style="font-weight:500;">
+                            <td><%=category%></td>    
+                            <td><%=formatter.format(balance[index])%></td>    
+                            <td><%=(balance[index]*100/element.income).toFixed(2)%></td>                                
+                          <%})%>                              
+                        </tr>
+                      </tbody>
+                    </table>
+                  </tbody>
+                  </table>
+          </div>
+        </div>
+             </div>
                       </li>
                       
               
