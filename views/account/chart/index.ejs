@@ -751,13 +751,15 @@ options: {
 }
 });
     </script>
+
+    
   <script type = "text/javascript">
     year = []
     balance = []
     income = []
     expense = []
     investment = []
-    length = new Date().getUTCFullYear() - 2020
+    length = new Date().getUTCFullYear() - parseFloat("<%=element.tcreate.getUTCFullYear()-1%>")
     for(i = 0; i <= length;i++){
       balance.push(0)
       income.push(0)
@@ -769,13 +771,13 @@ options: {
     var ctx = document.getElementById('cashflowch').getContext('2d');
     
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
-    income["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount%>")
+    income["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {%>"
-    expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    expense["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
-    investment["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    investment["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       income[i] = income[i].toFixed(2)

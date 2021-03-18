@@ -71,6 +71,10 @@ const accountSchema = new mongoose.Schema({
     type: String,
     
   },
+  tcreate: {
+    type: Date,
+    default: Date.now(),    
+  },
   expense:{
     type: Number,
     default:0
