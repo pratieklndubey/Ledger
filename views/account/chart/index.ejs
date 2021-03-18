@@ -771,7 +771,7 @@ options: {
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
     income["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {%>"
     expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
@@ -859,7 +859,7 @@ options: {
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     
