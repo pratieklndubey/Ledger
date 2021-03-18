@@ -64,7 +64,7 @@ router.put('/:id/assets', async(req, res) => {
           let newEquity = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:ticker}
           account.asset.push(newEquity)
           descriptionTransaction = req.body.units + " shares of "+ticker
-          let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+          let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
           account.activity.push(newTransaction)
           account.transum -= req.body.amount*1.00
           account.expense += req.body.amount*1.00
@@ -78,7 +78,7 @@ router.put('/:id/assets', async(req, res) => {
         equity.units += parseFloat(req.body.units)
         equity.amount += parseFloat(req.body.amount)
         descriptionTransaction = req.body.units + " shares of "+ticker
-        let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+        let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
         account.activity.push(newTransaction)
         account.transum -= req.body.amount*1.00
         account.expense += req.body.amount*1.00
@@ -94,7 +94,7 @@ router.put('/:id/assets', async(req, res) => {
     let newMetal = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newMetal)
     descriptionTransaction = req.body.units + " grams of "+req.body.category
-    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
     account.activity.push(newTransaction)
     account.transum -= req.body.amount*1.00
     account.expense += req.body.amount*1.00
@@ -104,7 +104,7 @@ router.put('/:id/assets', async(req, res) => {
     entry.units += parseFloat(req.body.units)
     entry.amount += parseFloat(req.body.amount)
     descriptionTransaction = req.body.units + " grams of "+req.body.category
-    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
     account.activity.push(newTransaction)
     account.transum -= req.body.amount*1.00
     account.expense += req.body.amount*1.00
@@ -119,7 +119,7 @@ router.put('/:id/assets', async(req, res) => {
       let newCharge = {units:1,amount:req.body.amount,category:req.body.category,description:req.body.description}
       account.asset.push(newCharge)
     descriptionTransaction = "Extra Charge on Investment"
-    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
     account.activity.push(newTransaction)
     account.transum -= req.body.amount*1.00
     account.expense += req.body.amount*1.00
@@ -129,7 +129,7 @@ router.put('/:id/assets', async(req, res) => {
       entry.units += 1
       entry.amount += parseFloat(req.body.amount)
       descriptionTransaction = req.body.units + " units of "+req.body.category
-      let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+      let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
       account.activity.push(newTransaction)
       account.transum -= req.body.amount*1.00
       account.expense += req.body.amount*1.00
@@ -142,7 +142,7 @@ router.put('/:id/assets', async(req, res) => {
     let newAsset = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newAsset)
     descriptionTransaction = req.body.units + " units of "+req.body.category
-    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investement",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+    let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
     account.activity.push(newTransaction)
     account.transum -= req.body.amount*1.00
     account.expense += req.body.amount*1.00
@@ -349,7 +349,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investement","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
+        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
         const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity

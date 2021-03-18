@@ -674,12 +674,18 @@ data: {
     </script>
   <script type = "text/javascript">
     var ctx = document.getElementById('cashflowcch').getContext('2d');
+    investment = 0
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
+    investment += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    investment = parseFloat(investment).toFixed(2)
     income = parseFloat("<%=element.income%>")
     expense = parseFloat("<%=element.expense%>")
     income = income.toFixed(2)
       expense = expense.toFixed(2)
       balance = income-expense
       balance = balance.toFixed(2)
+      expense -= investment
 var chart = new Chart(ctx, {
 type: 'bar',
 data: {
@@ -707,6 +713,14 @@ data: {
         //lineTension:0,
         fill:false,
         data: [expense],
+    },
+    {
+        label: 'Investment',
+        stack: 0,
+        backgroundColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        data: [investment],
     }
     ]
 },
@@ -734,11 +748,13 @@ options: {
     balance = []
     income = []
     expense = []
+    investment = []
     length = new Date().getUTCFullYear() - 2020
     for(i = 0; i <= length;i++){
       balance.push(0)
       income.push(0)
       expense.push(0)
+      investment.push(0)
       year.push(new Date().getUTCFullYear()-i)
     }
     year = year.reverse()
@@ -750,9 +766,13 @@ options: {
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     expense["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
+    investment["<%=entry.tstamp.getUTCFullYear()-2020%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
     for(i=0;i<balance.length;i++) {
       income[i] = income[i].toFixed(2)
       expense[i] = expense[i].toFixed(2)
+      investment[i] = investment[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
       if(balance[i] < 0)
@@ -772,6 +792,13 @@ data: {
         fill:false,
         data: income,
     },{
+        label: 'Investment',
+        borderColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        data: investment,
+    },
+    {
         label: 'Expense',
         borderColor: '#00c853',
         //lineTension:0,
@@ -819,6 +846,7 @@ options: {
     balance = [0,0,0,0,0,0,0,0,0,0,0,0]
     income = [0,0,0,0,0,0,0,0,0,0,0,0]
     expense = [0,0,0,0,0,0,0,0,0,0,0,0]
+    investment = [0,0,0,0,0,0,0,0,0,0,0,0]
     month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
@@ -826,9 +854,15 @@ options: {
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
+    
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
+    investment["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    
     for(i=0;i<balance.length;i++) {
       income[i] = income[i].toFixed(2)
       expense[i] = expense[i].toFixed(2)
+      investment[i] = investment[i].toFixed(2)
       balance[i] = income[i]-expense[i]
       balance[i] = balance[i].toFixed(2)
       if(balance[i] < 0)
@@ -847,6 +881,12 @@ data: {
         //lineTension:0,
         fill:false,
         data: income,
+    },{
+        label: 'Investment',
+        borderColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        data: investment,
     },{
         label: 'Expense',
         borderColor: '#00c853',
