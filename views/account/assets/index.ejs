@@ -96,23 +96,30 @@ notation: "compact",
             <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;"><%=element.name%>'s Assets</h2>
       </div>
       </div>
-      <hr width="70%">
-      <div class="container">
-        <table class="striped centered responsive-table"style="margin-top:-20px">      
-            <thead>
-              <tr>
-                <th>Networth</th>
-                <th>Income (100%)</th>
-                  <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
-                  <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
-                  <th>Sum of Transactions</th>
-                  <th>On Hold</th>
-                  <th>Variance</th>
-                  
-              </tr>
-            </thead>
-            <tbody>
-              <% 
+      
+      <%investment = 0
+ element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+ investment += parseFloat(entry.amount*-1.00)
+ })%>
+             
+                <hr width="70%">
+                <div class="container">
+                    <table class="striped centered responsive-table"style="margin-top:-20px">      
+                        <thead>
+                          <tr>
+                            <th>Networth</th>
+                            <th>Income (100%)</th>
+                              <th>Invested(<%=((investment)*100/element.income).toFixed(2)%>%)</th>
+                              <th>Expense (<%=((element.expense-investment)*100/element.income).toFixed(2)%>%)</th>
+                              <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
+                              <th>Transactions</th>
+                              <th>On Hold</th>
+                              <th>Variance</th>
+                              
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% 
               assetsWorth = 0
               element.asset.forEach(entry => {
                 if(entry.category == "Gold"){
@@ -125,36 +132,35 @@ notation: "compact",
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
                 }
-                else if(entry.category == "Extra Charge"){
-                  assetPrice = 0
-                }
                 else{
                   assetPrice = entry.amount*entry.units
                 }
                 assetsWorth += assetPrice
               })%>
-              <tr style="font-weight:500;">
-                <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
-                <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
-                <td><%= formatterDashboard.format(element.currbal)%></td>
-                <td><%= formatterDashboard.format(element.transum)%></td>
-                <td><%= formatterDashboard.format(element.onhold)%></td>
-                <% variance = element.currbal-(element.transum+element.onhold)
-                  if (variance < 0 && variance > -0.01)
-                  {
-                    variance *= -1.00
-                  }
-                %>
-                <td><%= formatterDashboard.format(variance)%></td>
-                
+                                  
+                                  <tr style="font-weight:500;">
+                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                                    <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                                    <td><%=formatterDashboard.format(investment)%></td>
+                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
+                                    <td><%= formatterDashboard.format(element.currbal)%></td>
+                                    <td><%= formatterDashboard.format(element.transum)%></td>
+                                    <td><%= formatterDashboard.format(element.onhold)%></td>
+                                    <% variance = element.currbal-(element.transum+element.onhold)
+                                      if (variance < 0 && variance > -0.01)
+                                      {
+                                        variance *= -1.00
+                                      }
+                                    %>
+                                    <td><%= formatterDashboard.format(variance)%></td>
+                                    
+                                   
+                                    
+                                  </tr>
+                        </tbody>
+                      </table>
                
-                
-              </tr>
-            </tbody>
-          </table>
-   
-</div>
+            </div>
 <hr width="70%">
 <div class="container">
         <div class="row">

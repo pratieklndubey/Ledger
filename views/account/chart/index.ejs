@@ -52,21 +52,28 @@
   </div>
         
   </div>
-  <hr width="70%">
+  
     
     
   
 </div>
 
-<div class="container">
+<%investment = 0
+ element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+ investment += parseFloat(entry.amount*-1.00)
+ })%>
+             
+                <hr width="70%">
+                <div class="container">
                     <table class="striped centered responsive-table"style="margin-top:-20px">      
                         <thead>
                           <tr>
                             <th>Networth</th>
                             <th>Income (100%)</th>
-                              <th>Expense (<%=(element.expense*100/element.income).toFixed(2)%>%)</th>
+                              <th>Invested(<%=((investment)*100/element.income).toFixed(2)%>%)</th>
+                              <th>Expense (<%=((element.expense-investment)*100/element.income).toFixed(2)%>%)</th>
                               <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
-                              <th>Sum of Transactions</th>
+                              <th>Transactions</th>
                               <th>On Hold</th>
                               <th>Variance</th>
                               
@@ -90,12 +97,13 @@
                   assetPrice = entry.amount*entry.units
                 }
                 assetsWorth += assetPrice
-              })%> 
+              })%>
                                   
                                   <tr style="font-weight:500;">
                                     <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
                                     <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
+                                    <td><%=formatterDashboard.format(investment)%></td>
+                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
                                     <td><%= formatterDashboard.format(element.currbal)%></td>
                                     <td><%= formatterDashboard.format(element.transum)%></td>
                                     <td><%= formatterDashboard.format(element.onhold)%></td>
