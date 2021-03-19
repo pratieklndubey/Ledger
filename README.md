@@ -3,7 +3,7 @@ lEdge is something we all need. I always wanted to manage my money and analyse m
 <br/>lEdge provides features like, Ledger, Charts, Pivot Tables, and Asset Management with live values of you assets like Metals and Securities.
 
 Installation Guide: <br/>
-        1. Install [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community)<br/>
+        1. Install [Python](https://www.python.org/downloads/), [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community)<br/>
         2. Clone the repository in your computer<br/>
         3. Execute "install.bat"<br/>
         4. Copy the shortcut ("lEdge.lnk") at your preferred location (Desktop)<br/>
