@@ -576,7 +576,7 @@
                            balance = []
                            years = []
                            yearBalance = []
-                           element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
+                           element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Credit'))))).forEach(entry => {
                              if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
@@ -585,6 +585,11 @@
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*1.00)
                                  }
+            
+                             
+                           })
+                           element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
+                            
              
                                  if(!years.includes(entry.tstamp.getUTCFullYear())){
                               years.push(entry.tstamp.getUTCFullYear())
@@ -686,7 +691,9 @@
                            balance = []
                            years = []
                            yearBalance = []
-                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+
+                           
+                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && entry.category.includes('Investment'))))).forEach(entry => {
                              if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
@@ -695,6 +702,12 @@
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*-1.00)
                                  }
+             
+                              
+                             
+                           })
+                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+                         
              
                                  if(!years.includes(entry.tstamp.getUTCFullYear())){
                               years.push(entry.tstamp.getUTCFullYear())
@@ -803,7 +816,8 @@
               incomeYear = []
               yearsExpense = []
               expenseYear = []
-              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {
+              
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Debit'))))).forEach(entry => {
                 if(!monthsExpense.includes(entry.tstamp.getMonth())){
                  monthsExpense.push(entry.tstamp.getMonth())
                     expenseMonth.push(0)
@@ -812,6 +826,12 @@
                 i = monthsExpense.indexOf(entry.tstamp.getMonth())
                     expenseMonth[i] += parseFloat(entry.amount*-1.00)
                     }
+
+                     
+                  
+                  })
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {
+               
 
                     if(!yearsExpense.includes(entry.tstamp.getUTCFullYear())){
                  yearsExpense.push(entry.tstamp.getUTCFullYear())
@@ -824,7 +844,7 @@
                   
                   })
 
-                    element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Credit'))))).forEach(entry => {
                 if(!monthsIncome.includes(entry.tstamp.getMonth())){
                  monthsIncome.push(entry.tstamp.getMonth())
                     incomeMonth.push(0)
@@ -833,6 +853,12 @@
                 i = monthsIncome.indexOf(entry.tstamp.getMonth())
                     incomeMonth[i] += parseFloat(entry.amount*1.00)
                     }
+                  
+                
+              })
+
+                    element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
+               
                     if(!yearsIncome.includes(entry.tstamp.getUTCFullYear())){
                  yearsIncome.push(entry.tstamp.getUTCFullYear())
                     incomeYear.push(0)
@@ -880,6 +906,8 @@
               
                  %>
 
+                 
+
               <li>
                 <div class="collapsible-header"><h5><i class="material-icons">looks_5</i>Periodwise Savings|Balances</h5></div>
                 <div class="collapsible-body">
@@ -911,7 +939,7 @@
                                       <tr style="font-weight:500;">
                                           <td><%=monthCart[month]%></td>    
                                           <td><%=formatter.format((incomeMonth[index]-expenseMonth[index])>0?incomeMonth[index]-expenseMonth[index]:0.00)%></td>    
-                                          <td><%=((incomeMonth[index]-expenseMonth[index])>0?(incomeMonth[index]-expenseMonth[index])*100/yearlyIncome:0.00).toFixed(2)%></td>
+                                          <td><%=((incomeMonth[index]-expenseMonth[index])>0?(incomeMonth[index]-expenseMonth[index])*100/incomeMonth[index]:0.00).toFixed(2)%></td>
                                         <%})%>                              
                                       </tr>
                                     </tbody>
@@ -950,7 +978,7 @@
                                       <tr style="font-weight:500;">
                                           <td><%=year%></td>    
                                           <td><%=formatter.format((incomeYear[index]-expenseYear[index])>0?incomeYear[index]-expenseYear[index]:0.00)%></td>    
-                                          <td><%=((incomeYear[index]-expenseYear[index])>0?(incomeYear[index]-expenseYear[index])*100/element.income:0.00).toFixed(2)%></td>
+                                          <td><%=((incomeYear[index]-expenseYear[index])>0?(incomeYear[index]-expenseYear[index])*100/incomeYear[index]:0.00).toFixed(2)%></td>
                                         <%})%>                              
                                       </tr>
                                     </tbody>
@@ -962,12 +990,17 @@
                            </div>
                            </li>
                            <%
-
                            months = []
                            balance = []
                            years = []
                            yearBalance = []
-                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {
+                           yearlyInvestment = 0
+                           
+                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (entry.category.includes('Investment') && entry.tstamp.getUTCFullYear())))).forEach(entry => {
+                             yearlyInvestment += parseFloat(entry.amount*-1.00)
+                             
+                           })
+                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense && entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
                              if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
@@ -976,6 +1009,11 @@
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*-1.00)
                                  }
+             
+                             
+                           })
+                           element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
+                            
              
                                  if(!years.includes(entry.tstamp.getUTCFullYear())){
                               years.push(entry.tstamp.getUTCFullYear())
@@ -1021,7 +1059,7 @@
                                                    <tr style="font-weight:500;">
                                                        <td><%=monthCart[month]%></td>    
                                                        <td><%=formatter.format(balance[index])%></td>    
-                                                       <td><%=(balance[index]*-100/yearlyExpense).toFixed(2)%></td>
+                                                       <td><%=(balance[index]*-100/(yearlyExpense + yearlyInvestment)).toFixed(2)%></td>
                                                      <%})%>                              
                                                    </tr>
                                                  </tbody>
@@ -1060,7 +1098,7 @@
                                                    <tr style="font-weight:500;">
                                                        <td><%=year%></td>    
                                                        <td><%=formatter.format(yearBalance[index])%></td>    
-                                                       <td><%=(yearBalance[index]*100/element.expense).toFixed(2)%></td>                                
+                                                       <td><%=(yearBalance[index]*100/(element.expense - investment)).toFixed(2)%></td>                                
                                                      <%})%>                              
                                                    </tr>
                                                  </tbody>

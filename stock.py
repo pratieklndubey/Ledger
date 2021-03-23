@@ -22,9 +22,9 @@ with open('stockData.csv', 'w', newline='') as file:
     for entry in stocks:
         print(entry)
         if entry == ['NIFTYBEES']:
-            outPut = ['NIFTYBEES',159.91]
+            outPut = ['NIFTYBEES',158.31]
         elif entry == ['ICICIB22']:
-            outPut = ['ICICIB22',37.56]
+            outPut = ['ICICIB22',36.05]
         else:
             ticker = nse.get_quote(listToString(entry))
             outPut = [ticker['symbol'],ticker['lastPrice']]
