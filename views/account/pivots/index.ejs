@@ -1,4 +1,8 @@
 <% account.forEach(element => { %>
+  <%investment = 0
+ element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+ investment += parseFloat(entry.amount*-1.00)
+ })%>
   <%
   transactionCount = 0
   monthlyIncome = 0
@@ -121,10 +125,7 @@
     
   </div>
   
-  <%investment = 0
- element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
- investment += parseFloat(entry.amount*-1.00)
- })%>
+  
              
                 <hr width="70%">
                 <div class="container">
@@ -1048,7 +1049,6 @@
                            
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (entry.category.includes('Investment') && entry.tstamp.getUTCFullYear())))).forEach(entry => {
                              yearlyInvestment += parseFloat(entry.amount*-1.00)
-                             
                            })
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense && entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
                              if(!months.includes(entry.tstamp.getMonth())){
@@ -1109,7 +1109,7 @@
                                                    <tr style="font-weight:500;">
                                                        <td><%=monthCart[month]%></td>    
                                                        <td><%=formatter.format(balance[index])%></td>    
-                                                       <td><%=(balance[index]*-100/(yearlyExpense + yearlyInvestment)).toFixed(2)%></td>
+                                                       <td><%=(balance[index]*-100/(yearlyExpense)).toFixed(2)%></td>
                                                      <%})%>                              
                                                    </tr>
                                                  </tbody>

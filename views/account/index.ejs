@@ -1,4 +1,8 @@
 <% account.forEach(element => { %>
+  <%investment = 0
+ element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
+ investment += parseFloat(entry.amount*-1.00)
+ })%>
   <%
   transactionCount = 0
   monthlyIncome = 0
@@ -206,10 +210,7 @@ notation: "compact",
         <h2  class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0;">
             <%=element.name%>'s Account
         </h2>
- <%investment = 0
- element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
- investment += parseFloat(entry.amount*-1.00)
- })%>
+ 
              
                 <hr width="70%">
                 <div class="container">
