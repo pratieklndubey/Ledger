@@ -82,7 +82,7 @@
                         <tbody>
                           <% 
               assetsWorth = 0
-              element.asset.forEach(entry => {
+              element.asset.filter(entry => entry.isActive == true).forEach(entry => {
                 if(entry.category == "Gold"){
                   assetPrice = priceGold*entry.units                  
                 }
@@ -92,6 +92,9 @@
                 else if(entry.category == "Equity"){
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
+                }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
                 }
                 else{
                   assetPrice = entry.amount*entry.units
@@ -172,7 +175,7 @@
                           <tr>
                               <th>Income (100%)</th>
                               <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(monthlyIncome==0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -207,7 +210,7 @@
                           <tr>
                             <th>Income (100%)</th>
                             <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(yearlyIncome==0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                            <th>Savings (<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>

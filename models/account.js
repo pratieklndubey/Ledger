@@ -56,6 +56,10 @@ const assetSchema = new mongoose.Schema({
   category: {
     type: String,
   },
+  tape: {
+    type:String,
+    default:"Nothing"
+  },
   isActive: {
     type: Boolean,
     default: true

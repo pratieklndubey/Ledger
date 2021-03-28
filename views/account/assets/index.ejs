@@ -74,7 +74,9 @@ notation: "compact",
       </optgroup>
         </select>
         </div>
-
+        <div class="input-field col s6 offset-s3 center">
+          <input name = "embed" type="text" placeholder = "Paste Code for Embedding Stock Data (Optional)">
+        </div>
         <div class="input-field col s6 offset-s3 center">
           <p> Put ticker inside '[ ]' for equity in description</p>
         </div>
@@ -121,7 +123,7 @@ notation: "compact",
                         <tbody>
                           <% 
               assetsWorth = 0
-              element.asset.forEach(entry => {
+              element.asset.filter(entry => entry.isActive == true).forEach(entry => {
                 if(entry.category == "Gold"){
                   assetPrice = priceGold*entry.units                  
                 }
@@ -131,6 +133,9 @@ notation: "compact",
                 else if(entry.category == "Equity"){
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
+                }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
                 }
                 else{
                   assetPrice = entry.amount*entry.units
@@ -176,7 +181,7 @@ notation: "compact",
           color = "black-text"
             sign = 0.00
             trend = ""
-          element.asset.forEach(entry => {
+          element.asset.filter(entry => entry.isActive == true).forEach(entry => {
             if(entry.category == "Gold"){
                   assetPrice = priceGold                  
                 }
@@ -261,11 +266,16 @@ notation: "compact",
                 <th>Amount</th>
                 <th>Current Value</th>
                 <th>P/L Change</th>
-                
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <% element.asset.forEach(entry => {%> 
+              <%element.asset.sort((last,current) => {
+                if(last.category < current.category) { return -1; }
+    if(last.category > current.category) { return 1; }
+    return 0;
+              })%>
+              <% element.asset.filter(entry => entry.isActive == true).forEach(entry => {%> 
                 <%
                 if(entry.category == "Gold"){
                   assetPrice = priceGold                  
@@ -315,8 +325,101 @@ notation: "compact",
                 <td><%=formatter.format(entry.amount)%></td>
                 <td><%=formatter.format(assetPrice*entry.units)%></td>
                 <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
-                
+                <td><%if(entry.category == "Equity"){%>
+                <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#tt<%=entry._id%>"><i class="material-icons">description</i></a>
+                <a  class="btn-floating btn-small green modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>">B</a>
+                <a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#sa<%=entry._id%>">S</a>
+                <%}else if(entry.category == "Extra Charge"){%>
+                  <a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>"><i class="material-icons">edit</i></a>
+                  <%}else if(entry.category == "Gold" || entry.category == "Silver"){%>
+                    <a  class="btn-floating btn-small green modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>">B</a>
+                    <a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#sa<%=entry._id%>">S</a>
+                    <%}else{%>
+                      <a  class="btn-floating btn-small red modal-trigger" data-toggle="modal" href="#sa<%=entry._id%>">S</a>
+                      <%}%>
+                </td>
               </tr>
+              <%if(entry.category == "Equity"){%>
+                <div id = "tt<%=entry._id%>" class="modal white">
+                  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Stock Detail</h5>
+                  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+                  <div class="row">
+                    
+                      <%if(entry.tape == "Nothing"){%>
+                        <form action="/account/<%=element._id%>/assets/<%=entry._id%>?_method=PUT" method="POST">
+                          <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "updtaEmbed" />
+                          <div class="col s6 offset-s3 center">
+                            <input name = "embed" type="text" placeholder = "Paste Code for Embedding Stock Data">
+                          </div>
+                          <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+                            <input class="btn light-blue darken-4 white-text" value="SUBMIT" type="submit">
+                          </div>
+                        </form>
+                      <%}else{%>
+                        <div class="col s6 offset-s2 center">
+                        <%-entry.tape%>
+                        </div>
+                        <%}%>
+                    
+                  </div>
+                </div>
+              <%}%>
+              <%if(entry.category != "Extra Charge"){%>
+                <div id = "sa<%=entry._id%>" class="modal white">
+                  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Sold <%=entry.category%><%=entry.category=="Equity"?" in "+entry.description:""%></h5>
+                  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+                  
+                    <form action="/account/<%=element._id%>/assets/<%=entry._id%>?_method=PUT" method="POST">
+                      <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "sold" />
+                      <div class="row">
+                        <div class="input-field col s5 offset-s1 center">
+                        <input name = "units" type="number" step="0.01" min="0" placeholder = "Units" class="validate" required="" aria-required="true" value = "">
+                      </div>
+                      <div class="input-field col s5 center" >
+                        <input name = "amount" type="number" step="0.01" min="0" placeholder = "Total Amount" class="validate" required="" aria-required="true" value = "">
+                      </div>
+                      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+                        <input class="btn light-blue darken-4 white-text" value="SUBMIT" type="submit">
+                      </div>
+                      </div>
+                    </form>
+                    
+                  
+                </div>
+              <%}%>
+              <div id = "ba<%=entry._id%>" class="modal white">
+                <%if(entry.category != "Extra Charge"){%>
+                <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Bought <%=entry.category%><%=entry.category=="Equity"?" in "+entry.description:""%></h5>
+                <%}else{%>
+                  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Extra Charge</h5>
+                  <%}%>
+                <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+                
+                  <form action="/account/<%=element._id%>/assets/<%=entry._id%>?_method=PUT" method="POST">
+                    <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "bought" />
+                    <div class="row">
+                      <%if(entry.category != "Extra Charge"){%>
+                      <div class="input-field col s5 offset-s1 center">
+                        <input name = "units" type="number" step="0.01" min="0" placeholder = "Units" class="validate" required="" aria-required="true" value = "">
+                      </div>
+                      <div class="input-field col s5 center" >
+                        <input name = "amount" type="number" step="0.01" min="0" placeholder = "Total Amount" class="validate" required="" aria-required="true" value = "">
+                      </div>
+                      <%}else{%>
+                        <div class="input-field col s6 offset-s3 center">
+                          <input name = "amount" type="number" step="0.01" min="0" placeholder = "Total Amount" class="validate" required="" aria-required="true" value = "">
+                        </div>
+                        <%}%>
+                    <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+                      <input class="btn light-blue darken-4 white-text" value="SUBMIT" type="submit">
+                    </div>
+                  </div>
+                  </form>
+                  
+                
+              </div>
+              
+             
               <%})%>
               </tbody>
           </table>
@@ -325,7 +428,6 @@ notation: "compact",
 <%}%>
         </div>
       </div>
-
     </div>
     <%})%>
 

@@ -6,7 +6,7 @@
 <% account.forEach(element => { %>
   
   <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
-  const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
+  const categoriesIncome = ["Savings","Salary","Interest","Asset Liquidation","Gift","Business Payment","Credit"]
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   const stockList = tickerStocks
   const stockValues = priceStocks
@@ -168,7 +168,7 @@ notation: "compact",
                         <tbody>
                           <% 
               assetsWorth = 0
-              element.asset.forEach(entry => {
+              element.asset.filter(entry => entry.isActive == true).forEach(entry => {
                 if(entry.category == "Gold"){
                   assetPrice = priceGold*entry.units                  
                 }
@@ -179,12 +179,15 @@ notation: "compact",
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
                 }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
+                }
                 else{
                   assetPrice = entry.amount*entry.units
                 }
                 assetsWorth += assetPrice
               })%>
-                                  
+                           
                                   <tr style="font-weight:500;">
                                     <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
                                     <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
@@ -259,7 +262,7 @@ notation: "compact",
                           <tr>
                               <th>Income (100%)</th>
                               <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(monthlyIncome==0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -294,7 +297,7 @@ notation: "compact",
                           <tr>
                             <th>Income (100%)</th>
                             <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(yearlyIncome==0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
                           </tr>
                         </thead>
                         <tbody>

@@ -30,7 +30,69 @@ router.get('/:id/assets', async (req, res) => {
   const account = await Account.find(searchOptions)
   res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
 })
-
+router.put('/:id/assets/:aid', async(req, res) => {
+  let account = await Account.findById(req.params.id)
+      let transaction = account.asset
+      let entry = transaction.find(entry => entry._id == req.params.aid)
+      if(entry.category == "Equity" && req.body.action == "updtaEmbed")
+      {
+      entry.tape = req.body.embed   
+      await account.save()
+      }
+      else if(req.body.action == "bought"){
+        if(entry.category != "Extra Charge"){
+        entry.units += parseFloat(req.body.units)
+        }
+        entry.amount += parseFloat(req.body.amount)
+        if(entry.category == "Gold" || entry.category == "Silver"){
+        descriptionTransaction = req.body.units + " grams of "+entry.category
+        titleTransaction = entry.category
+        }
+        else if(entry.category == "Equity")
+        {
+          descriptionTransaction = req.body.units + " shares of "+entry.description
+          titleTransaction = entry.description
+        }
+        else{
+          descriptionTransaction = "1 Unit of Extra Charge"
+          titleTransaction = entry.category
+        }
+        let newTransaction = {title: titleTransaction, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+        account.activity.push(newTransaction)
+        account.transum -= req.body.amount*1.00
+        account.expense += req.body.amount*1.00
+        await account.save()
+      }
+      else if(req.body.action == "sold"){
+        if(entry.units >= req.body.units){
+        price = entry.amount/entry.units
+        entry.units -= req.body.units
+        entry.amount = price*entry.units
+        if(entry.units == 0){
+          entry.isActive = false
+        }
+        if(entry.category == "Gold" || entry.category == "Silver"){
+          descriptionTransaction = req.body.units + " grams of "+entry.category
+          titleTransaction = entry.category
+          }
+          else if(entry.category == "Equity")
+          {
+            descriptionTransaction = req.body.units + " shares of "+entry.description
+            titleTransaction = entry.description
+          }
+          else{
+            descriptionTransaction = req.body.units + "units of "+entry.category
+            titleTransaction = entry.category
+          }
+          let newTransaction = {title: titleTransaction, amount: req.body.amount*1.00, category: "Asset Liquidation",tstamp:Date.now(), description: descriptionTransaction, isexpense: false, postranbal:(account.transum+account.onhold+req.body.amount)}
+          account.activity.push(newTransaction)
+          account.transum += req.body.amount*1.00
+          account.income += req.body.amount*1.00
+        await account.save()
+        }
+      }
+      res.redirect("../assets")
+})
 router.put('/:id/assets', async(req, res) => {
   let account = await Account.findById(req.params.id)
   let transaction = account.asset
@@ -61,7 +123,7 @@ router.put('/:id/assets', async(req, res) => {
       const process = spawn('python', ['./addStock.py',ticker])
       process.stdout.on('data', (data) => {
         if(data.toString().trim() == "True"){
-          let newEquity = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:ticker}
+          let newEquity = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:ticker,tape:req.body.embed}
           account.asset.push(newEquity)
           descriptionTransaction = req.body.units + " shares of "+ticker
           let newTransaction = {title: ticker, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
@@ -350,7 +412,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     {
       if(req.body.amount != 0){
         const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
-        const categoriesIncome = ["Savings","Salary","Interest","Gift","Business Payment","Credit"]
+        const categoriesIncome = ["Savings","Salary","Interest","Asset Liquidation","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)

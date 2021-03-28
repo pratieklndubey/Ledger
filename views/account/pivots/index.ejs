@@ -79,7 +79,7 @@
                         <tbody>
                           <% 
               assetsWorth = 0
-              element.asset.forEach(entry => {
+              element.asset.filter(entry => entry.isActive == true).forEach(entry => {
                 if(entry.category == "Gold"){
                   assetPrice = priceGold*entry.units                  
                 }
@@ -89,6 +89,9 @@
                 else if(entry.category == "Equity"){
                   position = stockList.indexOf(entry.description)
                   assetPrice = stockValues[position]*entry.units
+                }
+                else if(entry.category == "Extra Charge"){
+                  assetPrice = 0
                 }
                 else{
                   assetPrice = entry.amount*entry.units
@@ -172,7 +175,7 @@
                             <tr>
                                 <th>Income (100%)</th>
                                 <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
-                                <th>Savings (<%=(monthlyIncome==0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                                <th>Savings (<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -207,7 +210,7 @@
                             <tr>
                               <th>Income (100%)</th>
                               <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
-                                <th>Savings (<%=(yearlyIncome==0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                              <th>Savings (<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -691,9 +694,10 @@
                            balance = []
                            years = []
                            yearBalance = []
-
-                           
+                           Investment = 0
+                           yearInvestment = 0
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && entry.category.includes('Investment'))))).forEach(entry => {
+                             yearInvestment += parseFloat(entry.amount*-1.00)
                              if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
@@ -707,7 +711,7 @@
                              
                            })
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
-                         
+                            Investment += parseFloat(entry.amount*-1.00)
              
                                  if(!years.includes(entry.tstamp.getUTCFullYear())){
                               years.push(entry.tstamp.getUTCFullYear())
@@ -753,7 +757,7 @@
                                                    <tr style="font-weight:500;">
                                                        <td><%=monthCart[month]%></td>    
                                                        <td><%=formatter.format(balance[index])%></td>    
-                                                       <td><%=(balance[index]*100/yearlyIncome).toFixed(2)%></td>
+                                                       <td><%=(balance[index]*100/yearInvestment).toFixed(2)%></td>
                                                      <%})%>                              
                                                    </tr>
                                                  </tbody>
@@ -792,7 +796,7 @@
                                                    <tr style="font-weight:500;">
                                                        <td><%=year%></td>    
                                                        <td><%=formatter.format(yearBalance[index])%></td>    
-                                                       <td><%=(yearBalance[index]*100/element.income).toFixed(2)%></td>                                
+                                                       <td><%=(yearBalance[index]*100/Investment).toFixed(2)%></td>                                
                                                      <%})%>                              
                                                    </tr>
                                                  </tbody>
@@ -909,7 +913,7 @@
                  
 
               <li>
-                <div class="collapsible-header"><h5><i class="material-icons">looks_5</i>Periodwise Savings|Balances</h5></div>
+                <div class="collapsible-header"><h5><i class="material-icons">looks_5</i>Periodwise Savings</h5></div>
                 <div class="collapsible-body">
                       <div class="row">
                         <%yearGrid = "s6" %>
@@ -929,7 +933,7 @@
                                       <tr>
                                         <th>Month</th>
                                         <th>Amount</th>
-                                        <th>Percent</th>
+                                        <th>Percent*</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -970,7 +974,7 @@
                                       <tr>
                                         <th>Year</th>
                                         <th>Amount</th>
-                                        <th>Percent</th>
+                                        <th>Percent*</th>
                                       </tr>
                                     </thead>
                                     <tbody>
@@ -984,9 +988,13 @@
                                     </tbody>
                                   </table>
                                 </tbody>
+                                
                                 </table>
+                                
                         </div>
+                        
                       </div>
+                      <p>*Percent of Income</p>
                            </div>
                            </li>
                            <%
