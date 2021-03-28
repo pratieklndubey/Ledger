@@ -1,4 +1,70 @@
 <% account.forEach(element => { %>
+  <%
+  transactionCount = 0
+  monthlyIncome = 0
+  monthlyExpense = 0
+  monthlyInvested = 0
+   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+     transactionCount += 1
+     if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+     {
+       monthlyIncome += entry.amount
+     }
+     else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Investment') && !entry.category.includes('Credit'))){
+       monthlyExpense += entry.amount
+     }
+     else if(entry.isexpense && (entry.category.includes('Investment'))){
+       monthlyInvested += entry.amount*-1.00
+     }
+  })
+
+  yearlyIncome = 0
+  yearlyExpense = 0
+  yearlyInvested = 0
+  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+     
+    if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
+     {
+       yearlyIncome += entry.amount
+     }
+     else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Investment') && !entry.category.includes('Credit'))){
+       yearlyExpense += entry.amount
+     }
+     else if(entry.isexpense && (entry.category.includes('Investment'))){
+       yearlyInvested += entry.amount*-1.00
+     }
+  })
+  %>  
+<style>
+  .modal { overflow: visible; }
+.modal-body { overflow-y: visible !important; }
+.income:hover span {display:none}
+.income:hover:before {content:"100%"}
+.invested:hover span {display:none}
+.invested:hover:before {content:"<%=((investment)*100/element.income).toFixed(2)%>%"}
+.expense:hover span {display:none}
+.expense:hover:before {content:"<%=((element.expense-investment)*100/element.income).toFixed(2)%>%"}
+.balance:hover span {display:none}
+.balance:hover:before {content:"<%=(100 - element.expense*100/element.income).toFixed(2)%>%"}
+.monthlyincome:hover span {display:none}
+.monthlyincome:hover:before {content:"100%"}
+.monthlyinvested:hover span {display:none}
+.monthlyinvested:hover:before {content:"<%=(monthlyIncome==0?0.00:(monthlyInvested)*100/monthlyIncome).toFixed(2)%>%"}
+.monthlyexpense:hover span {display:none}
+.monthlyexpense:hover:before {content:"<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
+.monthlybalance:hover span {display:none}
+.monthlybalance:hover:before {content:"<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
+.yearlyincome:hover span {display:none}
+.yearlyincome:hover:before {content:"100%"}
+.yearlyinvested:hover span {display:none}
+.yearlyinvested:hover:before {content:"<%=(yearlyIncome==0.00?0.00:(yearlyInvested)*100/yearlyIncome).toFixed(2)%>%"}
+.yearlyexpense:hover span {display:none}
+.yearlyexpense:hover:before {content:"<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
+.yearlybalance:hover span {display:none}
+.yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
+
+</style>
+ 
     <%
     const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     const stockList = tickerStocks
@@ -66,10 +132,11 @@
                         <thead>
                           <tr>
                             <th>Networth</th>
-                            <th>Income (100%)</th>
-                              <th>Invested(<%=((investment)*100/element.income).toFixed(2)%>%)</th>
-                              <th>Expense (<%=((element.expense-investment)*100/element.income).toFixed(2)%>%)</th>
-                              <th>Balance (<%=(100 - element.expense*100/element.income).toFixed(2)%>%)</th>
+                            <th>Debt</th>
+                            <th class = "income"><span>Income</span></th>
+                              <th class = "invested"><span>Invested</span></th>
+                              <th class = "expense"><span>Expense</span></th>
+                              <th class = "balance"><span>Balance</span></th>
                               <th>Transactions</th>
                               <th>On Hold</th>
                               <th>Variance</th>
@@ -101,6 +168,7 @@
                                   
                                   <tr style="font-weight:500;">
                                     <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                                    <td><%= formatterDashboard.format(element.debt)%></td>
                                     <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
                                     <td><%=formatterDashboard.format(investment)%></td>
                                     <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
@@ -127,35 +195,7 @@
                 
                  
               
-              <%
-              transactionCount = 0
-              monthlyIncome = 0
-              monthlyExpense = 0
-              
-               element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
-                 transactionCount += 1
-                 if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
-                 {
-                   monthlyIncome += entry.amount
-                 }
-                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
-                   monthlyExpense += entry.amount
-                 }
-              })
-             
-              yearlyIncome = 0
-              yearlyExpense = 0
-              element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
-                 
-                if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
-                 {
-                   yearlyIncome += entry.amount
-                 }
-                 else if(entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit'))){
-                   yearlyExpense += entry.amount
-                 }
-              })
-              %>  
+               
               
               
           <div class="container">
@@ -173,9 +213,10 @@
                 <table class="striped centered responsive-table" style="margin-top:-30px">      
                           <thead>
                             <tr>
-                                <th>Income (100%)</th>
-                                <th>Expense (<%=(monthlyIncome==0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
-                                <th>Savings (<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%)</th>
+                              <th class = "monthlyincome"><span>Income</span></th>
+                              <th class = "monthlyexpense"><span>Expense</span></th>
+                              <th class = "monthlyinvested"><span>Invested</span></th>
+                              <th class = "monthlybalance"><span>Savings</span></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -185,7 +226,7 @@
                               
                               <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
                               <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
-                              
+                              <td><%= formatter.format(monthlyInvested)%></td>
                               <td><%= formatter.format(monthlyIncome+monthlyExpense>0?monthlyIncome+monthlyExpense:0.00)%></td>
                              
                               
@@ -208,9 +249,10 @@
                 <table class="striped centered responsive-table" style="margin-top:-30px">      
                           <thead>
                             <tr>
-                              <th>Income (100%)</th>
-                              <th>Expense (<%=(yearlyIncome==0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
-                              <th>Savings (<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%)</th>
+                              <th class = "yearlyincome"><span>Income</span></th>
+                              <th class = "yearlyexpense"><span>Expense</span></th>
+                              <th class = "yearlyinvested"><span>Invested</span></th>
+                              <th class = "yearlybalance"><span>Savings</span></th>
                             </tr>
                           </thead>
                           <tbody>
@@ -220,7 +262,7 @@
                               
                               <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
                               <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
-                              
+                              <td><%= formatter.format(yearlyInvested)%></td>
                               <td><%= formatter.format(yearlyIncome+yearlyExpense>0?yearlyIncome+yearlyExpense:0.00)%></td>
                              
                               

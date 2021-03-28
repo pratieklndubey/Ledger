@@ -100,6 +100,10 @@ const accountSchema = new mongoose.Schema({
   onhold: {
     type: Number,
     default:0
+  },
+  debt: {
+    type: Number,
+    default:0
     
   },
   isActive:{
