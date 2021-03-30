@@ -486,7 +486,8 @@ router.get('/:id/:year/:month', async (req, res) => {
       let transaction = account.activity
       let entry = transaction.find(entry => entry._id == req.params.tid)
       entry.description = req.body.description      
-      entry.title = req.body.title    
+      entry.title = req.body.title   
+      entry.category = req.body.category 
       await account.save()
     }
     }

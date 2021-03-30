@@ -71,7 +71,7 @@
  
 
   
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
   const categoriesIncome = ["Savings","Salary","Interest","Asset Liquidation","Gift","Business Payment","Credit"]
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   const stockList = tickerStocks
@@ -425,15 +425,33 @@ notation: "compact",
        
         <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Update" />
         <div class="row">
-        <div class="input-field col s4 offset-s1 center">
+        <div class="input-field col s3 offset-s1 center">
         
         <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "<%=entry.title%>">
         
         
       </div>
       
-      <div class="input-field col s4 offset-s2 center">
+      <div class="input-field col s4 center">
         <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
+        </div>
+        
+      <div class="input-field col s3 center">
+        <select name = "category" class="browser-default" style="margin-top:7px;">
+          <%if(entry.isexpense){%>
+          <optgroup label = "Expense">
+          <%categoriesExpense.forEach(category => {%>
+          <option value="<%=category%>" <%=entry.category == category?"Selected":""%>><%=category%> </option>
+        <%})%>
+      </optgroup>
+      <%}else{%>
+      <optgroup label = "Income">
+        <%categoriesIncome.forEach(category => {%>
+          <option value="<%=category%>"<%=entry.category == category?"Selected":""%>><%=category%> </option>
+        <%})%>
+      </optgroup>
+      <%}%>
+        </select>
         </div>
       <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
         <input class="btn light-blue darken-4 white-text" value="UPDATE" type="submit">
