@@ -411,7 +411,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Gift"]
+        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present"]
         const categoriesIncome = ["Savings","Salary","Interest","Asset Liquidation","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
