@@ -521,7 +521,7 @@
                             <tr style="font-weight:500;">
                                 <td><%=monthlycategory%></td>    
                                 <td><%=formatter.format(monthlybalance[index])%></td>    
-                                <td><%=(monthlybalance[index]*-100/monthlyExpense).toFixed(2)%></td>
+                                <td><%=(monthlybalance[index]*-100/(monthlyExpense-monthlyInvested)).toFixed(2)%></td>
                               <%})%>                              
                             </tr>
                           </tbody>
@@ -561,7 +561,7 @@
                             <tr style="font-weight:500;">
                                 <td><%=yearlycategory%></td>    
                                 <td><%=formatter.format(yearlybalance[index])%></td>    
-                                <td><%=(yearlybalance[index]*-100/yearlyExpense).toFixed(2)%></td>
+                                <td><%=(yearlybalance[index]*-100/(yearlyExpense-yearlyInvested)).toFixed(2)%></td>
                               <%})%>                              
                             </tr>
                           </tbody>
@@ -1157,6 +1157,7 @@
                                              </table>
                                      </div>
                                    </div>
+                                   <p>*Excludes Investments</p>
                                         </div>
                                         </li>
                            
