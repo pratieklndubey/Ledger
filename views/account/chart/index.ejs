@@ -40,6 +40,7 @@
      }
   })
   %>  
+
 <style>
   .modal { overflow: visible; }
 .modal-body { overflow-y: visible !important; }
@@ -58,7 +59,7 @@
 .monthlyexpense:hover span {display:none}
 .monthlyexpense:hover:before {content:"<%=(monthlyIncome+monthlyExpense<0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
 .monthlybalance:hover span {display:none}
-.monthlybalance:hover:before {content:"<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
+.monthlybalance:hover:before {content:"<%=(monthlyIncome+monthlyExpense<0.00?0.00:(100 - (monthlyExpense-monthlyInvested)*-100/monthlyIncome)).toFixed(2)%>%"}
 .yearlyincome:hover span {display:none}
 .yearlyincome:hover:before {content:"100%"}
 .yearlyinvested:hover span {display:none}
@@ -66,7 +67,7 @@
 .yearlyexpense:hover span {display:none}
 .yearlyexpense:hover:before {content:"<%=(yearlyIncome+yearlyExpense<0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
 .yearlybalance:hover span {display:none}
-.yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
+.yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<0.00?0.00:(100 - (yearlyExpense-yearlyInvested)*-100/yearlyIncome)).toFixed(2)%>%"}
 
 </style>
  
@@ -228,7 +229,7 @@
                             <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
                             <td><%= formatter.format(monthlyInvested)%></td>
-                            <td><%= formatter.format(monthlyIncome+monthlyExpense>0?monthlyIncome+monthlyExpense:0.00)%></td>
+                            <td><%= formatter.format(monthlyIncome+monthlyExpense>0?monthlyIncome+monthlyExpense-monthlyInvested:0.00)%></td>
                            
                             
                           </tr>
@@ -264,7 +265,7 @@
                             <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
                             <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
                             <td><%= formatter.format(yearlyInvested)%></td>
-                            <td><%= formatter.format(yearlyIncome+yearlyExpense>0?yearlyIncome+yearlyExpense:0.00)%></td>
+                            <td><%= formatter.format(yearlyIncome+yearlyExpense>0?yearlyIncome+yearlyExpense-yearlyInvested:0.00)%></td>
                            
                             
                           </tr>
@@ -871,7 +872,7 @@ options: {
       income[i] = income[i].toFixed(2)
       expense[i] = expense[i].toFixed(2)
       investment[i] = investment[i].toFixed(2)
-      balance[i] = income[i]-expense[i]
+      balance[i] = income[i]-expense[i]-investment[i]
       balance[i] = balance[i].toFixed(2)
       if(balance[i] < 0)
       {
@@ -961,7 +962,7 @@ options: {
       income[i] = income[i].toFixed(2)
       expense[i] = expense[i].toFixed(2)
       investment[i] = investment[i].toFixed(2)
-      balance[i] = income[i]-expense[i]
+      balance[i] = income[i]-expense[i]-investment[i]
       balance[i] = balance[i].toFixed(2)
       if(balance[i] < 0)
       {

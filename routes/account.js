@@ -412,7 +412,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     {
       if(req.body.amount != 0){
         const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present"]
-        const categoriesIncome = ["Savings","Salary","Interest","Asset Liquidation","Gift","Business Payment","Credit"]
+        const categoriesIncome = ["Savings","Salary","Interest/Dividend","Asset Liquidation","Gift","Business Payment","Credit"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
