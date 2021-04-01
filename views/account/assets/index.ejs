@@ -5,6 +5,50 @@
  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
  investment += parseFloat(entry.amount*-1.00)
  })%>
+ <%
+ const categoriesMetal = ["Gold","Silver"]
+ const categoriesEstate = ["Bunglow","Plot","Flat","Office Space","Shop"]
+ const categoriesSecurity = ["Equity"]
+ const stockList = tickerStocks
+ const stockValues = priceStocks 
+ %>
+  <% 
+  invested = 0
+  currval = 0
+  color = "black-text"
+    sign = 0.00
+    trend = ""
+  element.asset.filter(entry => entry.isActive == true).forEach(entry => {
+    if(entry.category == "Gold"){
+          assetPrice = priceGold                  
+        }
+        else if(entry.category == "Silver"){
+          assetPrice = priceSilver
+        }
+        else if(entry.category == "Equity"){
+          position = stockList.indexOf(entry.description)
+          assetPrice = stockValues[position]
+        }
+        else if(entry.category == "Extra Charge"){
+          assetPrice = 0
+        }
+        else{
+          assetPrice = entry.amount
+        }
+    invested += entry.amount
+    currval += assetPrice*entry.units
+    if((currval - invested) > 0)
+        {
+          color = "green-text text-darken-1"
+          trend = "\u25B2"
+          sign = 1.00
+        }
+        else if((currval - invested) < 0){
+          color = "red-text text-darken-1"
+          trend = "\u25BC"
+          sign = -1.00
+        }
+    })%>
 <style>
   .modal { overflow: visible; }
 .modal-body { overflow-y: visible !important; }
@@ -16,16 +60,13 @@
 .expense:hover:before {content:"<%=((element.expense-investment)*100/element.income).toFixed(2)%>%"}
 .balance:hover span {display:none}
 .balance:hover:before {content:"<%=(100 - element.expense*100/element.income).toFixed(2)%>%"}
-
+.investedvalue:hover span {display:none}
+.investedvalue:hover:before {content:"100"}
+.currentvalue:hover span {display:none}
+.currentvalue:hover:before {content:"<%=(currval*100/invested).toFixed(2)%>"}
 </style>
  
-  <%
-  const categoriesMetal = ["Gold","Silver"]
-  const categoriesEstate = ["Bunglow","Plot","Flat","Office Space","Shop"]
-  const categoriesSecurity = ["Equity"]
-  const stockList = tickerStocks
-  const stockValues = priceStocks 
-  %>
+  
 
 
 <%
@@ -192,43 +233,7 @@ notation: "compact",
 
 <div class="container">
         <div class="row">
-          <% 
-          invested = 0
-          currval = 0
-          color = "black-text"
-            sign = 0.00
-            trend = ""
-          element.asset.filter(entry => entry.isActive == true).forEach(entry => {
-            if(entry.category == "Gold"){
-                  assetPrice = priceGold                  
-                }
-                else if(entry.category == "Silver"){
-                  assetPrice = priceSilver
-                }
-                else if(entry.category == "Equity"){
-                  position = stockList.indexOf(entry.description)
-                  assetPrice = stockValues[position]
-                }
-                else if(entry.category == "Extra Charge"){
-                  assetPrice = 0
-                }
-                else{
-                  assetPrice = entry.amount
-                }
-            invested += entry.amount
-            currval += assetPrice*entry.units
-            if((currval - invested) > 0)
-                {
-                  color = "green-text text-darken-1"
-                  trend = "\u25B2"
-                  sign = 1.00
-                }
-                else if((currval - invested) < 0){
-                  color = "red-text text-darken-1"
-                  trend = "\u25BC"
-                  sign = -1.00
-                }
-            })%>
+         
             
             
             <div class="col s8">
@@ -236,8 +241,8 @@ notation: "compact",
               <table class="highlight centered responsive-table">
                 <thead>
                  <tr> 
-                  <th>Invested</th>
-                  <th>Current Value</th>
+                  <th class="investedvalue"><span>Invested</span></th>
+                  <th class="currentvalue"><span>Current Value</span></th>
                   <th>P/L Change</th>
                   </tr>
                   </thead>
