@@ -1105,24 +1105,14 @@ data: {
     amounts = []
     counter = 1
     onholdBalance = []
-    moneyOnHold = []
-    money = 0
-    if(parseFloat("<%=element.onhold%>") > 0)
-    {
-      "<%element.activity.filter(entry => ((entry.isActive == true && (entry.category == 'Debit' || entry.category == 'Credit')) && (year > entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
-          if("<%=entry.category%>" == 'Debit')
-          {
-            money -= parseFloat("<%=entry.amount%>")
-          }
-          else{
-            money -= parseFloat("<%=entry.amount%>")
-          }
-      "<%})%>"
-    }
-      moneyOnHold.push(money)
+    moneyOnHold = [0]
+    
+      
     "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
+    if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
+    }
     if("<%=entry.category%>" == 'Debit')
     {
       li = moneyOnHold.length-1
@@ -1136,10 +1126,12 @@ data: {
       moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
     }
     lo = moneyOnHold.length-1
+    if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
     actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
     onholdBalance.push(moneyOnHold[lo])
     points.push(counter)
     counter++;
+    }
     "<%})%>"
     
 var chart = new Chart(ctx, {
@@ -1214,26 +1206,15 @@ options: {
     actualBalance = []
     counter = 1
     onholdBalance = []
-    moneyOnHold = []
+    moneyOnHold = [0]
     isDebit = false
-    money = 0
-    if(parseFloat("<%=element.onhold%>") > 0)
-    {
-      "<%element.activity.filter(entry => ((entry.isActive == true && (entry.category == 'Debit' || entry.category == 'Credit')) && (entry.tstamp.getMonth() < month && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
-          if("<%=entry.category%>" == 'Debit')
-          {
-            money -= parseFloat("<%=entry.amount%>")
-          }
-          else{
-            money -= parseFloat("<%=entry.amount%>")
-          }
-      "<%})%>"
-    }
-      moneyOnHold.push(money)
-    "<%element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
+    
+      
+    "<%element.activity.filter(entry => (entry.category == 'Credit' || entry.category == 'Debit' || (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear())))).forEach(entry => {%>"
+    if("<%=month%>" == "<%=entry.tstamp.getMonth()%>"){
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
-    
+    }
     if("<%=entry.category%>" == 'Debit')
     {
       li = moneyOnHold.length-1
@@ -1245,12 +1226,16 @@ options: {
       li = moneyOnHold.length-1
       value = moneyOnHold[li]
       moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
+      
     }
+    
     lo = moneyOnHold.length-1
+    if("<%=month%>" == "<%=entry.tstamp.getMonth()%>"){
     actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
     onholdBalance.push(moneyOnHold[lo])
     points.push(counter)
     counter++;
+    }
     "<%})%>"
     
 var chart = new Chart(ctx, {
