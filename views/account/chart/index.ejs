@@ -585,6 +585,12 @@ data: {
     investment = investment.toFixed(2)
     value = value.toFixed(2)
     returns = (value-investment).toFixed(2)
+    if(returns > 0){
+      returnsColor = '#00c853'
+    }else{
+      returnsColor = '#d50000'
+    }
+    
 var chart = new Chart(ctx, {
 type: 'bar',
 data: {
@@ -608,7 +614,7 @@ data: {
     {
         label: 'Returns',
         stack: 3,
-        backgroundColor: '#00c853',
+        backgroundColor: returnsColor,
         //lineTension:0,
         fill:false,
         data: [returns],
