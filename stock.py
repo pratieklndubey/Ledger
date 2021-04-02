@@ -1,6 +1,7 @@
 from nsetools import Nse
 import csv
 import sys
+import os
 nse = Nse()
 
 def listToString(value):  
@@ -15,7 +16,7 @@ with open('stocks.csv', 'r') as file:
     for row in reader:
         stocks.append(row)
 
-with open('stockData.csv', 'w', newline='') as file:
+with open('stockDataStore.csv', 'w', newline='') as file:
     writer = csv.writer(file)
     """header = ['Ticker', 'Price']
     writer.writerow(header)"""
@@ -29,4 +30,12 @@ with open('stockData.csv', 'w', newline='') as file:
             ticker = nse.get_quote(listToString(entry))
             outPut = [ticker['symbol'],ticker['lastPrice']]
         writer.writerow(outPut)
+
+with open('stockDataStore.csv', 'r', newline='') as file, open('stockData.csv', 'w', newline='') as data:
+    for ticker in file:
+        data.write(ticker)
     print("Writing Complete!!")
+
+os.remove("stockDataStore.csv")
+
+
