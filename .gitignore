@@ -4,3 +4,5 @@ backup
 stocks.csv
 stockData.csv
 stockDataStore.csv
+goldPrice.txt
+silverPrice.txt
