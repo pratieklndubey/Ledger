@@ -57,7 +57,7 @@ router.put('/:id/assets/:aid', async(req, res) => {
           descriptionTransaction = "1 Unit of Extra Charge"
           titleTransaction = entry.category
         }
-        let newTransaction = {title: titleTransaction, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
+        let newTransaction = {title: titleTransaction, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount*1.00)}
         account.activity.push(newTransaction)
         account.transum -= req.body.amount*1.00
         account.expense += req.body.amount*1.00
@@ -84,7 +84,7 @@ router.put('/:id/assets/:aid', async(req, res) => {
             descriptionTransaction = req.body.units + "units of "+entry.category
             titleTransaction = entry.category
           }
-          let newTransaction = {title: titleTransaction, amount: req.body.amount*1.00, category: "Asset Liquidation",tstamp:Date.now(), description: descriptionTransaction, isexpense: false, postranbal:(account.transum+account.onhold+req.body.amount)}
+          let newTransaction = {title: titleTransaction, amount: req.body.amount*1.00, category: "Asset Liquidation",tstamp:Date.now(), description: descriptionTransaction, isexpense: false, postranbal:(account.transum+account.onhold+req.body.amount*1.00)}
           account.activity.push(newTransaction)
           account.transum += req.body.amount*1.00
           account.income += req.body.amount*1.00
