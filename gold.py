@@ -6,7 +6,6 @@ import datetime
 fname = pathlib.Path('goldPrice.txt')
 mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).date()
 today = datetime.date.today()
-print(mtime == today)
 if today != mtime:
 	url = 'https://www.goodreturns.in/gold-rates/delhi.html'
 	result = requests.get(url) 
