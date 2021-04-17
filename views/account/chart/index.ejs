@@ -139,8 +139,8 @@
                             <th>Networth</th>
                             <th>Debt</th>
                             <th class = "income"><span>Income</span></th>
+                            <th class = "expense"><span>Expense</span></th>
                               <th class = "invested"><span>Invested</span></th>
-                              <th class = "expense"><span>Expense</span></th>
                               <th class = "balance"><span>Balance</span></th>
                               <th>Transactions</th>
                               <th>On Hold</th>
@@ -172,11 +172,11 @@
               })%>
                                   
                                   <tr style="font-weight:500;">
-                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth)%></td>
+                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
                                     <td><%= formatterDashboard.format(element.debt)%></td>
                                     <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                                    <td><%=formatterDashboard.format(investment)%></td>
                                     <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
+                                    <td><%=formatterDashboard.format(investment)%></td>
                                     <td><%= formatterDashboard.format(element.currbal)%></td>
                                     <td><%= formatterDashboard.format(element.transum)%></td>
                                     <td><%= formatterDashboard.format(element.onhold)%></td>
