@@ -10,7 +10,7 @@ Installation Guide: <br/>
         5. Excute the shortcut/run_server.bat.<br/>
         6. Manage your finances seamlessly.
 
-!. Gold and Silver prices are for Delhi, India, you can change it to any other place in the respective python files.
+!. Gold and Silver prices are for Delhi, India, you can change it to any other place in the respective python files.<br/>
 !. Stock prices are for NSE (Nifty) only.
 
 Account lists
