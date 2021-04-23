@@ -103,6 +103,7 @@
   <ul>
     <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
     <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+    <li><a title="Statistics" data-toggle="modal" href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating black modal-trigger"><i class="material-icons">functions</i></a></li>
     <li><a title="Asset Management" data-toggle="modal" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
   </ul>
 </div>
@@ -116,7 +117,7 @@
           link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
         }
     %>
-    <a class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">home</i></a>
+    <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=element._id%>"><i class="material-icons">roofing</i></a>
   </div>
 <div class="col s11">
         <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Charts for <%=element.name%></h2>

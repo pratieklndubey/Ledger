@@ -213,6 +213,30 @@ router.put('/:id/assets', async(req, res) => {
   }
     
 })
+
+router.get('/:id/stats', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
+  let searchOptions = {}
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
+    searchOptions._id = req.params.id
+    const account = await Account.find(searchOptions)
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+  //res.send(account)
+})
 router.get('/:id/pivots', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
