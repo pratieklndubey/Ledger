@@ -11,6 +11,7 @@ Installation Guide: <br/>
         6. Manage your finances seamlessly.
 
 !. Gold and Silver prices are for Delhi, India, you can change it to any other place in the respective python files.
+!. Stock prices are for NSE (Nifty) only.
 
 Account lists
 ![Account](screenshots/Account.png)
