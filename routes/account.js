@@ -237,6 +237,42 @@ router.get('/:id/stats', async (req, res) => {
     res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
+router.get('/:id/stats/:year/:month', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
+  year = req.params.year
+    yearCart = []
+    count = new Date().getUTCFullYear() - 2021
+    for(i = 0;i<=count;i++){
+      yearCart.push(new Date().getUTCFullYear()-i)
+    }
+    month = req.params.month-1
+    if((month < 0 || month > 11) || isNaN(month))
+    {
+      month = new Date().getMonth()
+    }
+    if(!yearCart.includes(year))
+    {
+      year = new Date().getUTCFullYear()
+    }
+  let searchOptions = {}
+    searchOptions._id = req.params.id
+    const account = await Account.find(searchOptions)
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+  //res.send(account)
+})
 router.get('/:id/pivots', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -423,6 +459,9 @@ router.get('/:id/:year/:month', async (req, res) => {
   })
   router.put('/pivots', async (req, res) => {
     res.redirect(req.body.id+"/pivots/"+req.body.year+"/"+req.body.month)
+  })
+  router.put('/stats', async (req, res) => {
+    res.redirect(req.body.id+"/stats/"+req.body.year+"/"+req.body.month)
   })
   router.put('/:id/', async (req, res) => {
     let account = await Account.findById(req.params.id)
