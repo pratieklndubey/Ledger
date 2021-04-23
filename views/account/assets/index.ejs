@@ -367,7 +367,7 @@ notation: "compact",
                   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
                   <div class="row">
                     
-                      <%if(entry.tape == "Nothing"){%>
+                      <%if(entry.tape == ""){%>
                         <form action="/account/<%=element._id%>/assets/<%=entry._id%>?_method=PUT" method="POST">
                           <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "updtaEmbed" />
                           <div class="col s6 offset-s3 center">
