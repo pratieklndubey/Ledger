@@ -14,6 +14,10 @@ Installation Guide: <br/>
 ! Stock prices are for NSE (Nifty) only.
 ! Don't use the code for any commercial purpose.
 
+Ideas which have not been implemented yet:
+        1. Debt and its repayment mechanism.<br/>
+        2. Updating current values of real estate.<br/>
+
 Account lists
 ![Account](screenshots/Account.png)
 
