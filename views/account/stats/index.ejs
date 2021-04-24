@@ -641,9 +641,11 @@
                     incomeAmount +=entry.amount
                   })
                   today = new Date()
-                  diff = Math.abs(today - element.tcreate)
-                  diffDays = Math.ceil(diff/(1000*60*60*24))
-                  duratioMonth = Math.ceil(diffDays/(365/12))
+                  durationMonth = 12
+                  if(year == today.getUTCFullYear())
+                  {
+                    durationMonth = today.getUTCMonth()
+                  }
                   incomeAmount = (incomeAmount/duratioMonth).toFixed(2)
                   %>
                   <div class="col s4">
@@ -659,9 +661,11 @@
                     expenseAmount +=entry.amount
                   })
                   today = new Date()
-                  diff = Math.abs(today - element.tcreate)
-                  diffDays = Math.ceil(diff/(1000*60*60*24))
-                  durationMonth = Math.ceil(diffDays/(365/12))
+                  durationMonth = 12
+                  if(year == today.getUTCFullYear())
+                  {
+                    durationMonth = today.getUTCMonth()
+                  }
                   expenseAmount = (expenseAmount/durationMonth).toFixed(2)
                   %>
                   <div class="col s4">
@@ -677,10 +681,11 @@
                     investedAmount +=entry.amount
                   })
                   today = new Date()
-                  diff = Math.abs(today - element.tcreate)
-                  diffDays = Math.ceil(diff/(1000*60*60*24))
-                  
-                  durationMonth = Math.ceil(diffDays/(365/12))
+                  durationMonth = 12
+                  if(year == today.getUTCFullYear())
+                  {
+                    durationMonth = today.getUTCMonth()
+                  }
                   
                   investedAmount = (investedAmount/durationMonth).toFixed(2)
                   %>
@@ -711,6 +716,11 @@
                   element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Credit'))))).forEach(entry => {
                     incomeAmount +=entry.amount
                   })
+                  today = new Date()
+                  if(year == today.getUTCFullYear() && month == today.getMonth())
+                  {
+                      monthLength = today.getDate()
+                  }
                   incomeAmount = (incomeAmount/monthLength).toFixed(2)
                   %>
                   <div class="col s4">
@@ -725,6 +735,11 @@
                   element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
                     expenseAmount +=entry.amount
                   })
+                  today = new Date()
+                  if(year == today.getUTCFullYear() && month == today.getMonth())
+                  {
+                      monthLength = today.getDate()
+                  }
                   expenseAmount = (expenseAmount/monthLength).toFixed(2)
                   %>
                   <div class="col s4">
@@ -739,6 +754,11 @@
                   element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (entry.category.includes('Investment'))))).forEach(entry => {
                     investedAmount +=entry.amount
                   })
+                  today = new Date()
+                  if(year == today.getUTCFullYear() && month == today.getMonth())
+                  {
+                      monthLength = today.getDate()
+                  }
                   investedAmount = (investedAmount/monthLength).toFixed(2)
                   %>
                   <div class="col s4">
