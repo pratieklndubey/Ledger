@@ -12,6 +12,7 @@ Installation Guide: <br/>
 
 ! Gold and Silver prices are for Delhi, India, you can change it to any other place in the respective python files.<br/>
 ! Stock prices are for NSE (Nifty) only.
+! Don't use the code for any commercial purpose.
 
 Account lists
 ![Account](screenshots/Account.png)

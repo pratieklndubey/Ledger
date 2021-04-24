@@ -279,145 +279,471 @@
                  
               </div>
 
-              <h4 class = "center">You are using this app since Fri 05 Feb, 2021</h4>
+              <h4 class = "center" style="text-decoration: underline;">This account was created on <script type="text/javascript">
+                document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+           </script></h4>
   
               <div class="container" style="font-weight: 500; font-size: large;">
                 <div class="row">
+                  <%
+                  bigLifeAmount = 0
+                  bigLifeCategory = ""
+                  bigLifeDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit'))))).forEach(entry => {
+                    if(entry.amount > bigLifeAmount){
+                      bigLifeAmount = entry.amount
+                      bigLifeCategory = entry.category
+                      bigLifeDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have earned so far in your lifetime is <%=formatter.format(238308.85)%> on Fri 05 Feb, 2021 through the Savings.
+                      <span class="black-text">The biggest amount you have earned so far in your lifetime is <%=formatter.format(bigLifeAmount)%> on <script type="text/javascript">
+                document.write(moment(new Date("<%=bigLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+           </script> through the <%=bigLifeCategory%>.
                       </span>
                     </div>
                   </div>
+                  <%
+                  smallLifeAmount = 0
+                  smallLifeCategory = ""
+                  smallLifeDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < smallLifeAmount){
+                      smallLifeAmount = entry.amount
+                      smallLifeCategory = entry.category
+                      smallLifeDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have exhausted so far in your lifetime is <%=formatter.format(6245)%> on Wed 24 Mar, 2021 on the Groceries.
+                      <span class="black-text">The biggest amount you have exhausted so far in your lifetime is <%=formatter.format(smallLifeAmount*-1.00)%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=smallLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script> on the <%=smallLifeCategory%>.
                       </span>
                     </div>
                   </div>
+                  <%
+                  investedLifeAmount = 0
+                  investedLifeCategory = ""
+                investedlLifeDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true) && (entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < investedLifeAmount){
+                      investedLifeAmount = entry.amount
+                      investedLifeCategory = entry.description
+                      investedLifeDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">The biggest investment you have made so far in your lifetime is <%=formatter.format(3184.1)%> for 2 shares of DEEPAKNTR on Wed 17 Mar, 2021.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have earned in 2021 is <%=formatter.format(238308.85)%> on Fri 05 Feb, 2021 through the Savings.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have exhausted in 2021 is <%=formatter.format(6245)%> on Wed 24 Mar, 2021 on the Groceries.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest investment you have made in 2021 is <%=formatter.format(3184.1)%> for 2 shares of DEEPAKNTR on Wed 17 Mar, 2021.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have earned in April 2021 is <%=formatter.format(1611)%> on Thu 01 Apr, 2021 through the Interest/Dividend.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest amount you have exhausted in April 2021 is <%=formatter.format(2968)%> on Fri 02 Apr, 2021 on the Groceries.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">The biggest investment you have made in April 2021 is <%=formatter.format(458.75)%> for 5 shares of ADANIPOWER on Fri 16 Apr, 2021.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">You have made 30.33 transactions per month in 2021, 2.33 to make money and 28 to deplete it.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">You have made 91 transactions per year in your lifetime, 7 to make money and 84 to deplete it.
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col s4">
-                    <div class="card-panel white">
-                      <span class="black-text">You have made a total of 91 transactions in your lifetime, 7 to make money and 84 to deplete it.
+                      <span class="black-text">The biggest investment you have made so far in your lifetime is <%=formatter.format(-1.00*investedLifeAmount)%> for <%=investedLifeCategory%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=investedLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script>.
                       </span>
                     </div>
                   </div>
                 </div>
                 <div class="row">
+                  <%
+                  bigYearAmount = 0
+                  bigYearCategory = ""
+                  bigYearDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit') && (year == entry.tstamp.getUTCFullYear()))))).forEach(entry => {
+                    if(entry.amount > bigYearAmount){
+                      bigYearAmount = entry.amount
+                      bigYearCategory = entry.category
+                      bigYearDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have earned <%=formatter.format(297267.1)%> per year in your lifetime.
+                      <span class="black-text">The biggest amount you have earned in <%=year%> is <%=formatter.format(bigYearAmount)%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=bigYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script> through the <%=bigYearCategory%>.
                       </span>
                     </div>
                   </div>
+                  <%
+                  smallYearAmount = 0
+                  smallYearCategory = ""
+                  smallYearDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < smallYearAmount){
+                      smallYearAmount = entry.amount
+                      smallYearCategory = entry.category
+                      smallYearDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have exhausted <%=formatter.format(33139.72)%> per year in your lifetime.
+                      <span class="black-text">The biggest amount you have exhausted in <%=year%> is <%=formatter.format(-1.00*smallYearAmount)%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=smallYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script> on the <%=smallYearCategory%>.<br/>
                       </span>
                     </div>
                   </div>
+                  <%
+                  investedYearAmount = 0
+                  investedYearCategory = ""
+                investedYearDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true) && (year == entry.tstamp.getUTCFullYear()) &&  (entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < investedYearAmount){
+                      investedYearAmount = entry.amount
+                      investedYearCategory = entry.description
+                      investedYearDate = entry.tstamp
+                    }
+                  })
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have invested <%=formatter.format(11405.22)%> per year in your lifetime.
+                      <span class="black-text">The biggest investment you have made in <%=year%> is <%=formatter.format(-1.00*investedYearAmount)%> for <%=investedYearCategory%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=investedYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script>.
                       </span>
                     </div>
                   </div>
                 </div>
                 <div class="row">
+                  <%
+                  bigMonthAmount = 0
+                  bigMonthCategory = ""
+                  bigMonthDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit') && (year == entry.tstamp.getUTCFullYear()&& month == entry.tstamp.getMonth()))))).forEach(entry => {
+                    if(entry.amount > bigMonthAmount){
+                      bigMonthAmount = entry.amount
+                      bigMonthCategory = entry.category
+                      bigMonthDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have earned <%=formatter.format(99089.03)%> per month in 2021.
+                      <span class="black-text">The biggest amount you have earned in <%=monthCart[month]%> <%=year%> is <%=formatter.format(bigMonthAmount)%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=bigMonthDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script> through the <%=bigMonthCategory%>.
                       </span>
                     </div>
                   </div>
+                  <%
+                  smallYearAmount = 0
+                  smallYearCategory = ""
+                  smallYearDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear()&& month == entry.tstamp.getMonth()) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < smallYearAmount){
+                      smallYearAmount = entry.amount
+                      smallYearCategory = entry.category
+                      smallYearDate = entry.tstamp
+                    }
+                  })
+
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have exhausted <%=formatter.format(11046.57)%> per month in 2021.
+                      <span class="black-text">The biggest amount you have exhausted in <%=monthCart[month]%> <%=year%> is <%=formatter.format(-1.00*smallYearAmount)%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=smallYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script> on the <%=smallYearCategory%>.<br/>
                       </span>
                     </div>
                   </div>
+                  <%
+                  investedMonthAmount = 0
+                  investedMonthCategory = ""
+                  investedMonthDate = ""
+                  element.activity.filter(entry => (((entry.isActive == true) && (year == entry.tstamp.getUTCFullYear() && month == entry.tstamp.getMonth()) &&  (entry.category.includes('Investment'))))).forEach(entry => {
+                    if(entry.amount < investedMonthAmount){
+                      investedMonthAmount = entry.amount
+                      investedMonthCategory = entry.description
+                      investedMonthDate = entry.tstamp
+                    }
+                  })
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have invested <%=formatter.format(3801.74)%> per month in 2021.
+                      <span class="black-text">The biggest investment you have made in <%=monthCart[month]%> <%=year%> is <%=formatter.format(-1.00*investedMonthAmount)%> for <%=investedMonthCategory%> on <script type="text/javascript">
+                        document.write(moment(new Date("<%=investedMonthDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                   </script>.
                       </span>
                     </div>
                   </div>
                 </div>
                 <div class="row">
+                  <%
+                  totalTransaction = 0
+                  incomeTransaction = 0
+                  expenseTransaction = 0 
+                  element.activity.filter(entry => (((entry.isActive == true) && (year == entry.tstamp.getUTCFullYear())))).forEach(entry => {
+                    totalTransaction += 1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear())))).forEach(entry => {
+                    incomeTransaction +=1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear())))).forEach(entry => {
+                    expenseTransaction +=1
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  durationMonth = Math.ceil(diffDays/(365/12))
+                  incomeTransaction = (incomeTransaction/durationMonth).toFixed(2)
+                  totalTransaction = (totalTransaction/durationMonth).toFixed(2)
+                  expenseTransaction = (expenseTransaction/durationMonth).toFixed(2)
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have earned <%=formatter.format(53.7)%> per day in April 2021.
+                      <span class="black-text">You have made <%=totalTransaction%> transactions per month in <%=year%>, <%=incomeTransaction%> to make money and <%=expenseTransaction%> to deplete it.
                       </span>
                     </div>
                   </div>
+                  <%
+                  totalTransaction = 0
+                  incomeTransaction = 0
+                  expenseTransaction = 0 
+                  element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {
+                    totalTransaction += 1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense)))).forEach(entry => {
+                    incomeTransaction +=1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense)))).forEach(entry => {
+                    expenseTransaction +=1
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  if(diffDays < 365){
+                  durationYear = Math.ceil(diffDays/365)
+                  }
+                  else{
+                    durationYear = diffDays/365
+                  }
+                  incomeTransaction = (incomeTransaction/durationYear).toFixed(2)
+                  totalTransaction = (totalTransaction/durationYear).toFixed(2)
+                  expenseTransaction = (expenseTransaction/durationYear).toFixed(2)
+                  %>
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have exhausted <%=formatter.format(125.6)%> per day in April 2021.
+                      <span class="black-text">You have made <%=totalTransaction%> transactions per year in your lifetime, <%=incomeTransaction%> to make money and <%=expenseTransaction%> to deplete it.
                       </span>
                     </div>
                   </div>
+                  <%
+                  totalTransaction = 0
+                  incomeTransaction = 0
+                  expenseTransaction = 0 
+                  element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {
+                    totalTransaction += 1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense)))).forEach(entry => {
+                    incomeTransaction +=1
+                  })
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense)))).forEach(entry => {
+                    expenseTransaction +=1
+                  })
+                  incomeTransaction = (incomeTransaction).toFixed(2)
+                  totalTransaction = (totalTransaction).toFixed(2)
+                  expenseTransaction = (expenseTransaction).toFixed(2)
+                  %>
+
                   <div class="col s4">
                     <div class="card-panel white">
-                      <span class="black-text">You have invested <%=formatter.format(17.93)%> per day in April 2021.
+                      <span class="black-text">You have made a total of <%=totalTransaction%> transactions in your lifetime, <%=incomeTransaction%> to make money and <%=expenseTransaction%> to deplete it.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <%
+                  
+                  incomeAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit'))))).forEach(entry => {
+                    incomeAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  if(diffDays < 365){
+                  durationYear = Math.ceil(diffDays/365)
+                  }
+                  else{
+                    durationYear = diffDays/365
+                  }
+                  incomeAmount = (incomeAmount/durationYear).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have earned <%=formatter.format(incomeAmount)%> per year in your lifetime.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  expenseAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
+                    expenseAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  if(diffDays < 365){
+                  durationYear = Math.ceil(diffDays/365)
+                  }
+                  else{
+                    durationYear = diffDays/365
+                  }
+                  expenseAmount = (expenseAmount/durationYear).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have exhausted <%=formatter.format(-1.00*expenseAmount)%> per year in your lifetime.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  investedAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (entry.category.includes('Investment'))))).forEach(entry => {
+                    investedAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  if(diffDays < 365){
+                  durationYear = Math.ceil(diffDays/365)
+                  }
+                  else{
+                    durationYear = diffDays/365
+                  }
+                  investedAmount = (investedAmount/durationYear).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have invested <%=formatter.format(-1.00*investedAmount)%> per year in your lifetime.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <%
+                  
+                  incomeAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Credit'))))).forEach(entry => {
+                    incomeAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  duratioMonth = Math.ceil(diffDays/(365/12))
+                  incomeAmount = (incomeAmount/duratioMonth).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have earned <%=formatter.format(incomeAmount)%> per month in <%=year%>.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  expenseAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
+                    expenseAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  durationMonth = Math.ceil(diffDays/(365/12))
+                  expenseAmount = (expenseAmount/durationMonth).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have exhausted <%=formatter.format(-1.00*expenseAmount)%> per month in <%=year%>.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  investedAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear()) && (entry.category.includes('Investment'))))).forEach(entry => {
+                    investedAmount +=entry.amount
+                  })
+                  today = new Date()
+                  diff = Math.abs(today - element.tcreate)
+                  diffDays = Math.ceil(diff/(1000*60*60*24))
+                  
+                  durationMonth = Math.ceil(diffDays/(365/12))
+                  
+                  investedAmount = (investedAmount/durationMonth).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have invested <%=formatter.format(-1.00*investedAmount)%> per month in <%=year%>.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <%
+                  monthLength = 0
+                  bigmonth = [0,2,4,6,7,9,11]
+                  smallmonth = [3,5,8,10]
+                  if(bigmonth.includes(month))
+                  {
+                    monthLength = 31
+                  }
+                  else if(smallmonth.includes(month))
+                  {
+                    monthLength = 30
+                  }
+                  else{
+                    monthLength = 28
+                  }
+                  incomeAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Credit'))))).forEach(entry => {
+                    incomeAmount +=entry.amount
+                  })
+                  incomeAmount = (incomeAmount/monthLength).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have earned <%=formatter.format(incomeAmount)%> per day in <%=monthCart[month]%> <%=year%>.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  expenseAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
+                    expenseAmount +=entry.amount
+                  })
+                  expenseAmount = (expenseAmount/monthLength).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have exhausted <%=formatter.format(-1.00*expenseAmount)%> per day in <%=monthCart[month]%> <%=year%>.
+                      </span>
+                    </div>
+                  </div>
+                  <%
+                  
+                  investedAmount = 0
+                  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()) && (entry.category.includes('Investment'))))).forEach(entry => {
+                    investedAmount +=entry.amount
+                  })
+                  investedAmount = (investedAmount/monthLength).toFixed(2)
+                  %>
+                  <div class="col s4">
+                    <div class="card-panel white">
+                      <span class="black-text">You have invested <%=formatter.format(-1.00*investedAmount)%> per day in <%=monthCart[month]%> <%=year%>.
                       </span>
                     </div>
                   </div>
