@@ -15,8 +15,7 @@ Installation Guide: <br/>
 ! Don't use the code for any commercial purpose.
 
 Ideas which have not been implemented yet:<br/>
-        1. Debt and its repayment mechanism.<br/>
-        2. Updating current values of real estate.<br/>
+        1. Updating current values of real estate.<br/>
 
 Account lists
 ![Account](screenshots/Account.png)
