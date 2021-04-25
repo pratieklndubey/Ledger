@@ -16,6 +16,8 @@ Installation Guide: <br/>
 
 Ideas which have not been implemented yet:<br/>
         1. Updating current values of real estate.<br/>
+        2. Loan interest calculation mechanism.<br/>
+        3. Notifications to remind for same transactions every month.<br/>
 
 Account lists
 ![Account](screenshots/Account.png)
