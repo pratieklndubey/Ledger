@@ -330,7 +330,7 @@
                   <%
                   investedLifeAmount = 0
                   investedLifeCategory = ""
-                investedlLifeDate = ""
+                investedLifeDate = ""
                   element.activity.filter(entry => (((entry.isActive == true) && (entry.category.includes('Investment'))))).forEach(entry => {
                     if(entry.amount < investedLifeAmount){
                       investedLifeAmount = entry.amount
