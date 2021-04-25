@@ -474,8 +474,8 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Investment","Entertainment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present"]
-        const categoriesIncome = ["Savings","Salary","Interest/Dividend","Asset Liquidation","Gift","Business Payment","Credit"]
+        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
+        const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
         let account = await Account.findById(req.params.id)
         let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
@@ -503,6 +503,14 @@ router.get('/:id/:year/:month', async (req, res) => {
         if(req.body.category == 'Credit')
         {
           account.onhold -= req.body.amount*1.00
+        }
+        if(req.body.category == 'Loan')
+        {
+          account.debt += req.body.amount*1.00
+        }
+        if(req.body.category == 'Loan Repayment')
+        {
+          account.debt -= req.body.amount*1.00
         }
         //res.send(newTransaction)
         await account.save()
