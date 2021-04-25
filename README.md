@@ -2,8 +2,6 @@
 lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but I never really got an app with all the required features. So, I thought of creating this app with all the features one needs to manage their money seamlessly. I hope you would love it.
 <br/>lEdge provides features like Ledger, Charts, Pivot Tables, Statistics and Asset Management with live values of your assets like Metals and Securities.
 
-[![Signature fonts](https://see.fontimg.com/api/renderfont4/mOBm/eyJyIjoiZnMiLCJoIjo4MSwidyI6MTI1MCwiZnMiOjY1LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/cHJhdGVla2R1YmV5/autograf-personal-use-only.png)](https://www.fontspace.com/category/signature)
-
 Installation Guide: <br/>
         1. Install [Python](https://www.python.org/downloads/), [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community).<br/>
         2. Clone the repository in your computer.<br/>
@@ -46,5 +44,4 @@ Lifetime Cashflow
 Cashflow Comparison
 ![Cashflow Comparison](screenshots/cashflow.png)
 
-
-
+[![Signature fonts](https://see.fontimg.com/api/renderfont4/mOBm/eyJyIjoiZnMiLCJoIjo2MSwidyI6MTI1MCwiZnMiOjQ5LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/UHJhdGVla0R1YmV5/autograf-personal-use-only.png)](https://www.fontspace.com/category/signature)
