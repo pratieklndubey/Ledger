@@ -798,25 +798,35 @@ data: {
       balance = income-expense
       balance = balance.toFixed(2)
       expense -= investment
+      worth = parseFloat("<%=element.transum+element.onhold+assetsWorth-element.debt%>")
 var chart = new Chart(ctx, {
 type: 'bar',
 data: {
     labels: [''],
     datasets: [
-      {
+       {
         label: 'Income',
         stack: 1,
         backgroundColor: '#ff9800',
         //lineTension:0,
         fill:false,
         data: [income],
-    },{
+    },
+    {
         label: 'Savings',
         stack: 0,
         backgroundColor: '#0d47a1',
         //lineTension:0,
         fill:false,
         data: [balance],
+    },
+    {
+        label: 'Investment',
+        stack: 0,
+        backgroundColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        data: [investment],
     },
     {
         label: 'Expense',
@@ -827,13 +837,13 @@ data: {
         data: [expense],
     },
     {
-        label: 'Investment',
-        stack: 0,
-        backgroundColor: '#9c27b0',
+        label: 'Networth',
+        stack: 2,
+        backgroundColor: '#ffeb3b',
         //lineTension:0,
         fill:false,
-        data: [investment],
-    }
+        data: [worth],
+    },
     ]
 },
 options: {
