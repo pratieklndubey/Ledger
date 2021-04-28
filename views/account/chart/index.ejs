@@ -717,9 +717,19 @@ data: {
   
   <script type = "text/javascript">
     var ctx = document.getElementById('expensech').getContext('2d');
+    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5){%>"
+    balance = [parseFloat("<%=element.uexpense%>")]
+    category = ['Unaccounted']
+    color = []
+    r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    "<%}else{%>"
     balance = []
     category = []
     color = []
+    "<%}%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){
@@ -749,11 +759,22 @@ data: {
 },
 });
     </script>
+    
   <script type = "text/javascript">
     var ctx = document.getElementById('incomech').getContext('2d');
+    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5){%>"
+    balance = [parseFloat("<%=element.uincome%>")]
+    category = ['Unaccounted']
+    color = []
+    r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    "<%}else{%>"
     balance = []
     category = []
     color = []
+    "<%}%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
     
     if(!category.includes("<%=entry.category%>")){

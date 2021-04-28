@@ -433,6 +433,13 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5 && element.name == "Prateek"){%>
+                          <tr style="font-weight:500;">
+                            <td>Unaccounted</td>
+                            <td><%=formatter.format(element.uincome)%></td>
+                            <td><%=(element.uincome*100/element.income).toFixed(2)%></td>
+                          </tr>
+                          <%}%>
                         <%categories.forEach((category,index) => {%>
                         <tr style="font-weight:500;">
                             <td><%=category%></td>    
@@ -602,6 +609,13 @@
                             </tr>
                           </thead>
                           <tbody>
+                            <%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5 && element.name == "Prateek"){%>
+                              <tr style="font-weight:500;">
+                                <td>Unaccounted</td>
+                                <td><%=formatter.format(element.uexpense)%></td>
+                                <td><%=(element.uexpense*100/element.expense).toFixed(2)%></td>
+                              </tr>
+                              <%}%>
                             <%categories.forEach((category,index) => {%>
                             <tr style="font-weight:500;">
                                 <td><%=category%></td>    
@@ -718,6 +732,13 @@
                                                    </tr>
                                                  </thead>
                                                  <tbody>
+                                                  <%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5 && element.name == "Prateek"){%>
+                                                    <tr style="font-weight:500;">
+                                                      <td>Unaccounted</td>
+                                                      <td><%=formatter.format(element.uincome)%></td>
+                                                      <td><%=(element.uincome*100/element.income).toFixed(2)%></td>
+                                                    </tr>
+                                                    <%}%>
                                                    <%years.forEach((year,index) => {%>
                                                    <tr style="font-weight:500;">
                                                        <td><%=year%></td>    
@@ -1146,6 +1167,13 @@
                                                    </tr>
                                                  </thead>
                                                  <tbody>
+                                                  <%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5 && element.name == "Prateek"){%>
+                                                    <tr style="font-weight:500;">
+                                                      <td>Unaccounted</td>
+                                                      <td><%=formatter.format(element.uexpense)%></td>
+                                                      <td><%=(element.uexpense*100/element.expense).toFixed(2)%></td>
+                                                    </tr>
+                                                    <%}%>
                                                    <%years.forEach((year,index) => {%>
                                                    <tr style="font-weight:500;">
                                                        <td><%=year%></td>    

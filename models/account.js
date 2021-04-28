@@ -86,6 +86,14 @@ const accountSchema = new mongoose.Schema({
   income:{
     type: Number,
   },
+  uexpense:{
+    type: Number,
+    default:1
+  },
+  uincome:{
+    type: Number,
+    default:1
+  },
   transum:{
     type: Number,
     
