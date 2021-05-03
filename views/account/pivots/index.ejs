@@ -973,7 +973,6 @@
                 }
               }
               }
-              
                  %>
 
                  
@@ -1006,6 +1005,9 @@
               
                                               
                                       <%monthsIterator.forEach((month,index) => {%>
+                                        <%if(!expenseMonth[index]){
+                                          expenseMonth[index] = 0
+                                        }%>
                                       <tr style="font-weight:500;">
                                           <td><%=monthCart[month]%></td>    
                                           <td><%=formatter.format((incomeMonth[index]-expenseMonth[index])>0?incomeMonth[index]-expenseMonth[index]:0.00)%></td>    
