@@ -347,7 +347,7 @@ notation: "compact",
                 <td><%=description%></td>
                 <td><%=formatter.format(entry.amount)%> (<%=(entry.amount*100/invested).toFixed(2)%>%)</td>
                 <td><%=formatter.format(assetPrice*entry.units)%> (<%=(assetPrice*entry.units*100/currval).toFixed(2)%>%)</td>
-                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
+                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/currval*-1:PLc*1.00%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
                 <td><%if(entry.category == "Equity"){%>
                 <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#tt<%=entry._id%>"><i class="material-icons">description</i></a>
                 <a  class="btn-floating btn-small green modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>">B</a>
