@@ -79,6 +79,18 @@ const accountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),    
   },
+  dob: {
+    type: Date,
+    default: Date.now(),    
+  },
+  dnw:{
+    type: Number,
+    default:0
+  },
+  aor:{
+    type: Number,
+    default:50
+  },
   expense:{
     type: Number,
     default:0

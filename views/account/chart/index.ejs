@@ -97,7 +97,7 @@
               link = ''
             }
       %>
-  <a class="btn-floating btn-large light-blue darken-4">
+  <a class="btn-floating btn-large light-blue darken-4 pulse">
     <i class="large material-icons">tune</i>
   </a>
   <ul>
@@ -120,7 +120,7 @@
     <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">roofing</i></a>
   </div>
 <div class="col s11">
-        <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;">Charts for <%=element.name%></h2>
+        <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -10px; margin-top: 0px; margin-right: 100px;">Charts for <%=element.name%></h2>
   </div>
         
   </div>
@@ -129,12 +129,29 @@
     
   
 </div>
-
-
-             
-                <hr width="70%">
-                <div class="container">
-                    <table class="striped centered responsive-table"style="margin-top:-20px">      
+<div class="container">
+  <div class="row">
+    <div class="col s6" style="margin-bottom: -15px;">
+      <div class="progress green lighten-4 tooltipped" data-position="left" data-tooltip="<%=((element.transum+element.onhold+assetsWorth-element.debt)/element.dnw*100).toFixed(2)%>% Goal Completed<br><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%> of <%=formatterDashboard.format(element.dnw)%>">
+        <div class="determinate green darken-4" style=<%="width:"+(element.transum+element.onhold+assetsWorth-element.debt)/element.dnw*100+"%"%>></div>
+    </div>
+      </div>
+      <div class="col s6" style="margin-bottom: -15px;">
+        <%
+          tday = new Date()
+          bday = element.dob
+          diff = Math.abs(tday - bday)
+          diff = Math.ceil(diff / (1000 * 60 * 60 * 24)); 
+          years = diff/365.25
+          rdiff = element.aor*365.25
+          percgoal = diff*100/rdiff
+        %>
+        <div class="progress red lighten-4 tooltipped" data-position="right" data-tooltip="<%=percgoal.toFixed(2)%>% Time Finished<br><%=years.toFixed(2)%> of <%=element.aor%> Years">
+          <div class="determinate red darken-4" style=<%="width:"+ percgoal +"%"%>></div>
+      </div>
+        </div>
+    </div>
+                    <table class="striped centered responsive-table"style="margin-top:-30px">      
                         <thead>
                           <tr>
                             <th>Networth</th>
@@ -319,62 +336,62 @@
 
   </div>            
 <div id = "balcm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<%=monthCart[month]%>)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="balcmch"></canvas>
   </div>
   <div id = "balcy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (<%=year%>)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="balcych"></canvas>
   </div>
   <div id = "balcl" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances (LifeTime)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (LifeTime)</h5>
   <hr width="85%">
     <canvas id="balclch"></canvas>
   </div>
   <div id = "exdiscm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<%=monthCart[month]%>)</h5>
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="exdiscmch"></canvas>
   </div>
   <div id = "exdiscy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (<%=year%>)</h5>
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="exdiscych"></canvas>
   </div>
   <div id = "cashflowy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
+    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="cashflowych"></canvas>
   </div>
   <div id = "cashflow" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (LifeTime)</h5>
+    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (LifeTime)</h5>
   <hr width="85%">
     <canvas id="cashflowch"></canvas>
   </div>
   <div id = "cashflowc" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
+    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
   <hr width="85%">
     <canvas id="cashflowcch"></canvas>
   </div>
   <div id = "income" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (LifeTime)</h5>
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (LifeTime)</h5>
   <hr width="85%">
     <canvas id="incomech"></canvas>
   </div>
   <div id = "expense" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses (LifeTime)</h5>
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (LifeTime)</h5>
   <hr width="85%">
     <canvas id="expensech"></canvas>
   </div>
   <div id = "incomecy" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<%=year%>)</h5>
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="incomecych"></canvas>
   </div>
   <div id = "incomecm" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income (<%=monthCart[month]%>)</h5>
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="incomecmch"></canvas>
   </div>
@@ -394,65 +411,65 @@
     <canvas id="equicatch"></canvas>
   </div>
   <div id = "incomecat" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Income</h5>
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income</h5>
   <hr width="85%">
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecm">Income (<%=monthCart[month]%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecm">Income (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecy">Income (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecy">Income (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#income">Income (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#income">Income (LifeTime)</a>
       </div>       
     </div>
     
   </div>
   <div id = "expensecat" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Expenses</h5>
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses</h5>
   <hr width="85%">
 
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscm">Expenses (<%=monthCart[month]%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#exdiscm">Expenses (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#exdiscy">Expenses (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#exdiscy">Expenses (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expense">Expenses (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#expense">Expenses (LifeTime)</a>
       </div>  
     </div>
   </div>
   <div id = "balancecat" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Balances</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances</h5>
   <hr width="85%">
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcm">Balances (<%=monthCart[month]%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcm">Balances (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcy">Balances (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcy">Balances (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balcl">Balances (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcl">Balances (LifeTime)</a>
       </div>
       </div>
     
   </div>
   <div id = "cashflowcat" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Cashflow</h5>
+    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow</h5>
   <hr width="85%">
   <div class="row">
         <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowy">Cashflow (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowy">Cashflow (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflow">Cashflow (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflow">Cashflow (LifeTime)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowc">Cashflow (Comparison)</a>
+        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowc">Cashflow (Comparison)</a>
       </div>
     </div>
   </div>
@@ -485,19 +502,19 @@
     <div class="row">
      
       <div class="col s2 offset-s1 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#expensecat">Expenses</a>
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#expensecat">Expenses</a>
       </div>
       <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#incomecat">Income</a>
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecat">Income</a>
       </div>
       <div class="col s2 center">
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#assetscat">Assets</a>
       </div> 
       <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#balancecat">Balances</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balancecat">Balances</a>
       </div> 
       <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#cashflowcat">Cashflow</a>
+        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowcat">Cashflow</a>
       </div> 
      
     </div>

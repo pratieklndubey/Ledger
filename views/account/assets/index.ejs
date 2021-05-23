@@ -90,7 +90,7 @@ notation: "compact",
                 link = ''
               }
         %>
-    <a class="btn-floating btn-large light-blue darken-4">
+    <a class="btn-floating btn-large light-blue darken-4 pulse">
       <i class="large material-icons">tune</i>
     </a>
     <ul>
@@ -155,15 +155,33 @@ notation: "compact",
         <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=element._id%>"><i class="material-icons">roofing</i></a>
       </div>
     <div class="col s11">
-            <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-right: 100px;"><%=element.name%>'s Assets</h2>
+            <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -5px; margin-top: 0px; margin-right: 100px;"><%=element.name%>'s Assets</h2>
       </div>
       </div>
       
-     
-             
-                <hr width="70%">
-                <div class="container">
-                    <table class="striped centered responsive-table"style="margin-top:-20px">      
+      <div class="container">
+        <div class="row">
+          <div class="col s6" style="margin-bottom: -15px;">
+            <div class="progress green lighten-4 tooltipped" data-position="left" data-tooltip="<%=((element.transum+element.onhold+assetsWorth-element.debt)/element.dnw*100).toFixed(2)%>% Goal Completed<br><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%> of <%=formatterDashboard.format(element.dnw)%>">
+              <div class="determinate green darken-4" style=<%="width:"+(element.transum+element.onhold+assetsWorth-element.debt)/element.dnw*100+"%"%>></div>
+          </div>
+            </div>
+            <div class="col s6" style="margin-bottom: -15px;">
+              <%
+                tday = new Date()
+                bday = element.dob
+                diff = Math.abs(tday - bday)
+                diff = Math.ceil(diff / (1000 * 60 * 60 * 24)); 
+                years = diff/365.25
+                rdiff = element.aor*365.25
+                percgoal = diff*100/rdiff
+              %>
+              <div class="progress red lighten-4 tooltipped" data-position="right" data-tooltip="<%=percgoal.toFixed(2)%>% Time Finished<br><%=years.toFixed(2)%> of <%=element.aor%> Years">
+                <div class="determinate red darken-4" style=<%="width:"+ percgoal +"%"%>></div>
+            </div>
+              </div>
+          </div>
+                          <table class="striped centered responsive-table"style="margin-top:-30px">         
                         <thead>
                           <tr>
                             <th>Networth</th>
