@@ -1,3 +1,8 @@
+
+<style>
+  #addaccount { width: 61% !important ; height: 61% !important ; } 
+</style>
+
 <div class="section white ">
  
   <h2  class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Select an Account</h2>
@@ -36,18 +41,26 @@
 </div>
 
 <div id = "addaccount" class="modal white">
-    <h5 class="header center light-blue-text text-darken-4" style="font-family:Handlee;">Open an Account</h5>
-    <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  <br><br>
+    <h3 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Open an Account</h3>
     <div class="row">
       <form action="/account" method="POST">
-        <div class="input-field col s6 offset-s3 center dark-blue-text" style="width: 50%; ">
+        <div class="input-field col s4 offset-s1 center dark-blue-text" >
           <input name = "name" type="text" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "<%=newaccount.name%>">
         </div>
-        <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
+        <div class="input-field col s4 offset-s2 center" >
           <input  name = "currbal" type="number" step="0.01" placeholder = "Opening Balance" class="validate" required="" aria-required="true" value = "<%=newaccount.currbal%>">
         </div>
-        
-        <div class="input-field col s6 offset-s3 center" style="width: 50%; margin-top: -5px;">
+        <div class="input-field col s4 offset-s1 center" style="margin-top: -5px;">
+          <input  name = "aor" type="number" step="0.01" placeholder = "Aimed Retirment Age" class="validate" required="" aria-required="true" >
+        </div>
+        <div class="input-field col s4 offset-s2 center" style="margin-top: -5px;">
+          <input  name = "dob" type="text" step="0.01" placeholder = "Date of Birth" class="validate datepicker" required="" aria-required="true" >
+        </div>
+        <div class="input-field col s4 offset-s1 center" style="margin-top: -5px;">
+          <input  name = "dnw" type="number" step="0.01" placeholder = "Aimed Networth" class="validate" required="" aria-required="true" >
+        </div>
+        <div class="input-field col s4 offset-s2 center" style="margin-top: -5px;">
         <select name = "currency" class="browser-default" style="margin-top:7px;">
           
     <% 

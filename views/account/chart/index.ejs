@@ -336,17 +336,17 @@
 
   </div>            
 <div id = "balcm" class="modal white">
-    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (<%=monthCart[month]%>)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (<%=monthCart[month]%>)</h5>
   <hr width="85%">
     <canvas id="balcmch"></canvas>
   </div>
   <div id = "balcy" class="modal white">
-    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (<%=year%>)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="balcych"></canvas>
   </div>
   <div id = "balcl" class="modal white">
-    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances (LifeTime)</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (LifeTime)</h5>
   <hr width="85%">
     <canvas id="balclch"></canvas>
   </div>
@@ -361,17 +361,17 @@
     <canvas id="exdiscych"></canvas>
   </div>
   <div id = "cashflowy" class="modal white">
-    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
   <hr width="85%">
     <canvas id="cashflowych"></canvas>
   </div>
   <div id = "cashflow" class="modal white">
-    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (LifeTime)</h5>
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (LifeTime)</h5>
   <hr width="85%">
     <canvas id="cashflowch"></canvas>
   </div>
   <div id = "cashflowc" class="modal white">
-    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
   <hr width="85%">
     <canvas id="cashflowcch"></canvas>
   </div>
@@ -443,33 +443,33 @@
     </div>
   </div>
   <div id = "balancecat" class="modal white">
-    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balances</h5>
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance</h5>
   <hr width="85%">
   <div class="row">
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcm">Balances (<%=monthCart[month]%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcm">Balance (<%=monthCart[month]%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcy">Balances (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcy">Balance (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcl">Balances (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcl">Balance (LifeTime)</a>
       </div>
       </div>
     
   </div>
   <div id = "cashflowcat" class="modal white">
-    <h5 class="header center pink-text text-accent-4" style="font-family:Roboto;">Cashflow</h5>
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow</h5>
   <hr width="85%">
   <div class="row">
         <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowy">Cashflow (<%=year%>)</a>
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowy">Cashflow (<%=year%>)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflow">Cashflow (LifeTime)</a>
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflow">Cashflow (LifeTime)</a>
       </div>
       <div class="col s4 center">
-        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowc">Cashflow (Comparison)</a>
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowc">Cashflow (Comparison)</a>
       </div>
     </div>
   </div>
@@ -511,11 +511,20 @@
         <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#assetscat">Assets</a>
       </div> 
       <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balancecat">Balances</a>
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balancecat">Balance</a>
       </div> 
       <div class="col s2 center">
-        <a data-toggle="modal" class="modal-trigger btn pink accent-3" href="#cashflowcat">Cashflow</a>
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowcat">Cashflow</a>
       </div> 
+     
+    </div><div class="row">
+     
+      <div class="col s4 offset-s1 center">
+        <a data-toggle="modal" class="modal-trigger btn cyan" href="#expensedist">Expense Distribution</a>
+      </div>
+      <div class="col s4 offset-s2 center">
+        <a data-toggle="modal" class="modal-trigger btn teal" href="#incomedist">Income Distribution</a>
+      </div>
      
     </div>
     

@@ -578,6 +578,9 @@ router.get('/:id/:year/:month', async (req, res) => {
       income: req.body.currbal,
       currency : req.body.currency,
       //passWord: CryptoJS.createHash('sha256').update(req.body.pass).digest('hex'),
+      aor : req.body.aor,
+      dnw : req.body.dnw,
+      dob : req.body.dob,
       activity:
      [{title:"Opening Balance", 
      amount:req.body.currbal, 
