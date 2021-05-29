@@ -34,7 +34,12 @@ router.put('/:id/assets/:aid', async(req, res) => {
   let account = await Account.findById(req.params.id)
       let transaction = account.asset
       let entry = transaction.find(entry => entry._id == req.params.aid)
-      if(entry.category == "Equity" && req.body.action == "updtaEmbed")
+      if(req.body.action == 'updatere')
+      {
+        entry.tape = req.body.amount
+        await account.save()
+      }
+      else if(entry.category == "Equity" && req.body.action == "updtaEmbed")
       {
       entry.tape = req.body.embed   
       await account.save()
@@ -54,7 +59,7 @@ router.put('/:id/assets/:aid', async(req, res) => {
           titleTransaction = entry.description
         }
         else{
-          descriptionTransaction = "1 Unit of Extra Charge"
+          descriptionTransaction = req.body.description
           titleTransaction = entry.category
         }
         let newTransaction = {title: titleTransaction, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount*1.00)}
@@ -190,7 +195,7 @@ router.put('/:id/assets', async(req, res) => {
       let entry = transaction.find(entry => entry.category == req.body.category)
       entry.units += 1
       entry.amount += parseFloat(req.body.amount)
-      descriptionTransaction = req.body.units + " units of "+req.body.category
+      descriptionTransaction = req.body.description
       let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
       account.activity.push(newTransaction)
       account.transum -= req.body.amount*1.00
