@@ -94,9 +94,9 @@ notation: "compact",
       <i class="large material-icons">tune</i>
     </a>
     <ul>
-      <li><a title="Chart Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
-      <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
-      <!--<li><a title="Statistics" data-toggle="modal" href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating black modal-trigger"><i class="material-icons">functions</i></a></li>-->
+      <li><a title="Chart Analytics"  href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
+      <li><a title="Pivot Tables"  href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+      <li><a title="Statistics"  href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating black modal-trigger"><i class="material-icons">functions</i></a></li>
       <li><a title="Add Asset" data-toggle="modal" href="#aasset" class="btn-floating orange accent-4 modal-trigger"><i class="material-icons">precision_manufacturing</i></a></li>
     </ul>
   </div>
@@ -160,6 +160,27 @@ notation: "compact",
       </div>
       
       <div class="container">
+        <% 
+        assetsWorth = 0
+        element.asset.filter(entry => entry.isActive == true).forEach(entry => {
+          if(entry.category == "Gold"){
+            assetPrice = priceGold*entry.units                  
+          }
+          else if(entry.category == "Silver"){
+            assetPrice = priceSilver*entry.units
+          }
+          else if(entry.category == "Equity"){
+            position = stockList.indexOf(entry.description)
+            assetPrice = stockValues[position]*entry.units
+          }
+          else if(entry.category == "Extra Charge"){
+            assetPrice = 0
+          }
+          else{
+            assetPrice = entry.amount*entry.units
+          }
+          assetsWorth += assetPrice
+        })%>
         <div class="row">
           <div class="col s6" style="margin-bottom: -15px;">
             <div class="progress green lighten-4 tooltipped" data-position="left" data-tooltip="<%=((element.transum+element.onhold+assetsWorth-element.debt)/element.dnw*100).toFixed(2)%>% Goal Completed<br><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%> of <%=formatterDashboard.format(element.dnw)%>">
@@ -197,53 +218,33 @@ notation: "compact",
                           </tr>
                         </thead>
                         <tbody>
-                          <% 
-              assetsWorth = 0
-              element.asset.filter(entry => entry.isActive == true).forEach(entry => {
-                if(entry.category == "Gold"){
-                  assetPrice = priceGold*entry.units                  
-                }
-                else if(entry.category == "Silver"){
-                  assetPrice = priceSilver*entry.units
-                }
-                else if(entry.category == "Equity"){
-                  position = stockList.indexOf(entry.description)
-                  assetPrice = stockValues[position]*entry.units
-                }
-                else if(entry.category == "Extra Charge"){
-                  assetPrice = 0
-                }
-                else{
-                  assetPrice = entry.amount*entry.units
-                }
-                assetsWorth += assetPrice
-              })%>
+                         
                                   
-                                  <tr style="font-weight:500;">
-                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
-                                    <td><%= formatterDashboard.format(element.debt)%></td>
-                                    <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
-                                    <td><%=formatterDashboard.format(investment)%></td>
-                                    <td><%= formatterDashboard.format(element.currbal)%></td>
-                                    <td><%= formatterDashboard.format(element.transum)%></td>
-                                    <td><%= formatterDashboard.format(element.onhold)%></td>
-                                    <% variance = element.currbal-(element.transum+element.onhold)
-                                      if (variance < 0 && variance > -0.01)
-                                      {
-                                        variance *= -1.00
-                                      }
-                                    %>
-                                    <td><%= formatterDashboard.format(variance)%></td>
-                                    
-                                   
-                                    
-                                  </tr>
+                          <tr style="font-weight:500;">
+                            <td class="tooltipped" data-position="bottom" data-tooltip="<%=formatter.format(element.transum+element.onhold+assetsWorth-element.debt)%>"><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.debt)%>" class="tooltipped" ><%= formatterDashboard.format(element.debt)%></td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.income)%>" class = "tooltipped green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.expense-investment)%>" class = "tooltipped red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>
+                            <% variance = element.currbal-(element.transum+element.onhold)
+                              if (variance < 0 && variance > -0.01)
+                              {
+                                variance *= -1.00
+                              }
+                            %>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(variance)%>" class="tooltipped" ><%= formatterDashboard.format(variance)%></td>
+                            
+                           
+                            
+                          </tr>
                         </tbody>
                       </table>
                
             </div>
-<hr width="70%">
+
 <div class="container">
         <div class="row">
           

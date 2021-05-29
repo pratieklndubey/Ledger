@@ -234,7 +234,7 @@ router.get('/:id/stats', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/stats/:year/:month', async (req, res) => {
@@ -270,7 +270,7 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/pivots', async (req, res) => {
@@ -293,7 +293,7 @@ router.get('/:id/pivots', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 
@@ -331,7 +331,7 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/chart', async (req, res) => {
@@ -354,7 +354,7 @@ router.get('/:id/chart', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   
 })
 
@@ -391,7 +391,7 @@ router.get('/:id/chart/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "🗓️",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/', async (req, res) => {
@@ -414,7 +414,7 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️" ,relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
 })
 router.get('/:id/:year/:month', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
@@ -449,7 +449,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   })
   router.put('/', async (req, res) => {
     res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
@@ -470,6 +470,29 @@ router.get('/:id/:year/:month', async (req, res) => {
       account.currbal = req.body.currbal
     await account.save()
     res.redirect(req.params.id)
+    }
+    else if(req.body.action == 'Settings')
+    {
+      account.name = req.body.name
+      account.dnw = req.body.dnw
+      account.aor = req.body.aor
+      account.dob= req.body.dob
+      account.income -= account.uincome*1.00
+      account.expense -= account.uexpense*1.00
+      account.income += req.body.uincome*1.00
+      account.expense += req.body.uexpense*1.00
+      account.uincome = req.body.uincome*1.00
+      account.uexpense = req.body.uexpense*1.00
+      if(!req.body.state)
+      {
+        account.isActive = false
+        await account.save()
+        res.redirect("../../")
+      }
+      else{
+        await account.save()
+      res.redirect("../"+req.params.id)
+      }
     }
     else if(req.body.action == 'Creatran')
     {

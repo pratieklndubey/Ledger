@@ -1,3 +1,4 @@
+
 <% account.forEach(element => { %>
   <%investment = 0
  element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {
@@ -39,6 +40,7 @@
      }
   })
   %>  
+  
 <style>
   .modal { overflow: visible; }
 .modal-body { overflow-y: visible !important; }
@@ -105,10 +107,10 @@ notation: "compact",
     <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
     <li><a title="Update Balance" data-toggle="modal" href="#ubalance" class="btn-floating green modal-trigger"><i class="material-icons">account_balance_wallet</i></a></li>
     <li><a title="Create Transactions" data-toggle="modal" href="#ctransaction" class="btn-floating blue modal-trigger"><i class="material-icons">receipt_long</i></a></li>
-    <li><a title="Chart Analytics" data-toggle="modal" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
-    <li><a title="Pivot Tables" data-toggle="modal" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
-    <!--<li><a title="Statistics" data-toggle="modal" href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating black modal-trigger"><i class="material-icons">functions</i></a></li>-->
-    <li><a title="Asset Management" data-toggle="modal" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
+    <li><a title="Chart Analytics" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
+    <li><a title="Pivot Tables" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+    <li><a title="Statistics" href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating black modal-trigger"><i class="material-icons">functions</i></a></li>
+    <li><a title="Asset Management" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
   </ul>
 </div>
 <div id = "chperiod" class="modal white">
@@ -166,6 +168,46 @@ notation: "compact",
       </form>
     </div>
   
+
+</div>
+<div id = "options" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Settings</h5>
+  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  <form action="/account/<%=element._id%>/?_method=PUT" method="POST">
+        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Settings" />
+        <div class="row">
+        <div class="input-field col s4 offset-s1 center">
+        <input name = "name" type="text" placeholder = "Name" class="validate" required="" aria-required="true" value = "<%=element.name%>">
+        <input name = "aor" type="number" step="0.01" min="0" placeholder = "Age of Retirment" class="validate" required="" aria-required="true" value = "<%=element.aor%>">
+        <input name = "uincome" type="number" step="0.01" min="0" placeholder = "Unaccounted Income" class="validate" required="" aria-required="true" value = "<%=element.uincome%>">
+      </div>
+      <div class="input-field col s4 offset-s2 center" >
+        <input name = "dnw" type="number" step="0.01" min="0" placeholder = "Aimed Networth" class="validate" required="" aria-required="true" value = "<%=element.dnw%>">
+        <input  name = "dob" type="text" placeholder = "Date of Birth" class="validate datepicker" required="" aria-required="true" id = "dob">
+        <script type = "text/javascript">
+          let dob = moment(new Date("<%=element.dob%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM DD, YYYY")
+          document.getElementById("dob").value = dob
+         </script>
+         <input name = "uexpense" type="number" step="0.01" min="0" placeholder = "Unaccounted Expense" class="validate" required="" aria-required="true" value = "<%=element.uexpense%>">
+      </div>
+      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+        Account Status
+        <div class="switch">
+          <label>
+            Inactive
+            <input name="state" type="checkbox" <%=element.isActive?'Checked':''%>>
+            <span class="lever"></span>
+            Active
+          </label>
+        </div>
+      </div>
+      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+        <input class="btn light-blue darken-4 white-text" value="Update" type="submit">
+      </div>
+    </div>
+    
+      </form>
+    
 
 </div>
 
@@ -274,21 +316,21 @@ notation: "compact",
                          
                            
                                   <tr style="font-weight:500;">
-                                    <td><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
-                                    <td><%= formatterDashboard.format(element.debt)%></td>
-                                    <td class = "green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                                    <td class = "red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
-                                    <td><%=formatterDashboard.format(investment)%></td>
-                                    <td><%= formatterDashboard.format(element.currbal)%></td>
-                                    <td><%= formatterDashboard.format(element.transum)%></td>
-                                    <td><%= formatterDashboard.format(element.onhold)%></td>
+                                    <td class="tooltipped" data-position="bottom" data-tooltip="<%=formatter.format(element.transum+element.onhold+assetsWorth-element.debt)%>"><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.debt)%>" class="tooltipped" ><%= formatterDashboard.format(element.debt)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.income)%>" class = "tooltipped green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.expense-investment)%>" class = "tooltipped red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>
                                     <% variance = element.currbal-(element.transum+element.onhold)
                                       if (variance < 0 && variance > -0.01)
                                       {
                                         variance *= -1.00
                                       }
                                     %>
-                                    <td><%= formatterDashboard.format(variance)%></td>
+                                    <td data-position="bottom" data-tooltip="<%=formatter.format(variance)%>" class="tooltipped" ><%= formatterDashboard.format(variance)%></td>
                                     
                                    
                                     
