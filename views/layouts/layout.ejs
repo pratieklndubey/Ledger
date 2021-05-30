@@ -18,14 +18,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <style>
-.dropdown-content {
-  min-width: 10px; 
-  max-width: 13.5%;
-  max-height: auto;
-  position: absolute;
-  z-index: 1;
-  will-change: width, height;
-}
+            
 
 .notification {
   padding: 1% 1%;
@@ -80,20 +73,11 @@
     <nav id = "home" style="height: 60px;"class="light-blue darken-4">
         <div class = "nav-wrapper">
             <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>            
-            <h1 style="margin-right: 0.7%;font-size: 30px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Add Reminder" data-toggle="modal" class="modal-trigger" href="#options"><%=notiadd%></a></h1>
-            <h1 style="margin-right: 0.2%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Check Reminders" class="dropdown-trigger notification" href='#' data-target='notlist'><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
+            <h1 style="margin-right: 0.7%;font-size: 30px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Add Reminder" data-toggle="modal" class="modal-trigger" href="#"><%=notiadd%></a></h1>
+            <h1 style="margin-right: 0.2%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Check Reminders" href="#" class="notification"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
             <h1 style="margin-right: 1%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Search Records" href="<%=searchRelative%>search"><%=search%></a></h1>           
             <h1 style="margin-right: 1%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Update Settings" data-toggle="modal" class="modal-trigger" href="#options"><%=option%></a></h1>
         </div>
-        <ul id='notlist' class='dropdown-content light-blue darken-4'>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">one</a></li>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">two</a></li>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">three</a></li>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">four</a></li>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">five</a></li>
-            <li><a href="#!" class = "white-text" style="font-size: 80%;">six</a></li>
-            
-          </ul>
     </nav>
     <%- body %>
 
@@ -114,14 +98,7 @@
         </script>
         
         <script>
-            $('.dropdown-trigger').dropdown({
-                constrainWidth: false,
-                coverTrigger: false,
-                isScrollable: true,
-                inDuration: 300,
-                outDuration: 225,
-                
-            });
+         
 
               $(document).ready(function(){
     $('.datepicker').datepicker({
