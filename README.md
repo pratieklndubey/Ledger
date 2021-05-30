@@ -15,9 +15,8 @@ Installation Guide: <br/>
 ! Don't use the code for any commercial purpose.
 
 Ideas which have not been implemented yet:<br/>
-        1. Updating current values of real estate.<br/>
-        2. Loan interest calculation mechanism.<br/>
-        3. Notifications to remind for same transactions every month.<br/>
+        1. Loan interest calculation mechanism.<br/>
+        2. Notifications to remind for same transactions every month.<br/>
 
 Account lists
 ![Account](screenshots/Account.png)
