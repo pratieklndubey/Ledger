@@ -14,7 +14,6 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Roboto|Handlee" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet"> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <style>
@@ -62,23 +61,33 @@
             </style>
     </head>
     <%
-        notiam = 6
+        notiam = ""
         notiadd = '+'
+        sidenavFunc = "sidenav-trigger"
+        sidenavLink = "href='#'"
         if(bell == "")
         {
             notiam = ""
             notiadd = ""
+            sidenavFunc = ""
+            sidenavLink = ""
         }
     %>
-   <ul id="slide-out" class="sidenav">
-    <li></li>
+   <ul id="slide-out" class="sidenav light-blue darken-4">
+   <%if(notiam == ""){%>
+    <li>
+        <div class="center" style="margin-top: 80%;">
+            <h1 style="font-family: Amatic SC;" class="white-text">No Notifications!<br><i class="material-icons" style="font-size: 100%;">notifications_off</i></h1>
+        </div>
+    </li>
+    <%}%>
   </ul>
     <nav id = "home" style="height: 60px;"class="light-blue darken-4">
         <div class = "nav-wrapper">
             <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>            
             <h1 style="margin-right: 0.7%;font-size: 30px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Add Reminder" data-toggle="modal" class="modal-trigger" href="#"><%=notiadd%></a></h1>
-            <h1 style="margin-right: -1%;font-size: 25px;font-family: Handlee; margin-top: 0.4%;" class="right"><a title="Check Reminders" href="#" class="notification sidenav-trigger show-on-large" data-target="slide-out"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
-            <h1 style="margin-right: -0.4%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Search Records" href="<%=searchRelative%>search"><%=search%></a></h1>           
+            <h1 style="margin-right: -1%;font-size: 25px;font-family: Handlee; margin-top: 0.4%;" class="right"><a title="Check Notifications" <%=sidenavLink%> class="notification <%=sidenavFunc%> show-on-large" data-target="slide-out"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
+            <h1 style="margin-right: -0.4%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Search Ledger" href="<%=searchRelative%>search"><%=search%></a></h1>           
             <h1 style="margin-right: 1%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Update Settings" data-toggle="modal" class="modal-trigger" href="#options"><%=option%></a></h1>
         </div>
     </nav>
