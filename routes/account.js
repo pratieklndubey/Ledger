@@ -8,6 +8,12 @@ const util = require('util')
 router.get('/', async (req, res) => {
   res.redirect('../')
 })
+router.get('/:id/search', async (req, res) => {
+  let searchOptions = {}
+  searchOptions._id = req.params.id
+  const account = await Account.find(searchOptions)
+  res.render('account/search/index', {option:"",title:account[0].name, account: account,relative:'../../',search:"",bell:"",searchRelative:''});
+})
 router.get('/:id/assets', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -28,7 +34,7 @@ router.get('/:id/assets', async (req, res) => {
   month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
+  res.render('account/assets/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../',priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
 })
 router.put('/:id/assets/:aid', async(req, res) => {
   let account = await Account.findById(req.params.id)
@@ -239,7 +245,7 @@ router.get('/:id/stats', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/stats/:year/:month', async (req, res) => {
@@ -275,7 +281,7 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/stats/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/pivots', async (req, res) => {
@@ -298,7 +304,7 @@ router.get('/:id/pivots', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 
@@ -336,7 +342,7 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/pivots/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/chart', async (req, res) => {
@@ -359,7 +365,7 @@ router.get('/:id/chart', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   
 })
 
@@ -396,7 +402,7 @@ router.get('/:id/chart/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/chart/index', {title:account[0].name, account: account,month:month,year:year, option: "",search:"",searchRelative:'',bell:"",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   //res.send(account)
 })
 router.get('/:id/', async (req, res) => {
@@ -419,7 +425,7 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️" ,relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+  res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️" ,search:"🔎",searchRelative:req.params.id+'/',bell:"🔔",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
 })
 router.get('/:id/:year/:month', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
@@ -454,7 +460,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️",relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
+    res.render('account/index', {title:account[0].name, month:month, year:year, account: account, option: "🛠️",search:"🔎",bell:"🔔",searchRelative:req.params.id+'/',relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData});
   })
   router.put('/', async (req, res) => {
     res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)

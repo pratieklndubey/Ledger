@@ -6,7 +6,7 @@ const spawn = require('child_process').spawn
 const util = require('util')
 
 router.get('/', async (req, res) => {
-  res.render('about/index', {title: 'About',relative:'../',option:""});
+  res.render('about/index', {title: 'About',relative:'../',option:"",search:"",bell:"",searchRelative:''});
 })
 
 module.exports = router
