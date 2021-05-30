@@ -29,8 +29,8 @@
 
 .notification .badge {
   position: absolute;
-  top: -45%;
-  right: -50%;
+  top: 9%;
+  right: -43%;
   padding: 1.3% 1%;
   border-radius: 0%;
   font-size:x-large;
@@ -70,12 +70,15 @@
             notiadd = ""
         }
     %>
+   <ul id="slide-out" class="sidenav">
+    <li></li>
+  </ul>
     <nav id = "home" style="height: 60px;"class="light-blue darken-4">
         <div class = "nav-wrapper">
             <a style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-left: 40px;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>            
             <h1 style="margin-right: 0.7%;font-size: 30px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Add Reminder" data-toggle="modal" class="modal-trigger" href="#"><%=notiadd%></a></h1>
-            <h1 style="margin-right: 0.2%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Check Reminders" href="#" class="notification"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
-            <h1 style="margin-right: 1%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Search Records" href="<%=searchRelative%>search"><%=search%></a></h1>           
+            <h1 style="margin-right: -1%;font-size: 25px;font-family: Handlee; margin-top: 0.4%;" class="right"><a title="Check Reminders" href="#" class="notification sidenav-trigger show-on-large" data-target="slide-out"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
+            <h1 style="margin-right: -0.4%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Search Records" href="<%=searchRelative%>search"><%=search%></a></h1>           
             <h1 style="margin-right: 1%;font-size: 25px;font-family: Handlee; margin-top: 1.6%;" class="right"><a title="Update Settings" data-toggle="modal" class="modal-trigger" href="#options"><%=option%></a></h1>
         </div>
     </nav>
@@ -98,7 +101,12 @@
         </script>
         
         <script>
-         
+          $(document).ready(function(){
+    $('.sidenav').sidenav({
+        edge:'right'
+        
+    });
+  });
 
               $(document).ready(function(){
     $('.datepicker').datepicker({
