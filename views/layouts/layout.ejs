@@ -67,6 +67,7 @@
         sidenavLink = "href='#'"
         imagesettings = "img src="+option+" style=width:7%; height:7%;"
         imagesearch = "img src="+search+" style=width:7%; height:7%;"
+        imagecalculate = "img src="+calculate+" style=width:7%; height:7%;"
         if(bell == "")
         {
             notiam = ""
@@ -75,25 +76,31 @@
             sidenavLink = ""
             imagesettings = "meta"
             imagesearch = "meta"
+            imagecalculate = "meta"
         }
     %>
    <ul id="slide-out" class="sidenav light-blue darken-4">
    <%if(notiam == ""){%>
     <li>
-        <div class="center" style="margin-top: 80%;">
-            <h1 style="font-family: Amatic SC;" class="white-text">No Notifications!<br><i class="material-icons" style="font-size: 100%;">notifications_off</i></h1>
+        <div class="center" style="margin-top: 70%;">
+            <h1 style="font-family: Amatic SC;" class="white-text">No Notifications!</h1>
+            <h2><a class="white-text"><i class="material-icons" style="font-size: 100%;">notification_add</i></a></h2>
         </div>
     </li>
     <%}%>
   </ul>
-    <nav id = "home" style="height: 60px;"class="light-blue darken-4">
-        <div class = "nav-wrapper">
-            <a class="right" style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-right: 2%;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>            
-            <h1 style="margin-left: 0%;font-size: 25px;font-family: Handlee; margin-top: 0.4%;" class="left"><a title="Check Notifications" <%=sidenavLink%> class="notification <%=sidenavFunc%> show-on-large" data-target="slide-out"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
-            <h1 style="margin-left: -0.3%;font-size: 25px;font-family: Handlee; margin-top: 1.2%;" class="left"><a title="Search Ledger" href="<%=searchRelative%>search"><<%=imagesearch%>></a></h1>           
-            <h1 style="margin-left: -30%;font-size: 25px;font-family: Handlee; margin-top: 1.2%;" class="left"><a title="Update Settings" data-toggle="modal" class="modal-trigger" href="#options"><<%=imagesettings%>></a></h1>
-        </div>
-    </nav>
+    <div class="navbar-fixed">
+        <nav id = "home" style="height: 60px;"class="light-blue darken-4">
+            <div class = "nav-wrapper">
+                <a class="right" style="font-family: 'Amatic SC', cursive; font-size: 45px; margin-right: 2%;"href="<%=relative%>">lEdge<img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/icon.png"></a>            
+                <a title = "ॐ गण गणपतयेः नमः" target="_blank" class="right" style="margin-right: 40%; margin-top: 0.3%;"href="https://en.wikipedia.org/wiki/Ganesha"><img style=" margin-top:5px;margin-left:1px; width: 40px;" src="<%=relative%>images/ganeshji.png"></a>
+                <h1 style="margin-left: 0%;font-size: 25px;font-family: Handlee; margin-top: 0.4%;" class="left"><a title="Check Notifications" <%=sidenavLink%> class="notification <%=sidenavFunc%> show-on-large" data-target="slide-out"><%=bell%><span class="badge"><%=notiam%></span></a></h1>           
+                <h1 style="margin-left: -0.3%;font-size: 25px;font-family: Handlee; margin-top: 1.2%;" class="left"><a title="Search Ledger" href="<%=searchRelative%>search"><<%=imagesearch%>></a></h1>           
+                <h1 style="margin-left: -30%;font-size: 25px;font-family: Handlee; margin-top: 1.2%;" class="left"><a title="Update Settings" data-toggle="modal" class="modal-trigger" href="#options"><<%=imagesettings%>></a></h1>
+                <h1 style="margin-left: -30%;font-size: 25px;font-family: Handlee; margin-top: 1.2%;" class="left"><a title="Calculator" data-toggle="modal" class="modal-trigger" href="#"><<%=imagecalculate%>></a></h1>
+            </div>
+        </nav>
+    </div>
     <%- body %>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -166,14 +173,15 @@
             </div>
             <div class="footer-copyright light-blue darken-4">
                 <div class="container">
-                    <a class = "white-text" target="_blank" href="https://github.com/Sh0onya"> &copy;
+                    <a style="font-size:large;" class = "white-text" target="_blank" href="https://github.com/Sh0onya"> &copy;
                         <script> 
                             var dateobj = new Date(); 
                             var crntYear = dateobj.getUTCFullYear(); 
                             document.write(crntYear);                     
                         </script>  
                         Sho0nya, Inc.</a>
-                    <a class = "right white-text" href = "<%=relative%>about">About</a>
+                    <a style="font-size:large;" class = "right white-text" href = "<%=relative%>about">About</a>
+                    <a target="_blank" href = "https://en.wikipedia.org/wiki/India" title="Made in India with ❤️" style="margin-right: 0%;" class="right"><img src = "<%=relative%>images/india.png" style="height:9%;width:7%;"></a>
                 </div>
             </div>
         </footer>
