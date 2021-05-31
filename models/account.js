@@ -39,6 +39,42 @@ const activitySchema = new mongoose.Schema({
 })
 
 
+const notificationSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
+    
+  },
+  title: {
+    type: String,
+    
+  },
+  amount: {
+    type: Number,
+    
+  },
+  category: {
+    type: String,
+    
+  },
+  isexpense: {
+    type: Boolean,
+    
+  },
+  tstamp: {
+    type: Date,
+  },
+  repeat: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  }
+})
+
 
 const assetSchema = new mongoose.Schema({
   id: {
@@ -136,6 +172,9 @@ const accountSchema = new mongoose.Schema({
   },
   asset: {
     type: [assetSchema]
+  },
+  notification: {
+    type: [notificationSchema]
   }
 })
 
