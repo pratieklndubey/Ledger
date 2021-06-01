@@ -10,7 +10,7 @@ def listToString(value):
 
 validated = nse.is_valid_code(sys.argv[1])
 
-if sys.argv[1] == 'NIFTYBEES' or sys.argv[1] == 'ICICIB22':
+if sys.argv[1] == 'NIFTYBEES' or sys.argv[1] == 'ICICIB22' or sys.argv[1] == 'SETFNIF50':
     validated = True
 
 if(validated):
@@ -31,10 +31,12 @@ if(validated):
                 appender.writerow(item)
             with open('stockData.csv', 'a', newline='') as file:
                 writer = csv.writer(file)
-                if sys.argv[1] == ['NIFTYBEES']:
+                if item == ['NIFTYBEES']:
                     outPut = ['NIFTYBEES',157.75]
-                elif sys.argv[1] == ['ICICIB22']:
+                elif item == ['ICICIB22']:
                     outPut = ['ICICIB22',36.45]
+                elif item == ['SETFNIF50']:
+                    outPut = ['SETFNIF50',157.88]                    
                 else:
                     ticker = nse.get_quote(sys.argv[1])
                     outPut = [ticker['symbol'],ticker['lastPrice']]
@@ -46,10 +48,12 @@ if(validated):
             appender.writerow(item)
         with open('stockData.csv', 'w', newline='') as file:
             writer = csv.writer(file)
-            if sys.argv[1] == ['NIFTYBEES']:
+            if item == ['NIFTYBEES']:
                 outPut = ['NIFTYBEES',157.75]
-            elif sys.argv[1] == ['ICICIB22']:
+            elif item == ['ICICIB22']:
                 outPut = ['ICICIB22',36.45]
+            elif item == ['SETFNIF50']:
+                    outPut = ['SETFNIF50',157.88]
             else:
                 ticker = nse.get_quote(sys.argv[1])
                 outPut = [ticker['symbol'],ticker['lastPrice']]

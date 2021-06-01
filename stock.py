@@ -31,9 +31,11 @@ if today != mtime:
         for entry in stocks:
             print(entry)
             if entry == ['NIFTYBEES']:
-                outPut = ['NIFTYBEES',158.31]
+                outPut = ['NIFTYBEES',166.85]
             elif entry == ['ICICIB22']:
-                outPut = ['ICICIB22',36.05]
+                outPut = ['ICICIB22',39.05]
+            elif entry == ['SETFNIF50']:
+                outPut = ['SETFNIF50',157.88]
             else:
                 ticker = nse.get_quote(listToString(entry))
                 outPut = [ticker['symbol'],ticker['lastPrice']]
