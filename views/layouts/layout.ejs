@@ -122,7 +122,16 @@
     });
   });
 
-              $(document).ready(function(){
+  $(document).ready(function(){
+    $('.datenotification').datepicker({
+        yearRange:1,
+        autoClose:true,
+        showDaysInNextAndPreviousMonths: true,
+        minDate: new Date(),
+    });
+  });
+
+    $(document).ready(function(){
     $('.datepicker').datepicker({
         yearRange:50,
         autoClose:true,

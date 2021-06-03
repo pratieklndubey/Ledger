@@ -69,9 +69,8 @@ const notificationSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  isActive: {
-    type: Boolean,
-    default: true
+  status: {
+    type: String,
   }
 })
 

@@ -425,6 +425,10 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
+  if(account[0].notification.length != 0)
+  {
+    let accountUpdate = await Account.findById(req.params.id)
+  }
   res.render('account/index', {title:account[0].name, month:month, year:year, account: account,calculate:"../../images/calculator.png", option: "../../images/settings.png" ,search:"../../images/search.png",searchRelative:req.params.id+'/',bell:"🔔",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"ramji"});
 })
 router.get('/:id/:year/:month', async (req, res) => {
@@ -482,6 +486,17 @@ router.get('/:id/:year/:month', async (req, res) => {
     await account.save()
     res.redirect(req.params.id)
     }
+    else if(req.body.action == 'addNot')
+    {
+      //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
+      const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
+      checkExpense = categoriesIncome.includes(req.body.category)
+      actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
+      let newReminder = {title: req.body.title, amount: actualAmount, category: req.body.category,tstamp:req.body.start, description: req.body.description, isexpense: !checkExpense, status: "Off", repeat: req.body.repeat}
+      account.notification.push(newReminder)
+      await account.save()
+      res.redirect(req.params.id)
+    }
     else if(req.body.action == 'Settings')
     {
       account.name = req.body.name
@@ -508,10 +523,10 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
+        //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
         const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
         let account = await Account.findById(req.params.id)
-        let transaction = account.activity
+        //let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
         actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
         balance = actualAmount

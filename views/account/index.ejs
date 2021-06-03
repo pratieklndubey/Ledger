@@ -150,12 +150,41 @@ notation: "compact",
     </div>
 </div>
 <div id = "addnot" class="modal white">
-  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Add Reminder</h5>
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Create Reminder</h5>
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
   <div class="row">
     <form action="/account/<%=element._id%>?_method=PUT" method="POST">
-      <div class="input-field">
         <input name = "action" type="hidden" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "addNot">
+        <div class="row">
+          <div class="input-field col s4 offset-s1 center">
+          <input name = "amount" type="number" step="0.01" min="0" placeholder = "Amount" class="validate" required="" aria-required="true" value = "">
+          <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "">
+          <input name = "start" type="text" placeholder = "Start Date" class="validate datenotification" required="" aria-required="true">
+        </div>
+        <div class="input-field col s4 offset-s2 center" >
+          <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "">
+         <select name = "category" class="browser-default" style="margin-top:7px;">
+          <option disabled>Scroll for More Options</option>
+          <optgroup label = "Expense">
+          <%categoriesExpense.forEach(category => {%>
+          <option value="<%=category%>"><%=category%> </option>
+        <%})%>
+      </optgroup>
+      <optgroup label = "Income">
+        <%categoriesIncome.forEach(category => {%>
+          <option value="<%=category%>"><%=category%> </option>
+        <%})%>
+      </optgroup>
+        </select>
+        <select name = "repeat" class="browser-default" style="margin-top:7px;">
+          <option disabled>Repeat Frequency</option>
+          <option>Month</option>
+          <option>Year</option>
+        </select>
+        </div>
+        <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+          <input class="btn light-blue darken-4 white-text" value="CREATE" type="submit">
+        </div>
       </div>
       </form>
     </div>
@@ -183,19 +212,38 @@ notation: "compact",
   <form action="/account/<%=element._id%>/?_method=PUT" method="POST">
         <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Settings" />
         <div class="row">
-        <div class="input-field col s4 offset-s1 center">
-        <input name = "name" type="text" placeholder = "Name" class="validate" required="" aria-required="true" value = "<%=element.name%>">
-        <input name = "aor" type="number" step="0.01" min="0" placeholder = "Age of Retirment" class="validate" required="" aria-required="true" value = "<%=element.aor%>">
-        <input name = "uincome" type="number" step="0.01" min="0" placeholder = "Unaccounted Income" class="validate" required="" aria-required="true" value = "<%=element.uincome%>">
+        <div class="col s4 offset-s1 center">
+          <div class="input-field">
+            <input id="setname" name = "name" type="text" placeholder = "Name" class="validate" required="" aria-required="true" value = "<%=element.name%>">
+        <label for="setname">Name</label>
+          </div>
+        <div class="input-field">
+          <input id="setaor" name = "aor" type="number" step="0.01" min="0" placeholder = "Age of Retirment" class="validate" required="" aria-required="true" value = "<%=element.aor%>">
+        <label for="setaor">Age of Retirment</label>
+        </div>
+        <div class="input-field">
+          <input id="setuincome" name = "uincome" type="number" step="0.01" min="0" placeholder = "Unaccounted Income" class="validate" required="" aria-required="true" value = "<%=element.uincome%>">
+        <label for="setuincome">Unaccounted Income</label>
+        </div>
       </div>
-      <div class="input-field col s4 offset-s2 center" >
-        <input name = "dnw" type="number" step="0.01" min="0" placeholder = "Aimed Networth" class="validate" required="" aria-required="true" value = "<%=element.dnw%>">
-        <input  name = "dob" type="text" placeholder = "Date of Birth" class="validate datepicker" required="" aria-required="true" id = "dob">
+      <div class="col s4 offset-s2 center" >
+        <div class="input-field">
+          <input id="setdnw" name = "dnw" type="number" step="0.01" min="0" placeholder = "Aimed Networth" class="validate" required="" aria-required="true" value = "<%=element.dnw%>">
+        <label for="setdnw">Aimed Networth</label>
+        </div>
+        <div class="input-field">
+          <input id="setdob"  name = "dob" type="text" placeholder = "Date of Birth" class="validate datepicker" required="" aria-required="true">
+        <label for="setdob">Date of Birth</label>
         <script type = "text/javascript">
           let dob = moment(new Date("<%=element.dob%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("MMM DD, YYYY")
-          document.getElementById("dob").value = dob
+          document.getElementById("setdob").value = dob
          </script>
-         <input name = "uexpense" type="number" step="0.01" min="0" placeholder = "Unaccounted Expense" class="validate" required="" aria-required="true" value = "<%=element.uexpense%>">
+        </div>
+         <div class="input-field">
+          <input id="uexpense" name = "uexpense" type="number" step="0.01" min="0" placeholder = "Unaccounted Expense" class="validate" required="" aria-required="true" value = "<%=element.uexpense%>">
+          <label for="uexpense">Unaccounted Expense</label>
+         </div>
+         
       </div>
       <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
         Account Status
