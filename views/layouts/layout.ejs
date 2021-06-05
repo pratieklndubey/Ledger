@@ -55,6 +55,10 @@
     </head>
     <%
         notiam = noticount
+        if(notiam == 0)
+        {
+            notiam = ""
+        }
         notiadd = '+'
         sidenavFunc = "sidenav-trigger"
         sidenavLink = "href='#'"
