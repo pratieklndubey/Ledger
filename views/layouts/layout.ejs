@@ -54,7 +54,7 @@
         </style>
     </head>
     <%
-        notiam = ""
+        notiam = noticount
         notiadd = '+'
         sidenavFunc = "sidenav-trigger"
         sidenavLink = "href='#'"
@@ -71,20 +71,7 @@
             imagecalculate = "meta"
         }
     %>
-    <ul id="slide-out" class="sidenav light-blue darken-4">
-        <h4 class="white-text" style="font-family: Handlee; margin-left: 2%;">Notifications
-            <a class="white-text right modal-trigger" data-toggle="modal" style="margin-right: 5%; margin-top: 0%;" title = "Add Reminder" href="#addnot">
-                <i class="material-icons" style="font-size: 100%;">notification_add</i>
-            </a>
-        </h4>       
-        <%if(notiam == ""){%>
-        <li>
-            <div class="center" style="margin-top: 80%;">
-                <h1 style="font-family: Amatic SC;" class="white-text">No Notifications!</h1>
-            </div>
-        </li>
-        <%}%>
-    </ul>
+    
     <div class="navbar-fixed">
         <nav id = "home" style="height: 60px;"class="light-blue darken-4">
             <div class = "nav-wrapper">

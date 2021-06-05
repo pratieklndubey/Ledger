@@ -149,6 +149,37 @@ notation: "compact",
       </form>
     </div>
 </div>
+<%notiami = noticount%>
+<ul id="slide-out" class="sidenav light-blue darken-4">
+    
+   <li class="light-blue darken-3 sidenav-header">
+    <h4 class="white-text" style="font-family: Handlee; margin-left: 2%; margin-top: 0.1%;">Notifications
+      <a class="white-text right modal-trigger" data-toggle="modal" style="margin-right: 5%; margin-top: 0%;" title = "Add Reminder" href="#addnot">
+          <i class="material-icons" style="font-size: 100%;">notification_add</i>
+      </a>
+  </h4> 
+   </li>
+   <li>
+    <div class="row">
+  <%if(notiami == 0){%>
+      <div class="center" style="margin-top: 80%;">
+          <h1 style="font-family: Amatic SC;" class="white-text">No Notifications!</h1>
+      </div>
+  <%}else{    element.notification.filter(entry => entry.status == "On").forEach(entry => {%>
+            <div class="col s7">
+              <h6 style="font-family: Roboto; margin-left: 1%; margin-top: 4%;" class="white-text"><%=entry.title%></h6>
+              </div>
+              <div class="col s5">
+                <a title="Delete Reminder" data-toggle="modal" href="" class="modal-trigger white-text"><i class="material-icons">delete_sweep</i></a>
+                <a title="Snooze Reminder" data-toggle="modal" href="" class="modal-trigger white-text"><i class="material-icons">notifications_paused</i></a>
+                <a title="Add Transaction" data-toggle="modal" href="" class="modal-trigger white-text"><i class="material-icons">receipt_long</i></a>
+                </div>
+                
+      <%})}%>
+    </div>
+    </li>
+    
+</ul>
 <div id = "addnot" class="modal white">
   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Create Reminder</h5>
   <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
