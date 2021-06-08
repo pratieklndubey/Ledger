@@ -303,9 +303,10 @@ notation: "compact",
           <table class="highlight centered responsive-table">
             <thead>
               <tr>
-                <th>Category</th>
+                <th style="display: none;">Category</th>
                 <th>Description</th>
                 <th>Invested</th>
+                <th>Change</th>
                 <th>Current Value</th>
                 <th>P/L Change</th>
                 <th>Actions</th>
@@ -313,8 +314,8 @@ notation: "compact",
             </thead>
             <tbody>
               <%element.asset.sort((last,current) => {
-                if(last.category < current.category) { return -1; }
-    if(last.category > current.category) { return 1; }
+                if(last.units > current.units) { return -1; }
+    if(last.units < current.units) { return 1; }
     return 0;
               })%>
               <% element.asset.filter(entry => entry.isActive == true).forEach(entry => {%> 
@@ -352,7 +353,7 @@ notation: "compact",
                 }
                 %>
               <tr style="font-weight:500;">
-                <td><%=entry.category%></td>
+                <td style="display: none;"><%=entry.category%></td>
                 <%if(entry.category == "Equity"){
                   description = entry.units+" shares of "+entry.description
                 }
@@ -365,8 +366,9 @@ notation: "compact",
                   %>
                 <td><%=description%></td>
                 <td><%=formatter.format(entry.amount)%> (<%=(entry.amount*100/invested).toFixed(2)%>%)</td>
+                <td class="<%=color%>"><%=formatter.format(entry.amount/entry.units)%> <%="\u2B95"%> <%=formatter.format(assetPrice)%></td>
                 <td><%=formatter.format(assetPrice*entry.units)%> (<%=(assetPrice*entry.units*100/currval).toFixed(2)%>%)</td>
-                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(PLc*100/entry.amount*sign).toFixed(2)%>%) <%=trend%></td>
+                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(entry.amount == 0?'∞':(PLc*100/entry.amount*sign).toFixed(2))%>%) <%=trend%></td>
                 <td><%if(entry.category == "Equity"){%>
                 <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#tt<%=entry._id%>"><i class="material-icons">description</i></a>
                 <a  class="btn-floating btn-small green modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>">B</a>

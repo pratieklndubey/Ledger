@@ -189,7 +189,7 @@ router.put('/:id/assets', async(req, res) => {
   {
     initiate = assetCategory.includes(req.body.category)
     if(!initiate) {
-      let newCharge = {units:1,amount:req.body.amount,category:req.body.category,description:req.body.description}
+      let newCharge = {units:0,amount:req.body.amount,category:req.body.category,description:req.body.description}
       account.asset.push(newCharge)
     descriptionTransaction = "Extra Charge on Investment"
     let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
@@ -199,7 +199,6 @@ router.put('/:id/assets', async(req, res) => {
     }
     else{
       let entry = transaction.find(entry => entry.category == req.body.category)
-      entry.units += 1
       entry.amount += parseFloat(req.body.amount)
       descriptionTransaction = req.body.description
       let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
