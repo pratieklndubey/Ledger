@@ -256,39 +256,25 @@ notation: "compact",
          
             
             
-            <div class="col s8">
+            <div class="col s8 offset-s2">
               
               <table class="highlight centered responsive-table">
                 <thead>
                  <tr> 
                   <th class="investedvalue"><span>Invested</span></th>
-                  <th class="currentvalue"><span>Current Value</span></th>
                   <th>P/L Change</th>
+                  <th class="currentvalue"><span>Current Value</span></th>
                   </tr>
                   </thead>
                   <tbody>
                     <tr style="font-weight:500;">
                       <td><%=formatter.format(invested)%></td>
-                      <td><%=formatter.format(currval)%></td>
                       <td class="<%=color%>"><%=formatter.format((currval - invested)*sign)%> (<%=(isNaN((currval - invested)*100/invested*sign)?0.00:(currval - invested)*100/invested*sign).toFixed(2)%>%) <%=trend%></td>
+                      <td><%=formatter.format(currval)%></td>
                       </tr>
                     </tbody>
                 </table></div>
-            <div class="col s4">
-              <table class="highlight centered responsive-table">
-            <thead>
-             <tr> 
-              <th>Gold (22ct)</th>
-              <th>Silver</th>
-              </tr>
-              </thead>
-              <tbody>
-                <tr style="font-weight:500;">
-                  <td><%=formatter.format(priceGold)%>/gm</td>
-                  <td><%=formatter.format(priceSilver)%>/gm</td>
-                  </tr>
-                </tbody>
-            </table></div>
+            
           </div>
         </div>
       
