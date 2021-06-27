@@ -264,6 +264,7 @@ notation: "compact",
                   <th class="investedvalue"><span>Invested</span></th>
                   <th>P/L Change</th>
                   <th class="currentvalue"><span>Current Value</span></th>
+                  <th>Profit Booked</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -271,6 +272,7 @@ notation: "compact",
                       <td><%=formatter.format(invested)%></td>
                       <td class="<%=color%>"><%=formatter.format((currval - invested)*sign)%> (<%=(isNaN((currval - invested)*100/invested*sign)?0.00:(currval - invested)*100/invested*sign).toFixed(2)%>%) <%=trend%></td>
                       <td><%=formatter.format(currval)%></td>
+                      <td><%=formatter.format(element.prook)%></td>
                       </tr>
                     </tbody>
                 </table></div>

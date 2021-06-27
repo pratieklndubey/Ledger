@@ -79,6 +79,7 @@ router.put('/:id/assets/:aid', async(req, res) => {
         price = entry.amount/entry.units
         entry.units -= req.body.units
         entry.amount = price*entry.units
+        soldCost = price*req.body.units*1.00
         if(entry.units == 0){
           entry.isActive = false
         }
@@ -95,10 +96,17 @@ router.put('/:id/assets/:aid', async(req, res) => {
             descriptionTransaction = req.body.units + "units of "+entry.category
             titleTransaction = entry.category
           }
+          const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: account.currency,
+            minimumFractionDigits: 2
+          })
+          descriptionTransaction = descriptionTransaction + " for " + formatter.format(((req.body.amount*1.00) - soldCost))
           let newTransaction = {title: titleTransaction, amount: req.body.amount*1.00, category: "Asset Liquidation",tstamp:Date.now(), description: descriptionTransaction, isexpense: false, postranbal:(account.transum+account.onhold+req.body.amount*1.00)}
           account.activity.push(newTransaction)
           account.transum += req.body.amount*1.00
           account.income += req.body.amount*1.00
+          account.prook += ((req.body.amount*1.00) - soldCost)
         await account.save()
         }
       }

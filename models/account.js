@@ -166,6 +166,10 @@ const accountSchema = new mongoose.Schema({
     default: true
 
   },
+  prook:{
+    type:Number,
+    default:0
+  },
   activity: {
     type: [activitySchema]
   },
