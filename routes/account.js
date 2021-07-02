@@ -9,10 +9,26 @@ router.get('/', async (req, res) => {
   res.redirect('../')
 })
 router.get('/:id/search', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
+  let stockData = fs.readFileSync('stockData.csv')
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
   let searchOptions = {}
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/search/index', {option:"",title:account[0].name, account: account,relative:'../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:""});
+  res.render('account/search/index', {month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
 })
 router.get('/:id/assets', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
@@ -72,6 +88,9 @@ router.put('/:id/assets/:aid', async(req, res) => {
         account.activity.push(newTransaction)
         account.transum -= req.body.amount*1.00
         account.expense += req.body.amount*1.00
+        if(entry.category == "Extra Charge"){
+          account.prook -= req.body.amount*1.00
+        }
         await account.save()
       }
       else if(req.body.action == "sold"){
@@ -204,6 +223,7 @@ router.put('/:id/assets', async(req, res) => {
     account.activity.push(newTransaction)
     account.transum -= req.body.amount*1.00
     account.expense += req.body.amount*1.00
+    account.prook -= req.body.amount*1.00
     }
     else{
       let entry = transaction.find(entry => entry.category == req.body.category)
@@ -213,6 +233,7 @@ router.put('/:id/assets', async(req, res) => {
       account.activity.push(newTransaction)
       account.transum -= req.body.amount*1.00
       account.expense += req.body.amount*1.00
+      account.prook -= req.body.amount*1.00
     }
     await account.save()
   res.redirect("../assets")

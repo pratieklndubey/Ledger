@@ -24,12 +24,16 @@ if today != mtime:
         for row in reader:
             stocks.append(row)
 
+    listSize = len(stocks)
+    counter = 0
+
     with open('stockDataStore.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         """header = ['Ticker', 'Price']
         writer.writerow(header)"""
         for entry in stocks:
-            print(entry)
+            counter += 1
+            print(entry,counter,"/",listSize)
             if entry == ['NIFTYBEES']:
                 outPut = ['NIFTYBEES',166.85]
             elif entry == ['ICICIB22']:

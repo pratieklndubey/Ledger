@@ -102,6 +102,7 @@
   </a>
   <ul>
     <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
+    <li><a title="Search" href="/account/<%=element._id%>/search" class="btn-floating teal modal-trigger"><i class="material-icons">search</i></a></li>    
     <li><a title="Pivot Tables"  href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
     <li><a title="Statistics"  href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating blue-grey modal-trigger"><i class="material-icons">functions</i></a></li>
     <li><a title="Asset Management"  href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
@@ -570,15 +571,15 @@
     </div>
     <div class="row">
      
-      <div class="col s3 offset-s1 center">
+      <!--<div class="col s3 offset-s1 center">
         <a data-toggle="modal" class="modal-trigger btn cyan" href="#expensedist">Expense Distribution</a>
-      </div>
-      <div class="col s2 offset-s1 center">
-        <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#transactions">Transaction</a>
+      </div>-->
+      <div class="col s12 center">
+        <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#transactions">Transactions</a>
       </div> 
-      <div class="col s3 offset-s1 center">
+      <!--<div class="col s3 offset-s1 center">
         <a data-toggle="modal" class="modal-trigger btn teal" href="#incomedist">Income Distribution</a>
-      </div>
+      </div>-->
        
     </div>
     
@@ -651,7 +652,7 @@ data: {
     var ctx = document.getElementById('invretch').getContext('2d');
     investment = 0
     value = 0
-    "<%element.asset.forEach(entry => {%>"
+    "<%element.asset.filter(entry => entry.isActive == true && entry.category != 'Extra Charge').forEach(entry => {%>"
     investment += parseFloat("<%=entry.amount%>")
     if("<%=entry.category%>" == "Equity"){
       "<%index = stockList.indexOf(entry.description)%>"
