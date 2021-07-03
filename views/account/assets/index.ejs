@@ -52,11 +52,13 @@
     {
       bcolor = "red-text text-darken-1"
           btrend = "\u25BC"
+          bsign = -1.00
     }
     else
     {
       bcolor = "green-text text-darken-1"
           btrend = "\u25B2"
+          bsign = 1.00
     }
     })%>
 <style>
@@ -283,7 +285,7 @@ notation: "compact",
                       <td><%=formatter.format(invested)%></td>
                       <td class="<%=color%>"><%=formatter.format((currval - invested)*sign)%> (<%=(isNaN((currval - invested)*100/invested*sign)?0.00:(currval - invested)*100/invested*sign).toFixed(2)%>%) <%=trend%></td>
                       <td><%=formatter.format(currval)%></td>
-                      <td class="<%=bcolor%>"><%=formatter.format(element.prook)%> <%=btrend%></td>
+                      <td class="<%=bcolor%>"><%=formatter.format(element.prook*bsign)%> (<%=(element.prook*bsign*100/investment).toFixed(2)%>%) <%=btrend%></td>
                       </tr>
                     </tbody>
                 </table></div>
