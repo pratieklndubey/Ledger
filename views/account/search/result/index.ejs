@@ -357,8 +357,136 @@
                         }
                   </script>
 
-<%=result%>
-                
+<%if(result.length != 0){%>
+
+  <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=result.length%> Transactions between <script type="text/javascript">
+    document.write(moment(new Date("<%=searchfrom%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("DD MMM, YYYY")) 
+  </script> and <script type="text/javascript">
+    document.write(moment(new Date("<%=searchto%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("DD MMM, YYYY")) 
+  </script><br></h4>
+    <% 
+  
+    totalAmount > 0?color = "green-text text-darken-1":color = "red-text text-darken-1"
+    totalAmount > 0?sign = 1.00:sign=-1.00
+    
+    %>
+  <h4 class="header center <%=color%>" style="font-family:Roboto;">
+  Sum Total of the found records is <%=formatter.format(totalAmount*sign)%>
+  </h4>
+
+
+<hr width="70%">
+
+<div class="container">
+  <input class="form-control" id="myInput" type="text" placeholder="&#128269;Type in to Search">
+        <table class="highlight centered responsive-table">
+            <thead>
+              <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Description</th>
+                  <th>Balance</th>
+                  <th style="display: none;">Type</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="myTable">
+              <%
+                    
+                    result.sort((last,current) => {
+                    let datelast = new Date(last.tstamp)                    
+                    let datecurrent = new Date(current.tstamp)
+                    return datecurrent - datelast;
+                    })%>
+
+<% result.forEach(entry => {%>  
+  <tr style="font-weight:500;">
+
+    <% 
+                    if(!entry.isexpense){
+                        var color = "green-text text-darken-1"
+                    var type = "Income"
+                var trend = "\u25B2"}
+                        else{
+                    var color = "red-text text-darken-1"
+                    var type = "Expense"
+                    var trend = "\u25BC"}
+                    %>
+                    <td><%= entry.title%></td>
+                    <td><%= entry.category%></td>
+                    <td> <script type="text/javascript">
+                         document.write(moment(new Date("<%=entry.tstamp%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+                    </script>    </td>
+                    
+                    <td class = "<%=color%>"><%= formatter.format(entry.isexpense?entry.amount*-1:entry.amount)%> <%=trend%></td>
+                    <td><%= entry.description%></td>
+                    <td><%= formatter.format(entry.postranbal)%></td>
+                    <td style="display: none;"><%= type%></td>
+                    <td>
+                      <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#u<%=entry._id%>"><i class="material-icons">edit</i></a></td>
+                        
+<div id = "u<%=entry._id%>" class="modal white">
+  <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Update Transaction</h5>
+  <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
+  
+    
+      <form action="/account/<%=element._id%>/<%=entry._id%>?_method=PUT" method="POST">
+       
+        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Update" />
+        <div class="row">
+        <div class="input-field col s3 offset-s1 center">
+        
+        <input name = "title" type="text" placeholder = "Title" class="validate" required="" aria-required="true" value = "<%=entry.title%>">
+        
+        
+      </div>
+      
+      <div class="input-field col s4 center">
+        <input name = "description" type="text" placeholder = "Description" class="validate" required="" aria-required="true" value = "<%=entry.description%>">
+        </div>
+        
+      <div class="input-field col s3 center">
+        <select name = "category" class="browser-default" style="margin-top:7px;">
+          <%if(entry.isexpense){%>
+          <optgroup label = "Expense">
+          <%categoriesExpense.forEach(category => {%>
+          <option value="<%=category%>" <%=entry.category == category?"Selected":""%>><%=category%> </option>
+        <%})%>
+      </optgroup>
+      <%}else{%>
+      <optgroup label = "Income">
+        <%categoriesIncome.forEach(category => {%>
+          <option value="<%=category%>"<%=entry.category == category?"Selected":""%>><%=category%> </option>
+        <%})%>
+      </optgroup>
+      <%}%>
+        </select>
+        </div>
+      <div class="input-field col s6 offset-s3 left center" style="width: 50%;">
+        <input class="btn light-blue darken-4 white-text" value="UPDATE" type="submit">
+      </div>
+    </div>
+      </form>
+    
+
+
+  
+</div>
+
+  <%});%>
+</tr>
+            </tbody>
+            </table>
+            </div>
+
+
+<%}else{%>
+  <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;">No Records Found!!</h4>
+  <br>      
+  <%}%>
+
                 <div id = "chperiod" class="modal white">
                   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>
       <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
