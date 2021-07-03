@@ -118,7 +118,7 @@
               link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
             }
         %>
-        <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">roofing</i></a>
+        <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../../../<%=link%>"><i class="material-icons">roofing</i></a>
       </div>
     <div class="col s11">
             <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -10px; margin-top: 0px; margin-right: 120px;"><%=element.name%>'s Search</h2>
@@ -341,7 +341,7 @@
                     function createDynamicURL()
                       {
                           
-                            var URL = "search/result/";
+                            var URL = "";
                             URL += document.getElementById("searchTitle").value+"+"
                             URL += document.getElementById("searchDescription").value+"+"
                             URL += document.getElementById("searchCategory").value+"+"
@@ -356,7 +356,8 @@
                             window.location= createDynamicURL();
                         }
                   </script>
-  
+
+<%=result%>
                 
                 <div id = "chperiod" class="modal white">
                   <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>

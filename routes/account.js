@@ -8,6 +8,7 @@ const util = require('util')
 router.get('/', async (req, res) => {
   res.redirect('../')
 })
+
 router.get('/:id/search', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -28,7 +29,42 @@ router.get('/:id/search', async (req, res) => {
   month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
-  res.render('account/search/index', {month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
+  res.render('account/search/index', {month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
+})
+router.get('/:id/search/result/:query', async (req, res) => {
+  let goldData = fs.readFileSync('goldPrice.txt')
+  let silverData = fs.readFileSync('silverPrice.txt')
+  let stockData = fs.readFileSync('stockData.csv')
+  let matchCriteria = /(?<=\[).*?(?=\])/;
+  stockData = String(stockData)
+  stockData = stockData.split("\r\n")
+  stockTickers = []
+  stockPrices = []
+  stockData.forEach(stock => {
+    if(stock != ""){
+      value = stock.split(",") 
+    stockPrices.push(parseFloat(value[1]))
+    stockTickers.push(value[0])
+    }
+  })
+  let searchOptions = {}
+  year = new Date().getUTCFullYear()
+  month = new Date().getMonth()
+  searchOptions._id = req.params.id
+  const account = await Account.find(searchOptions)
+  Values = req.params.query.split('+')
+  const Title = Values[0]
+  const Description = Values[1]
+  const Category = Values[2]
+  const From = new Date(Values[3])
+  const To = new Date(Values[4])
+  var result = []
+  var matchCriteriaTitle = "^.*?"+Title+".*?$"
+  var matchCriteriaDescription = "^.*?"+Description+".*?$"
+  account[0].activity.filter(record => record.isActive && (Values[3]==''?true:record.tstamp >= From) && (Values[4]==''?true:record.tstamp <= To) && (Category=='Category'?true:record.category == Category) && (Description==''?true:record.description.match(matchCriteriaDescription)) && (Title==''?true:record.title.match(matchCriteriaTitle))).forEach(record =>{
+    result.push(record)
+  })
+  res.render('account/search/result/index', {result:result,month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
 })
 router.get('/:id/assets', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
@@ -531,7 +567,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     }
     else if(req.body.action == 'addNot')
     {
-      //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
+      //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment"]
       const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
       checkExpense = categoriesIncome.includes(req.body.category)
       actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
@@ -566,7 +602,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone/Internet","House Hold","Health Care", "Present","Loan Repayment"]
+        //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment"]
         const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
         let account = await Account.findById(req.params.id)
         //let transaction = account.activity
