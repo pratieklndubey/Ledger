@@ -1,6 +1,6 @@
 # lEdge
 lEdge is something we all need. I always wanted to manage my money and analyse my income & expenses, but I never really got an app with all the required features. So, I thought of creating this app with all the features one needs to manage their money seamlessly. I hope you would love it.
-<br/>lEdge provides features like Ledger, Charts, Pivot Tables, Statistics and Asset Management with live values of your assets like Metals and Securities.
+<br/>lEdge provides features like Ledger, Charts, Pivot Tables, Statistics, Search, and Asset Management with live values of your assets like Metals and Securities.
 
 Installation Guide: <br/>
         1. Install [Python](https://www.python.org/downloads/), [Node-JS](https://nodejs.org/en/download/) and [MongoDB](https://www.mongodb.com/try/download/community).<br/>
@@ -15,9 +15,8 @@ Installation Guide: <br/>
 ! Don't use the code for any commercial purpose.
 
 Ideas which have not been implemented yet:<br/>
-        1. Loan interest calculation mechanism.<br/>
-        2. Notifications to remind for same transactions every month.<br/>
-        3. Search Functionality
+        1. Notifications to remind for same transactions every month.<br/>
+        
 
 Account lists
 ![Account](screenshots/Account.png)
