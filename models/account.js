@@ -135,11 +135,11 @@ const accountSchema = new mongoose.Schema({
   },
   uexpense:{
     type: Number,
-    default:1
+    default:0
   },
   uincome:{
     type: Number,
-    default:1
+    default:0
   },
   transum:{
     type: Number,
