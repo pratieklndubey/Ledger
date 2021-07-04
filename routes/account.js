@@ -3,6 +3,7 @@ const router = express.Router()
 const Account = require('../models/account')
 const fs = require('fs')
 const spawn = require('child_process').spawn
+const exec = require('child_process').exec
 const util = require('util')
 
 router.get('/', async (req, res) => {
@@ -571,6 +572,13 @@ router.get('/:id/:year/:month', async (req, res) => {
       account.currbal = req.body.currbal
     await account.save()
     res.redirect(req.params.id)
+    }
+    else if(req.body.action == 'logout')
+    {
+      //const logout = spawn('bat', ['./shut_server.bat'])
+      //logout.stdout.on('data', function (data) {});
+      const logout = spawn('python', ['./shutApp.py'])
+      logout.stdout.on('data', function (data) {});
     }
     else if(req.body.action == 'addNot')
     {

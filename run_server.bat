@@ -2,4 +2,4 @@ start /MAX node app.js
 start /MIN stock.py
 start /MIN gold.py
 start /MIN silver.py
-start /MIN chrome http://localhost:3000/
+start chrome -kiosk http://localhost:3000/
