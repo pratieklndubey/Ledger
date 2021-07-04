@@ -311,7 +311,9 @@
                       </div>
                       <div class="input-field col s2">
                         <select id="searchCategory" name = "category" class="browser-default" style="margin-top:7px;">
-                            <option>Category</option>
+                            <option>All Transactions</option>
+                            <option>All Incomes</option>
+                            <option>All Expenses</option>
                             <optgroup label = "Expense">
                             <%categoriesExpense.forEach(category => {%>
                             <option value="<%=category%>"><%=category%> </option>
