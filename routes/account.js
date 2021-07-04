@@ -137,6 +137,7 @@ router.put('/:id/assets/:aid', async(req, res) => {
       else if(req.body.action == "sold"){
         if(entry.units >= req.body.units){
         price = entry.amount/entry.units
+        buyAmount = price*req.body.units*1.00
         entry.units -= req.body.units
         entry.amount = price*entry.units
         soldCost = price*req.body.units*1.00
@@ -165,7 +166,8 @@ router.put('/:id/assets/:aid', async(req, res) => {
           let newTransaction = {title: titleTransaction, amount: req.body.amount*1.00, category: "Asset Liquidation",tstamp:Date.now(), description: descriptionTransaction, isexpense: false, postranbal:(account.transum+account.onhold+req.body.amount*1.00)}
           account.activity.push(newTransaction)
           account.transum += req.body.amount*1.00
-          account.income += req.body.amount*1.00
+          account.income += ((req.body.amount*1.00) - soldCost)
+          account.expense -= buyAmount
           account.prook += ((req.body.amount*1.00) - soldCost)
         await account.save()
         }

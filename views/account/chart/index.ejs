@@ -49,7 +49,7 @@
 .invested:hover span {display:none}
 .invested:hover:before {content:"<%=((investment)*100/element.income).toFixed(2)%>%"}
 .expense:hover span {display:none}
-.expense:hover:before {content:"<%=((element.expense-investment)*100/element.income).toFixed(2)%>%"}
+.expense:hover:before {content:"<%=((element.expense)*100/element.income).toFixed(2)%>%"}
 .balance:hover span {display:none}
 .balance:hover:before {content:"<%=(100 - element.expense*100/element.income).toFixed(2)%>%"}
 .monthlyincome:hover span {display:none}
@@ -195,7 +195,7 @@
                             <td class="tooltipped" data-position="bottom" data-tooltip="<%=formatter.format(element.transum+element.onhold+assetsWorth-element.debt)%>"><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.debt)%>" class="tooltipped" ><%= formatterDashboard.format(element.debt)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.income)%>" class = "tooltipped green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
-                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.expense-investment)%>" class = "tooltipped red-text text-darken-1"><%= formatterDashboard.format(element.expense-investment)%>&#x25bc;</td>
+                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.expense)%>" class = "tooltipped red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
@@ -998,7 +998,7 @@ data: {
       expense = expense.toFixed(2)
       balance = income-expense
       balance = balance.toFixed(2)
-      expense -= investment
+      //expense -= investment
       worth = parseFloat("<%=element.transum+element.onhold+assetsWorth-element.debt%>")
 var chart = new Chart(ctx, {
 type: 'bar',
@@ -1022,14 +1022,6 @@ data: {
         data: [balance],
     },
     {
-        label: 'Investment',
-        stack: 0,
-        backgroundColor: '#9c27b0',
-        //lineTension:0,
-        fill:false,
-        data: [investment],
-    },
-    {
         label: 'Expense',
         stack: 0,
         backgroundColor: '#00c853',
@@ -1045,6 +1037,14 @@ data: {
         fill:false,
         data: [worth],
     },
+    {
+        label: 'Investment',
+        stack: 3,
+        backgroundColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        data: [investment],
+    }
     ]
 },
 options: {
