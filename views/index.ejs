@@ -14,12 +14,6 @@
       <% account.filter(element => element.isActive == true).forEach(element => { %>
 
         <div class="fixed-action-btn" style="margin-bottom: 45.4%; margin-right: 93%;">
-          <%      
-                    link = '/'+year+'/'+parseFloat(month+1)
-                    if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
-                      link = ''
-                    }
-              %>
           <a title="Logout" data-toggle="modal" href="#logout" class="btn-floating btn-large black modal-trigger"><i class="material-icons">logout</i></a>
         </div>
 
