@@ -497,6 +497,7 @@ router.get('/:id/', async (req, res) => {
   let searchOptions = {}
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
+  notiam = 0
   if(account[0].notification.length != 0)
   {
     let accountUpdate = await Account.findById(req.params.id)

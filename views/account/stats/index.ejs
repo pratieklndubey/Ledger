@@ -88,25 +88,27 @@
      compactDisplay: "short"
    })
    %>
-  <div class="fixed-action-btn">
-  <%      
-            link = '/'+year+'/'+parseFloat(month+1)
-            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
-              link = ''
-            }
-      %>
-  <a class="btn-floating btn-large light-blue darken-4 pulse">
-    <i class="large material-icons">app_registration</i>
-  </a>
-  <ul>
-    <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
-    <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
-    <li><a title="Search" href="/account/<%=element._id%>/search" class="btn-floating teal modal-trigger"><i class="material-icons">search</i></a></li>    
-    <li><a title="Chart Analytics" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
-    <li><a title="Pivot Tables" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
-    <li><a title="Asset Management" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>   
-  </ul>
-</div>
+  <div id="app">
+    <div class="fixed-action-btn">
+      <%      
+                link = '/'+year+'/'+parseFloat(month+1)
+                if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+                  link = ''
+                }
+          %>
+      <a v-on:click="updateIcon()" class="btn-floating btn-large light-blue darken-4 pulse">
+        <i class="large material-icons">{{optionIcon}}</i>
+      </a>
+      <ul>
+        <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
+        <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
+        <li><a title="Search" href="/account/<%=element._id%>/search" class="btn-floating teal modal-trigger"><i class="material-icons">search</i></a></li>    
+        <li><a title="Chart Analytics" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
+        <li><a title="Pivot Tables" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+        <li><a title="Asset Management" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>   
+      </ul>
+    </div>
+  </div>
   <div class="section white" >
   <div class="row" style="margin-bottom: -10px;">
     <div class="col s1 left">

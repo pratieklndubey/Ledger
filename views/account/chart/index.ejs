@@ -89,7 +89,8 @@
    compactDisplay: "short"
  })
  %>
-
+<div id="app">
+  
 <div class="fixed-action-btn">
   <%      
             link = '/'+year+'/'+parseFloat(month+1)
@@ -97,8 +98,8 @@
               link = ''
             }
       %>
-  <a class="btn-floating btn-large light-blue darken-4 pulse">
-    <i class="large material-icons">app_registration</i>
+  <a v-on:click="updateIcon()" class="btn-floating btn-large light-blue darken-4 pulse">
+    <i class="large material-icons">{{optionIcon}}</i>
   </a>
   <ul>
     <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
@@ -108,6 +109,7 @@
     <li><a title="Statistics"  href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating blue-grey modal-trigger"><i class="material-icons">functions</i></a></li>
     <li><a title="Asset Management"  href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>    
   </ul>
+</div>
 </div>
 <div class="section white" >
 <div class="row" style="margin-bottom: -10px;">
