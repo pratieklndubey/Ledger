@@ -1,15 +1,21 @@
 const app = Vue.createApp({
     data(){
       return{
-        optionIcon: 'toggle_off',
+        selection: "Expense - Month",
+        chart: "exdiscmch",
       }
     },
     methods:{
-      async updateIcon(){
-        if(this.optionIcon == 'toggle_off'){
-        this.optionIcon = 'toggle_on'
-        }else{
-          this.optionIcon = 'toggle_off'
+      async updateSelection(){
+        //expensech,exdiscmch,exdiscych
+        if (this.selection == "Expense - Month"){
+          this.chart = "exdiscmch"
+        }
+        else if (this.selection == "Expense - Year"){
+          this.chart = "exdiscych"
+        }
+        else if (this.selection == "Expense - Lifetime"){
+          this.chart = "expensech"
         }
       }
     }
