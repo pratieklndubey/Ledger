@@ -1195,12 +1195,13 @@ options: {
 <script type = "text/javascript">
   year = []
   balance = []
+  ebalance = []
+  ibalance = []
   length = new Date().getUTCFullYear() - parseFloat("<%=element.tcreate.getUTCFullYear()-1%>")
   for(i = 0; i <= length;i++){
     balance.push(0)
-    income.push(0)
-    expense.push(0)
-    investment.push(0)
+    ebalance.push(0)
+    ibalance.push(0)
     year.push(new Date().getUTCFullYear()-i)
   }
   year = year.reverse()
@@ -1208,6 +1209,11 @@ options: {
   
   "<%element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {%>"
   balance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
+  "<%if(entry.isexpense){%>"
+  ebalance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
+  "<%}else{%>"
+  ibalance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
+  "<%}%>"
   "<%})%>"
 var chart = new Chart(ctx, {
 type: 'line',
@@ -1218,9 +1224,23 @@ data: {
       label: 'Transaction Count',
       borderColor: '#d81b60',
       lineTension:0,
-      //fill:false,
+      fill:false,
       radius:0,
       data: balance,
+  },{
+      label: 'Income Count',
+      borderColor: '#00c853',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ibalance,
+  },{
+      label: 'Expense Count',
+      borderColor: '#ff9800',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ebalance,
   }]
 },
 options: {
@@ -1254,9 +1274,16 @@ scales:{
 <script type = "text/javascript">
   var ctx = document.getElementById('ptransactionych').getContext('2d');
   balance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  ibalance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  ebalance = [0,0,0,0,0,0,0,0,0,0,0,0]
   month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   "<%element.activity.filter(entry => (((entry.isActive == true)) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
   balance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%if(entry.isexpense){%>"
+  ebalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}else{%>"
+  ibalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}%>"
   "<%})%>"
   
 var chart = new Chart(ctx, {
@@ -1267,10 +1294,25 @@ data: {
       label: 'Transaction Count',
       borderColor: '#d81b60',
       lineTension:0,
-      //fill:false,
+      fill:false,
       radius:0,
       data: balance,
-  }]
+  },{
+      label: 'Income Count',
+      borderColor: '#00c853',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ibalance,
+  },{
+      label: 'Expense Count',
+      borderColor: '#ff9800',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ebalance,
+  }
+  ]
 },
 options: {
 responsive: true,
