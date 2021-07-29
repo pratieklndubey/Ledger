@@ -400,7 +400,7 @@ notation: "compact",
                 <td><%=formatter.format(entry.amount)%> (<%=(entry.amount*100/invested).toFixed(2)%>%)</td>
                 <td class="<%=color%>"><%=entry.units == 0?formatter.format(entry.amount):formatter.format(entry.amount/entry.units)%> <%="\u2B95"%> <%=formatter.format(assetPrice)%></td>
                 <td><%=formatter.format(assetPrice*entry.units)%> (<%=(assetPrice*entry.units*100/currval).toFixed(2)%>%)</td>
-                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(entry.amount == 0?'∞':(PLc*100/entry.amount*sign).toFixed(2))%>%) <%=trend%></td>
+                <td class="<%=color%>"><%=formatter.format(PLc*sign)%><%PLc = entry.category == "Extra Charge"?entry.amount*entry.amount/invested*-1:PLc*1.00%> (<%=(entry.category == "Extra Charge"?"100":(entry.amount == 0?'∞':(PLc*100/entry.amount*sign).toFixed(2)))%>%) <%=trend%></td>
                 <td><%if(entry.category == "Equity"){%>
                 <a  class="btn-floating btn-small blue modal-trigger" data-toggle="modal" href="#tt<%=entry._id%>"><i class="material-icons">description</i></a>
                 <a  class="btn-floating btn-small green modal-trigger" data-toggle="modal" href="#ba<%=entry._id%>">B</a>
