@@ -238,10 +238,10 @@
               <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
-                            <th class = "monthlyincome"><span>Income</span></th>
-                            <th class = "monthlyexpense"><span>Expense</span></th>
+                            <th class = "monthlyincome"><span>Credit</span></th>
+                            <th class = "monthlyexpense"><span>Debit</span></th>
                             <th class = "monthlyinvested"><span>Invested</span></th>
-                            <th class = "monthlybalance"><span>Savings</span></th>
+                            <th class = "monthlybalance"><span>Balance</span></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -274,10 +274,10 @@
               <table class="striped centered responsive-table" style="margin-top:-30px">      
                         <thead>
                           <tr>
-                            <th class = "yearlyincome"><span>Income</span></th>
-                              <th class = "yearlyexpense"><span>Expense</span></th>
+                            <th class = "yearlyincome"><span>Credit</span></th>
+                              <th class = "yearlyexpense"><span>Debit</span></th>
                               <th class = "yearlyinvested"><span>Invested</span></th>
-                              <th class = "yearlybalance"><span>Savings</span></th>
+                              <th class = "yearlybalance"><span>Balance</span></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1133,7 +1133,7 @@ data: {
     labels: year,
     datasets: [
       {
-        label: 'Income',
+        label: 'Credit',
         borderColor: '#ff9800',
         //lineTension:0,
         fill:false,
@@ -1148,7 +1148,7 @@ data: {
         data: investment,
     },
     {
-        label: 'Expense',
+        label: 'Debit',
         borderColor: '#00c853',
         //lineTension:0,
         fill:false,
@@ -1156,7 +1156,7 @@ data: {
         data: expense,
     }
     ,{
-        label: 'Savings',
+        label: 'Balance',
         borderColor: '#0d47a1',
         //lineTension:0,
         fill:false,
@@ -1366,7 +1366,9 @@ scales:{
       investment[i] = investment[i].toFixed(2)
       balance[i] = income[i]-expense[i]-investment[i]
       balance[i] = balance[i].toFixed(2)
-     
+      if(balance[i] < 0){
+        balance[i] = 0.00
+      }
     }
 var chart = new Chart(ctx, {
 type: 'line',
@@ -1374,7 +1376,7 @@ data: {
     labels: month,
     datasets: [
       {
-        label: 'Income',
+        label: 'Credit',
         borderColor: '#ff9800',
         //lineTension:0,
         fill:false,
@@ -1388,7 +1390,7 @@ data: {
         radius:0,
         data: investment,
     },{
-        label: 'Expense',
+        label: 'Debit',
         borderColor: '#00c853',
         //lineTension:0,
         fill:false,
@@ -1396,7 +1398,7 @@ data: {
         data: expense,
     }
     ,{
-        label: 'Savings',
+        label: 'Balance',
         borderColor: '#0d47a1',
         //lineTension:0,
         fill:false,
