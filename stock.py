@@ -40,6 +40,8 @@ if today != mtime:
                 outPut = ['ICICIB22',39.05]
             elif entry == ['SETFNIF50']:
                 outPut = ['SETFNIF50',157.88]
+            elif entry == ['INDINFO']:
+                outPut = ['INDINFO',1.46]
             else:
                 ticker = nse.get_quote(listToString(entry))
                 outPut = [ticker['symbol'],ticker['lastPrice']]

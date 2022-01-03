@@ -923,7 +923,7 @@ data: {
     </script>
   <script type = "text/javascript">
     var ctx = document.getElementById('expensech').getContext('2d');
-    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5){%>"
+    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 8 && element.tcreate.getDate() == 8){%>"
     balance = [parseFloat("<%=element.uexpense%>")]
     category = ['Unaccounted']
     color = []
@@ -968,7 +968,7 @@ data: {
     
   <script type = "text/javascript">
     var ctx = document.getElementById('incomech').getContext('2d');
-    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 1 && element.tcreate.getDate() == 5){%>"
+    "<%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 8 && element.tcreate.getDate() == 8){%>"
     balance = [parseFloat("<%=element.uincome%>")]
     category = ['Unaccounted']
     color = []
@@ -1197,11 +1197,13 @@ options: {
   balance = []
   ebalance = []
   ibalance = []
+  abalance = []
   length = new Date().getUTCFullYear() - parseFloat("<%=element.tcreate.getUTCFullYear()-1%>")
   for(i = 0; i <= length;i++){
     balance.push(0)
     ebalance.push(0)
     ibalance.push(0)
+    abalance.push(0)
     year.push(new Date().getUTCFullYear()-i)
   }
   year = year.reverse()
@@ -1209,9 +1211,11 @@ options: {
   
   "<%element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {%>"
   balance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
-  "<%if(entry.isexpense){%>"
+  "<%if(entry.isexpense && entry.category != 'Investment'){%>"
   ebalance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
-  "<%}else{%>"
+  "<%}if(entry.isexpense && entry.category == 'Investment'){%>"
+  abalance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
+  "<%}if(!entry.isexpense){%>"
   ibalance["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += 1
   "<%}%>"
   "<%})%>"
@@ -1241,6 +1245,13 @@ data: {
       fill:false,
       radius:0,
       data: ebalance,
+  },{
+      label: 'Investment Count',
+      borderColor: '#1976d2 ',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: abalance,
   }]
 },
 options: {
@@ -1276,12 +1287,15 @@ scales:{
   balance = [0,0,0,0,0,0,0,0,0,0,0,0]
   ibalance = [0,0,0,0,0,0,0,0,0,0,0,0]
   ebalance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  abalance = [0,0,0,0,0,0,0,0,0,0,0,0]
   month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   "<%element.activity.filter(entry => (((entry.isActive == true)) && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
   balance["<%=entry.tstamp.getMonth()%>"] += 1
-  "<%if(entry.isexpense){%>"
+  "<%if(entry.isexpense && entry.category != 'Investment'){%>"
   ebalance["<%=entry.tstamp.getMonth()%>"] += 1
-  "<%}else{%>"
+  "<%}if(entry.isexpense && entry.category == 'Investment'){%>"
+  abalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}if(!entry.isexpense){%>"
   ibalance["<%=entry.tstamp.getMonth()%>"] += 1
   "<%}%>"
   "<%})%>"
@@ -1311,6 +1325,13 @@ data: {
       fill:false,
       radius:0,
       data: ebalance,
+  },{
+      label: 'Investment Count',
+      borderColor: '#1976d2',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: abalance,
   }
   ]
 },

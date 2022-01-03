@@ -10,7 +10,7 @@ def listToString(value):
 
 validated = nse.is_valid_code(sys.argv[1])
 
-if sys.argv[1] == 'NIFTYBEES' or sys.argv[1] == 'ICICIB22' or sys.argv[1] == 'SETFNIF50':
+if sys.argv[1] == 'NIFTYBEES' or sys.argv[1] == 'ICICIB22' or sys.argv[1] == 'SETFNIF50' or sys.argv[1] == 'INDINFO':
     validated = True
 
 if(validated):
@@ -36,7 +36,9 @@ if(validated):
                 elif item == ['ICICIB22']:
                     outPut = ['ICICIB22',36.45]
                 elif item == ['SETFNIF50']:
-                    outPut = ['SETFNIF50',157.88]                    
+                    outPut = ['SETFNIF50',157.88]      
+                elif item == ['INDINFO']:
+                    outPut = ['INDINFO',1.46]              
                 else:
                     ticker = nse.get_quote(sys.argv[1])
                     outPut = [ticker['symbol'],ticker['lastPrice']]
@@ -53,7 +55,9 @@ if(validated):
             elif item == ['ICICIB22']:
                 outPut = ['ICICIB22',36.45]
             elif item == ['SETFNIF50']:
-                    outPut = ['SETFNIF50',157.88]
+                outPut = ['SETFNIF50',157.88]
+            elif item == ['INDINFO']:
+                outPut = ['INDINFO',1.46]
             else:
                 ticker = nse.get_quote(sys.argv[1])
                 outPut = [ticker['symbol'],ticker['lastPrice']]

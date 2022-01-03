@@ -346,7 +346,7 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
     {
       month = new Date().getMonth()
     }
-    if(!yearCart.includes(year))
+    if(!yearCart.includes(parseInt(year)))
     {
       year = new Date().getUTCFullYear()
     }
@@ -407,7 +407,7 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
     {
       month = new Date().getMonth()
     }
-    if(!yearCart.includes(year))
+    if(!yearCart.includes(parseInt(year)))
     {
       year = new Date().getUTCFullYear()
     }
@@ -467,7 +467,7 @@ router.get('/:id/chart/:year/:month', async (req, res) => {
     {
       month = new Date().getMonth()
     }
-    if(!yearCart.includes(year))
+    if(!yearCart.includes(parseInt(year)))
     {
       year = new Date().getUTCFullYear()
     }
@@ -545,7 +545,9 @@ router.get('/:id/:year/:month', async (req, res) => {
     {
       month = new Date().getMonth()
     }
-    if(!yearCart.includes(year))
+    x = year
+    y = yearCart
+    if(!yearCart.includes(parseInt(year)))
     {
       year = new Date().getUTCFullYear()
     }
