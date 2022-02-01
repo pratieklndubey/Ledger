@@ -15,7 +15,7 @@ Installation Guide: <br/>
 ! Don't use the code for any commercial purpose.
 
 Ideas which have not been implemented yet:<br/>
-        1. Notifications to remind for same transactions every month/year. (Partially done, but don't use it!)<br/>
+        1. Notifications to remind for same transactions every month/year. (Partially done, but don't use it.)<br/>
         
 
 Account lists
