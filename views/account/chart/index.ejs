@@ -1534,12 +1534,14 @@ data: {
       moneyOnHold = [0]
       
         
-      "<%element.activity.filter(entry => (entry.isActive == true)).forEach(entry => {%>"
-      if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
+      "<%element.activity.forEach(entry => {%>"
+      
       balance.push("<%=entry.postranbal%>")
       amounts.push("<%=entry.amount%>")
-      }
-      if("<%=entry.category%>" == 'Debit')
+      points.push(counter)
+      counter++;
+      
+      /*if("<%=entry.category%>" == 'Debit')
       {
         li = moneyOnHold.length-1
         value = moneyOnHold[li]
@@ -1555,10 +1557,8 @@ data: {
       if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
       actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
       onholdBalance.push(moneyOnHold[lo])
-      points.push(counter)
-      counter++;
-      }
-      "<%})%>"
+      }*/
+      "<%})%>"     
       
   var chart = new Chart(ctx, {
   type: 'line',
@@ -1572,6 +1572,15 @@ data: {
           radius:0,
           data: balance,
       },
+      {
+          label: 'Amount',
+          borderColor: '#009688',
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: amounts,
+          
+      }/*,
       {
           label: 'Actual Balance',
           borderColor: '#0d47a1',
@@ -1589,16 +1598,7 @@ data: {
           radius:0,
           data: onholdBalance,
           hidden: true
-      },
-      {
-          label: 'Amount',
-          borderColor: '#009688',
-          //lineTension:0,
-          fill:false,
-          radius:0,
-          data: amounts,
-          
-      }
+      }*/
     ]
   },
   options: {
