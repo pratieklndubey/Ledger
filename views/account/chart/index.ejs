@@ -1532,14 +1532,15 @@ data: {
       counter = 1
       onholdBalance = []
       moneyOnHold = [0]
+      trend = []
       
-        
       "<%element.activity.forEach(entry => {%>"
       
       balance.push("<%=entry.postranbal%>")
       amounts.push("<%=entry.amount%>")
       points.push(counter)
       counter++;
+      tlast = "<%=entry.postranbal%>"
       
       /*if("<%=entry.category%>" == 'Debit')
       {
@@ -1559,6 +1560,23 @@ data: {
       onholdBalance.push(moneyOnHold[lo])
       }*/
       "<%})%>"     
+      tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
+      trend.push(tlast)
       
   var chart = new Chart(ctx, {
   type: 'line',
@@ -1580,7 +1598,18 @@ data: {
           radius:0,
           data: amounts,
           
-      }/*,
+      },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }
+
+      /*,
       {
           label: 'Actual Balance',
           borderColor: '#0d47a1',
@@ -1637,12 +1666,13 @@ data: {
     counter = 1
     onholdBalance = []
     moneyOnHold = [0]
-    
+    trend = []
       
     "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getUTCFullYear())).forEach(entry => {%>"
     if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
+    tlast = "<%=entry.postranbal%>"
     }
     if("<%=entry.category%>" == 'Debit')
     {
@@ -1664,7 +1694,24 @@ data: {
     counter++;
     }
     "<%})%>"
-    
+    tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
+      
+      
 var chart = new Chart(ctx, {
 type: 'line',
 data: {
@@ -1703,7 +1750,16 @@ data: {
         radius:0,
         data: amounts,
         
-    }
+    },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }
   ]
 },
 options: {
@@ -1744,12 +1800,13 @@ options: {
     onholdBalance = []
     moneyOnHold = [0]
     isDebit = false
-    
+    trend = []
       
     "<%element.activity.filter(entry => (entry.category == 'Credit' || entry.category == 'Debit' || (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear())))).forEach(entry => {%>"
     if("<%=month%>" == "<%=entry.tstamp.getMonth()%>"){
     balance.push("<%=entry.postranbal%>")
     amounts.push("<%=entry.amount%>")
+    tlast = "<%=entry.postranbal%>"
     }
     if("<%=entry.category%>" == 'Debit')
     {
@@ -1773,6 +1830,22 @@ options: {
     counter++;
     }
     "<%})%>"
+    tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
     
 var chart = new Chart(ctx, {
 type: 'line',
@@ -1815,7 +1888,16 @@ data: {
         radius:0,
         data: amounts,
         
-    }]
+    },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }]
 },
 options: {
   responsive: true,
