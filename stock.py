@@ -35,11 +35,14 @@ if today != mtime:
             counter += 1
             print(entry,counter,"/",listSize)
             if entry == ['NIFTYBEES']:
-                outPut = ['NIFTYBEES',166.85]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['NIFTYBEES',float(ticker['lastPrice']/92.45)]
             elif entry == ['ICICIB22']:
-                outPut = ['ICICIB22',39.05]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['ICICIB22',float(ticker['lastPrice']/377.87)]
             elif entry == ['SETFNIF50']:
-                outPut = ['SETFNIF50',157.88]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['SETFNIF50',float(ticker['lastPrice']/97.76)]
             elif entry == ['INDINFO']:
                 outPut = ['INDINFO',1.46]
             else:

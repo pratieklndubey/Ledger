@@ -32,11 +32,14 @@ if(validated):
             with open('stockData.csv', 'a', newline='') as file:
                 writer = csv.writer(file)
                 if item == ['NIFTYBEES']:
-                    outPut = ['NIFTYBEES',157.75]
+                    ticker = nse.get_index_quote('NIFTY 50')
+                    outPut = ['NIFTYBEES',float(ticker['lastPrice']/92.45)]
                 elif item == ['ICICIB22']:
-                    outPut = ['ICICIB22',36.45]
+                    ticker = nse.get_index_quote('NIFTY 50')
+                    outPut = ['ICICIB22',float(ticker['lastPrice']/377.87)]
                 elif item == ['SETFNIF50']:
-                    outPut = ['SETFNIF50',157.88]      
+                    ticker = nse.get_index_quote('NIFTY 50')
+                    outPut = ['SETFNIF50',float(ticker['lastPrice']/97.76)]     
                 elif item == ['INDINFO']:
                     outPut = ['INDINFO',1.46]              
                 else:
@@ -51,11 +54,14 @@ if(validated):
         with open('stockData.csv', 'w', newline='') as file:
             writer = csv.writer(file)
             if item == ['NIFTYBEES']:
-                outPut = ['NIFTYBEES',157.75]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['NIFTYBEES',float(ticker['lastPrice']/92.45)]
             elif item == ['ICICIB22']:
-                outPut = ['ICICIB22',36.45]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['ICICIB22',float(ticker['lastPrice']/377.87)]
             elif item == ['SETFNIF50']:
-                outPut = ['SETFNIF50',157.88]
+                ticker = nse.get_index_quote('NIFTY 50')
+                outPut = ['SETFNIF50',float(ticker['lastPrice']/97.76)]
             elif item == ['INDINFO']:
                 outPut = ['INDINFO',1.46]
             else:
