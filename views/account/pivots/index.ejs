@@ -1034,8 +1034,8 @@
                                         %>
                                       <tr style="font-weight:500;">
                                           <td><%=monthCart[month]%></td>    
-                                          <td><%=formatter.format(incomeMonth[index]-expenseMonth[index])%></td>    
-                                          <td><%=((incomeMonth[index]-expenseMonth[index])*100/incomeMonth[index]).toFixed(2)%></td>
+                                          <td><%=formatter.format((incomeMonth[index]-expenseMonth[index])>0?(incomeMonth[index]-expenseMonth[index]):0.00)%></td>    
+                                          <td><%=(((incomeMonth[index]-expenseMonth[index])>0?(incomeMonth[index]-expenseMonth[index]):0.00)*100/incomeMonth[index]).toFixed(2)%></td>
                                         <%})%>                              
                                       </tr>
                                     </tbody>

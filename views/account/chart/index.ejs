@@ -1126,7 +1126,11 @@ options: {
       investment[i] = investment[i].toFixed(2)
       balance[i] = income[i]-expense[i]-investment[i]
       balance[i] = balance[i].toFixed(2)
+      if(balance[i] < 0){
+        balance[i] = 0.00
+      }
     }
+   
 var chart = new Chart(ctx, {
 type: 'line',
 data: {
@@ -1156,7 +1160,7 @@ data: {
         data: expense,
     }
     ,{
-        label: 'Balance',
+        label: 'Savings',
         borderColor: '#0d47a1',
         //lineTension:0,
         fill:false,
@@ -1419,7 +1423,7 @@ data: {
         data: expense,
     }
     ,{
-        label: 'Balance',
+        label: 'Savings',
         borderColor: '#0d47a1',
         //lineTension:0,
         fill:false,
