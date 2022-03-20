@@ -107,47 +107,29 @@
         
         <script>
           $(document).ready(function(){
-    $('.sidenav').sidenav({
-        
-        
-    });
-  });
-
-  $(document).ready(function(){
-    $('.datenotification').datepicker({
-        yearRange:1,
-        autoClose:true,
-        showDaysInNextAndPreviousMonths: true,
-        minDate: new Date(),
-    });
-  });
-
-    $(document).ready(function(){
-    $('.datepicker').datepicker({
-        yearRange:50,
-        autoClose:true,
-        showDaysInNextAndPreviousMonths: true,
-        margin:0
-    });
-  });
-            $(document).ready(function(){
-    $('.tooltipped').tooltip();
-  });
-             $(document).ready(function(){
-    $('.collapsible').collapsible();
-  });
-            $(document).ready(function(){
-    $('.fixed-action-btn').floatingActionButton({
-             hoverEnabled: false
-  });
-  });
-            $(document).ready
-                (function()
-                    {
-                        $('.modal').modal();
+            $('.modal').modal();
                         $('select').formSelect();
-                    }
-                );    
+                        $('.collapsible').collapsible();
+                        $('.tooltipped').tooltip();
+                        $('.sidenav').sidenav();
+                        $('.fixed-action-btn').floatingActionButton({
+                            hoverEnabled: false
+                        });
+                        $('.datepicker').datepicker({
+                            yearRange:50,autoClose:true,
+                            showDaysInNextAndPreviousMonths: true,
+                            margin:0
+                        });
+                        $('.datenotification').datepicker({
+                            yearRange:1,
+                            autoClose:true,
+                            showDaysInNextAndPreviousMonths: true,
+                            minDate: new Date(),
+                        });
+    
+  });
+
+  
         </script>
 
         <footer class="page-footer grey lighten-2">
