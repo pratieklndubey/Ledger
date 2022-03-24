@@ -186,7 +186,7 @@
                               <th class = "invested"><span>Invested</span></th>
                               <th class = "balance"><span>Balance</span></th>
                               <th>Transactions</th>
-                              <th>On Hold</th>
+                              <!--<th>On Hold</th>-->
                               <th>Variance</th>
                               
                           </tr>
@@ -202,7 +202,7 @@
                             <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
-                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>
+                            <!--<td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>-->
                             <% variance = element.currbal-(element.transum+element.onhold)
                               if (variance < 0 && variance > -0.01)
                               {
@@ -1728,7 +1728,7 @@ data: {
         radius:0,
         data: balance,
     },
-    {
+    /*{
         label: 'Actual Balance',
         borderColor: '#0d47a1',
         //lineTension:0,
@@ -1745,7 +1745,7 @@ data: {
         radius:0,
         data: onholdBalance,
         hidden: true
-    },
+    },*/
     {
         label: 'Amount',
         borderColor: '#009688',
@@ -1866,7 +1866,7 @@ data: {
         data: balance,
         
     },
-    {
+    /*{
         label: 'Actual Balance',
         borderColor: '#0d47a1',
         //lineTension:0,
@@ -1883,7 +1883,7 @@ data: {
         radius:0,
         data: onholdBalance,
         hidden: true
-    },
+    },*/
     {
         label: 'Amount',
         borderColor: '#009688',

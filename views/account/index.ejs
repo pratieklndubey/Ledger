@@ -73,8 +73,8 @@
  
 
   
-  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment", "Electronics", "Postal", "Religious"]
-  const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan"]
+  <% const categoriesExpense = ["Food","Fuel","Automobile","Donations","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment", "Electronics", "Postal", "Religious"] //,"Debit"
+  const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Loan"]//,"Credit"
   const monthCart = ["January","February","March","April","May","June","July","August","September","October","November","December"]
   const stockList = tickerStocks
   const stockValues = priceStocks
@@ -422,7 +422,7 @@ notation: "compact",
                               <th class = "invested"><span>Invested</span></th>
                               <th class = "balance"><span>Balance</span></th>
                               <th>Transactions</th>
-                              <th>On Hold</th>
+                              <!--<th>On Hold</th>-->
                               <th>Variance</th>
                              
                           </tr>
@@ -438,7 +438,7 @@ notation: "compact",
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
-                                    <td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>
+                                    <!--<td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>-->
                                     <% variance = element.currbal-(element.transum+element.onhold)
                                       if (variance < 0 && variance > -0.01)
                                       {

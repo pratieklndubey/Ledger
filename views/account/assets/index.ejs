@@ -256,7 +256,7 @@ notation: "compact",
                               <th class = "invested"><span>Invested</span></th>
                               <th class = "balance"><span>Balance</span></th>
                               <th>Transactions</th>
-                              <th>On Hold</th>
+                              <!--<th>On Hold</th>-->
                               <th>Variance</th>
                               
                           </tr>
@@ -272,7 +272,7 @@ notation: "compact",
                             <td data-position="bottom" data-tooltip="<%=formatter.format(investment)%>" class="tooltipped" ><%=formatterDashboard.format(investment)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.currbal)%>" class="tooltipped" ><%= formatterDashboard.format(element.currbal)%></td>
                             <td data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>" class="tooltipped" ><%= formatterDashboard.format(element.transum)%></td>
-                            <td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>
+                            <!--<td data-position="bottom" data-tooltip="<%=formatter.format(element.onhold)%>" class="tooltipped" ><%= formatterDashboard.format(element.onhold)%></td>-->
                             <% variance = element.currbal-(element.transum+element.onhold)
                               if (variance < 0 && variance > -0.01)
                               {
