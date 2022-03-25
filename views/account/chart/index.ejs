@@ -1580,7 +1580,7 @@ data: {
         trend.push(i) 
       } 
       }
-      trend.push(tlast)
+      //trend.push(tlast)
       
   var chart = new Chart(ctx, {
   type: 'line',
@@ -1701,6 +1701,7 @@ data: {
     tinit = parseFloat(balance[0])
       tlast = parseFloat(tlast)
       step = (tlast-tinit)/(balance.length-1)
+      step = parseFloat(step.toFixed(2))
       //step = (355000-300000)/(11-1)
       if(tlast > tinit){
         trendColor = "#43a047"
@@ -1837,6 +1838,7 @@ options: {
     tinit = parseFloat(balance[0])
       tlast = parseFloat(tlast)
       step = (tlast-tinit)/(balance.length-1)
+      step = parseFloat(step.toFixed(2))
       //step = (355000-300000)/(11-1)
       if(tlast > tinit){
         trendColor = "#43a047"
@@ -1850,7 +1852,6 @@ options: {
         trend.push(i) 
       } 
       }
-    
 var chart = new Chart(ctx, {
 type: 'line',
 data: {
