@@ -364,19 +364,25 @@
 
 <%if(result.length != 0){%>
 
-  <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=result.length%> Transactions between <script type="text/javascript">
+  <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=result.length%> Transactions Between <script type="text/javascript">
     document.write(moment(new Date("<%=searchfrom%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("DD MMM, YYYY")) 
-  </script> and <script type="text/javascript">
+  </script> & <script type="text/javascript">
     document.write(moment(new Date("<%=searchto%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("DD MMM, YYYY")) 
   </script><br></h4>
     <% 
   
     totalAmount > 0?color = "green-text text-darken-1":color = "red-text text-darken-1"
     totalAmount > 0?sign = 1.00:sign=-1.00
+    if(tranType == "All Transactions" || tranType == "All Incomes" || tranType == "All Expenses"){
+      tranString = "Of"
+    }
+    else{
+    totalAmount > 0?tranString = "Earned Through":tranString="Spent On"
+    }
     
     %>
   <h4 class="header center <%=color%>" style="font-family:Roboto;">
-  Sum Total of the found records is <%=formatter.format(totalAmount*sign)%>
+  Sum Total <%=tranString%> <%=tranType%> is <%=formatter.format(totalAmount*sign)%>
   </h4>
 
 

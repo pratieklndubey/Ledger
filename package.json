@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "dotenv": "^8.6.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.15"
   },
   "scripts": {
     "devstart": "nodemon app.js",

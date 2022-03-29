@@ -69,7 +69,7 @@ router.get('/:id/search/result/:query', async (req, res) => {
   })
   Values[3]==''?From=new Date(account[0].tcreate):From=new Date(Values[3])
   Values[4]==''?To=new Date():To=new Date(Values[4])
-  res.render('account/search/result/index', {totalAmount:sum,searchto:To,searchfrom:From,result:result,month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
+  res.render('account/search/result/index', {tranType:Category,totalAmount:sum,searchto:To,searchfrom:From,result:result,month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
   
 })
 router.get('/:id/assets', async (req, res) => {
