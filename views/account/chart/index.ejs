@@ -55,17 +55,17 @@
 .monthlyincome:hover span {display:none}
 .monthlyincome:hover:before {content:"100%"}
 .monthlyinvested:hover span {display:none}
-.monthlyinvested:hover:before {content:"<%=(monthlyIncome+monthlyExpense<=0?0.00:(monthlyInvested)*100/monthlyIncome).toFixed(2)%>%"}
+.monthlyinvested:hover:before {content:"<%=((monthlyIncome+monthlyExpense<=0)  && (monthlyIncome == 0)?0.00:(monthlyInvested)*100/monthlyIncome).toFixed(2)%>%"}
 .monthlyexpense:hover span {display:none}
-.monthlyexpense:hover:before {content:"<%=(monthlyIncome+monthlyExpense<=0.00?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
+.monthlyexpense:hover:before {content:"<%=((monthlyIncome+monthlyExpense<=0.00) && (monthlyIncome == 0)?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
 .monthlybalance:hover span {display:none}
 .monthlybalance:hover:before {content:"<%=(monthlyIncome+monthlyExpense<=0.00?0.00:(100 - (monthlyExpense-monthlyInvested)*-100/monthlyIncome)).toFixed(2)%>%"}
 .yearlyincome:hover span {display:none}
 .yearlyincome:hover:before {content:"100%"}
 .yearlyinvested:hover span {display:none}
-.yearlyinvested:hover:before {content:"<%=(yearlyIncome+yearlyExpense<=0.00?0.00:(yearlyInvested)*100/yearlyIncome).toFixed(2)%>%"}
+.yearlyinvested:hover:before {content:"<%=((yearlyIncome+yearlyExpense) && (yearlyIncome == 0)<=0.00?0.00:(yearlyInvested)*100/yearlyIncome).toFixed(2)%>%"}
 .yearlyexpense:hover span {display:none}
-.yearlyexpense:hover:before {content:"<%=(yearlyIncome+yearlyExpense<=0.00?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
+.yearlyexpense:hover:before {content:"<%=((yearlyIncome+yearlyExpense<=0.00) && (yearlyIncome == 0)?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
 .yearlybalance:hover span {display:none}
 .yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<=0.00?0.00:(100 - (yearlyExpense-yearlyInvested)*-100/yearlyIncome)).toFixed(2)%>%"}
 
