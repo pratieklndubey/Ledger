@@ -542,7 +542,7 @@ notation: "compact",
         
         
         
-        <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount==0?"No":transactionCount%> Transactions in <%=monthCart[month]%>, <%=year%></h4>
+        <h4 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-top: 0px; margin-bottom:-10px;"><%=transactionCount==0?"No":transactionCount%> Transaction<%=transactionCount>1?"s":""%> in <%=monthCart[month]%>, <%=year%></h4>
         <br>
         <%if(transactionCount != 0){%>
         <hr width="70%">
