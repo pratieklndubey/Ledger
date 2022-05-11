@@ -304,7 +304,7 @@
               <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Do you want to log out of the App?</h5>
               <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
               <div class="row">
-                <form action="/account/<%=element._id%>?_method=PUT" method="POST">
+                <form action="/account?_method=PUT" method="POST">
                   <div class="input-field">
                     <input name = "action" type="hidden" placeholder = "Account Name" class="validate" required="" aria-required="true" value = "logout">
                   </div>

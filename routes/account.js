@@ -557,7 +557,17 @@ router.get('/:id/:year/:month', async (req, res) => {
     res.render('account/index', {page:"",title:account[0].name, month:month, year:year, account: account,calculate:"../../../../images/calculator.png", option: "../../../../images/settings.png",search:"../../../../images/search.png",bell:"🔔",searchRelative:'../../'+req.params.id+'/',relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"ramji",noticount:""});
   })
   router.put('/', async (req, res) => {
-    res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
+    if(req.body.action == 'logout')
+    {
+      //const logout = spawn('bat', ['./shut_server.bat'])
+      //logout.stdout.on('data', function (data) {});
+      const logout = spawn('python', ['./shutApp.py'])
+      logout.stdout.on('data', function (data) {});
+    }
+    else {
+      res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
+    }
+
   })
   router.put('/chart', async (req, res) => {
     res.redirect(req.body.id+"/chart/"+req.body.year+"/"+req.body.month)
@@ -568,6 +578,8 @@ router.get('/:id/:year/:month', async (req, res) => {
   router.put('/stats', async (req, res) => {
     res.redirect(req.body.id+"/stats/"+req.body.year+"/"+req.body.month)
   })
+  
+    
   router.put('/:id/', async (req, res) => {
     let account = await Account.findById(req.params.id)
     if(req.body.action == 'UpBal')
@@ -576,13 +588,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     await account.save()
     res.redirect(req.params.id)
     }
-    else if(req.body.action == 'logout')
-    {
-      //const logout = spawn('bat', ['./shut_server.bat'])
-      //logout.stdout.on('data', function (data) {});
-      const logout = spawn('python', ['./shutApp.py'])
-      logout.stdout.on('data', function (data) {});
-    }
+    
     else if(req.body.action == 'addNot')
     {
       //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment"]
