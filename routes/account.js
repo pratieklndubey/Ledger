@@ -591,8 +591,8 @@ router.get('/:id/:year/:month', async (req, res) => {
     
     else if(req.body.action == 'addNot')
     {
-      //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment"]
-      const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan","Cashback-Refund"]
+      //const categoriesExpense = ["Meal","Fuel","Automobile","Donations","Clothing","Personal Care","Groceries","Entertainment","Investment","Education","Travel","Accomodation","Communication","House Hold","Health Care", "Present","Loan Repayment", "Electronics", "Postal", "Religious","Government"] //,"Debit"
+  const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Loan","Rebate"]//,"Credit"
       checkExpense = categoriesIncome.includes(req.body.category)
       actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
       let newReminder = {title: req.body.title, amount: actualAmount, category: req.body.category,tstamp:req.body.start, description: req.body.description, isexpense: !checkExpense, status: "Off", repeat: req.body.repeat}
@@ -626,8 +626,8 @@ router.get('/:id/:year/:month', async (req, res) => {
     else if(req.body.action == 'Creatran')
     {
       if(req.body.amount != 0){
-        //const categoriesExpense = ["Food","Fuel","Automobile","Donations","Debit","Clothing","Personal Care","Groceries","Entertainment","Investment","Study","Travel","Accomodation","Phone-Internet","House Hold","Health Care", "Present","Loan Repayment"]
-        const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Credit","Loan","Cashback-Refund"]
+        //const categoriesExpense = ["Meal","Fuel","Automobile","Donations","Clothing","Personal Care","Groceries","Entertainment","Investment","Education","Travel","Accomodation","Communication","House Hold","Health Care", "Present","Loan Repayment", "Electronics", "Postal", "Religious","Government"]
+        const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Loan","Rebate"]
         let account = await Account.findById(req.params.id)
         //let transaction = account.activity
         checkExpense = categoriesIncome.includes(req.body.category)
