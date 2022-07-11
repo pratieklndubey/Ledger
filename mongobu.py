@@ -1,5 +1,5 @@
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+"""from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive"""
 import shutil
 from datetime import date,datetime
 
@@ -22,6 +22,7 @@ shutil.make_archive(output_filename, 'zip', dir_name)
 
 shutil.rmtree(dir_name)
 
+"""
 read_date = open('lastbudate.txt','r')
 performed = read_date.read()
 read_date.close()
@@ -48,9 +49,9 @@ if int(date_difference.days) > 5:
 
     upload_file_list = [output_filename+".zip"]
     for upload_file in upload_file_list:
-        gfile = drive.CreateFile({'parents': [{'id': 'Your Folder ID'}]})
+        gfile = drive.CreateFile({'parents': [{'id': '18SfHg1rz9tXxKbwhd5_VNI8N0Y-iKKvi'}]})
         # Read file and set it as the content of this instance.
         gfile.SetContentFile(upload_file)
         gfile.Upload() # Upload the file.
-    
+ """   
 
