@@ -653,15 +653,15 @@
 
                  <%
 
-                           months = []
-                           balance = []
+                           months = [0,1,2,3,4,5,6,7,8,9,10,11]
+                           balance = [0,0,0,0,0,0,0,0,0,0,0,0]
                            years = []
                            yearBalance = []
                            element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Credit'))))).forEach(entry => {
-                             if(!months.includes(entry.tstamp.getMonth())){
+                             /*if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
-                             }
+                             }*/
                              if(months.includes(entry.tstamp.getMonth())){
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*1.00)
@@ -898,20 +898,20 @@
 
                  <%
 
-              monthsIncome = []
-              incomeMonth = []
-              monthsExpense = []
-              expenseMonth = []
+              monthsIncome = [0,1,2,3,4,5,6,7,8,9,10,11]
+              incomeMonth = [0,0,0,0,0,0,0,0,0,0,0,0]
+              monthsExpense = [0,1,2,3,4,5,6,7,8,9,10,11]
+              expenseMonth = [0,0,0,0,0,0,0,0,0,0,0,0]
               yearsIncome = []
               incomeYear = []
               yearsExpense = []
               expenseYear = []
               
               element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Debit'))))).forEach(entry => {
-                if(!monthsExpense.includes(entry.tstamp.getMonth())){
+                /*if(!monthsExpense.includes(entry.tstamp.getMonth())){
                  monthsExpense.push(entry.tstamp.getMonth())
                     expenseMonth.push(0)
-                }
+                }*/
                 if(monthsExpense.includes(entry.tstamp.getMonth())){
                 i = monthsExpense.indexOf(entry.tstamp.getMonth())
                     expenseMonth[i] += parseFloat(entry.amount*-1.00)
@@ -935,10 +935,10 @@
                   })
 
                   element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Credit'))))).forEach(entry => {
-                if(!monthsIncome.includes(entry.tstamp.getMonth())){
+                /*if(!monthsIncome.includes(entry.tstamp.getMonth())){
                  monthsIncome.push(entry.tstamp.getMonth())
                     incomeMonth.push(0)
-                }
+                }*/
                 if(monthsIncome.includes(entry.tstamp.getMonth())){
                 i = monthsIncome.indexOf(entry.tstamp.getMonth())
                     incomeMonth[i] += parseFloat(entry.amount*1.00)
@@ -1093,8 +1093,8 @@
                            </div>
                            </li>
                            <%
-                           months = []
-                           balance = []
+                           months = [0,1,2,3,4,5,6,7,8,9,10,11]
+                           balance = [0,0,0,0,0,0,0,0,0,0,0,0]
                            years = []
                            yearBalance = []
                            yearlyInvestment = 0
@@ -1103,10 +1103,10 @@
                              yearlyInvestment += parseFloat(entry.amount*-1.00)
                            })
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense && year == entry.tstamp.getUTCFullYear()) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
-                             if(!months.includes(entry.tstamp.getMonth())){
+                             /*if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
                                  balance.push(0)
-                             }
+                             }*/
                              if(months.includes(entry.tstamp.getMonth())){
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*-1.00)
