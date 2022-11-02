@@ -9,7 +9,7 @@ fname = pathlib.Path('stockData.csv')
 mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).date()
 today = datetime.date.today()
 
-if today != mtime:
+if True:#today != mtime
     nse = Nse()
 
     def listToString(value):  
