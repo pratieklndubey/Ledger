@@ -657,6 +657,7 @@
                            balance = [0,0,0,0,0,0,0,0,0,0,0,0]
                            years = []
                            yearBalance = []
+                           payMonth = 0
                            element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (year == entry.tstamp.getUTCFullYear() && !entry.category.includes('Credit'))))).forEach(entry => {
                              /*if(!months.includes(entry.tstamp.getMonth())){
                               months.push(entry.tstamp.getMonth())
@@ -666,9 +667,19 @@
                              i = months.indexOf(entry.tstamp.getMonth())
                                  balance[i] += parseFloat(entry.amount*1.00)
                                  }
-            
+
+                                
                              
                            })
+
+                           for (x = 0;x < balance.length;x++)
+                           {
+                            if (balance[x] != 0)
+                            {
+                              payMonth += 1
+                            }
+                           }
+
                            element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {
                             
              
@@ -711,7 +722,11 @@
                                                  </thead>
                                                  <tbody>
                            
-                                                           
+                                                  <tr style="font-weight:500;">
+                                                    <td>Average</td>    
+                                                     <td><%=formatter.format(yearlyIncome/payMonth)%></td>    
+                                                     <td><%=(100/payMonth).toFixed(2)%></td>
+                                                 </tr>
                                                    <%months.forEach((month,index) => {%>
                                                    <tr style="font-weight:500;">
                                                        <td><%=monthCart[month]%></td>    
@@ -719,6 +734,7 @@
                                                        <td><%=(balance[index]*100/yearlyIncome).toFixed(2)%></td>
                                                      <%})%>                              
                                                    </tr>
+                                                  
                                                  </tbody>
                                                </table>
                                              </tbody>
@@ -758,6 +774,12 @@
                                                       <td><%=(element.uincome*100/element.income).toFixed(2)%></td>
                                                     </tr>
                                                     <%}%>
+                                                    <tr style="font-weight:500;">
+                                                      <td>Average </td>    
+                                                      <td><%=formatter.format(element.income/((new Date().getTime() - new Date("06/03/2019").getTime())/(1000 * 60 * 60 * 24 * 30.4375 * 12)).toFixed(2))%></td>    
+                                                      <td><%=(100/((new Date().getTime() - new Date("06/03/2019").getTime())/(1000 * 60 * 60 * 24 * 30.4375 * 12))).toFixed(2)%></td>                                
+                                                                                
+                                                  </tr>
                                                    <%years.forEach((year,index) => {%>
                                                    <tr style="font-weight:500;">
                                                        <td><%=year%></td>    
@@ -1070,6 +1092,18 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                      <%if(element.tcreate.getUTCFullYear() == 2021 && element.tcreate.getMonth() == 10 && element.tcreate.getDate() == 12 && element.name == "Prateek"){%>
+                                        <tr style="font-weight:500;">
+                                          <td>2019</td>
+                                          <td><%=formatter.format(0)%></td>
+                                          <td><%=(0).toFixed(2)%></td>
+                                        </tr>
+                                        <tr style="font-weight:500;">
+                                          <td>2020</td>
+                                          <td><%=formatter.format(0)%></td>
+                                          <td><%=(0).toFixed(2)%></td>
+                                        </tr>
+                                        <%}%>
                                       <%yearsIterator.forEach((year,index) => {%>
                                         <%if(!expenseYear[index]){
                                           expenseYear[index] = 0
@@ -1077,7 +1111,7 @@
                                       <tr style="font-weight:500;">
                                           <td><%=year%></td>    
                                           <td><%=formatter.format((incomeYear[index]-expenseYear[index])>0?incomeYear[index]-expenseYear[index]:0.00)%></td>    
-                                          <td><%=((incomeYear[index]-expenseYear[index])>0?(incomeYear[index]-expenseYear[index])*100/incomeYear[index]:0.00).toFixed(2)%></td>
+                                          <td><%=((incomeYear[index]-expenseYear[index])>0?((incomeYear[index]-expenseYear[index])*100/incomeYear[index]):0.00).toFixed(2)%></td>
                                         <%})%>                              
                                       </tr>
                                     </tbody>
@@ -1098,7 +1132,7 @@
                            years = []
                            yearBalance = []
                            yearlyInvestment = 0
-                           
+                           spendMonth = 0
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (entry.category.includes('Investment') && year == entry.tstamp.getUTCFullYear())))).forEach(entry => {
                              yearlyInvestment += parseFloat(entry.amount*-1.00)
                            })
@@ -1112,6 +1146,14 @@
                                  balance[i] += parseFloat(entry.amount*-1.00)
                                  }                
                            })
+
+                           for (x = 0;x < balance.length;x++)
+                           {
+                            if (balance[x] != 0)
+                            {
+                              spendMonth += 1
+                            }
+                           }
                            element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {
                             
              
@@ -1154,7 +1196,12 @@
                                                     </tr>
                                                   </thead>
                                                   <tbody>
-                            
+                                                    <tr style="font-weight:500;">
+                                                      <td>Average</td>    
+                                                      <td><%=formatter.format(-1.00*yearlyExpense/spendMonth)%></td>    
+                                                      <td><%=(100/spendMonth).toFixed(2)%></td>
+                                                                                 
+                                                  </tr>
                                                             
                                                     <%months.forEach((month,index) => {%>
                                                     <tr style="font-weight:500;">
@@ -1202,6 +1249,13 @@
                                                        <td><%=(element.uexpense*100/(element.expense - investment)).toFixed(2)%></td>
                                                      </tr>
                                                      <%}%>
+
+                                                     <tr style="font-weight:500;">
+                                                      <td>Average </td>    
+                                                      <td><%=formatter.format(element.expense/((new Date().getTime() - new Date("06/03/2019").getTime())/(1000 * 60 * 60 * 24 * 30.4375 * 12)).toFixed(2))%></td>    
+                                                      <td><%=(100/((new Date().getTime() - new Date("06/03/2019").getTime())/(1000 * 60 * 60 * 24 * 30.4375 * 12))).toFixed(2)%></td>                                
+                                                                                
+                                                  </tr>
                                                     <%years.forEach((year,index) => {%>
                                                     <tr style="font-weight:500;">
                                                         <td><%=year%></td>    

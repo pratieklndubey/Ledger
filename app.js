@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 app.use(methodOverride('_method'));
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ledge', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://127.0.0.1/ledge', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection
 db.on('error', error => console.error(error));
