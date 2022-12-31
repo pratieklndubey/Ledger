@@ -26,7 +26,7 @@ router.get('/:id/search', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
@@ -49,7 +49,7 @@ router.get('/:id/search/result/:query', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
@@ -88,7 +88,7 @@ router.get('/:id/assets', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
   searchOptions._id = req.params.id
   const account = await Account.find(searchOptions)
@@ -313,7 +313,7 @@ router.get('/:id/stats', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -337,9 +337,9 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
   })
   year = req.params.year
     yearCart = []
-    count = new Date().getUTCFullYear() - 2021
+    count = new Date().getFullYear() - 2021
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
     month = req.params.month-1
     if((month < 0 || month > 11) || isNaN(month))
@@ -348,7 +348,7 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
     }
     if(!yearCart.includes(parseInt(year)))
     {
-      year = new Date().getUTCFullYear()
+      year = new Date().getFullYear()
     }
   let searchOptions = {}
     searchOptions._id = req.params.id
@@ -372,7 +372,7 @@ router.get('/:id/pivots', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -398,9 +398,9 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
   })
   year = req.params.year
     yearCart = []
-    count = new Date().getUTCFullYear() - 2021
+    count = new Date().getFullYear() - 2021
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
     month = req.params.month-1
     if((month < 0 || month > 11) || isNaN(month))
@@ -409,7 +409,7 @@ router.get('/:id/pivots/:year/:month', async (req, res) => {
     }
     if(!yearCart.includes(parseInt(year)))
     {
-      year = new Date().getUTCFullYear()
+      year = new Date().getFullYear()
     }
   let searchOptions = {}
     searchOptions._id = req.params.id
@@ -433,7 +433,7 @@ router.get('/:id/chart', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -457,7 +457,7 @@ router.get('/:id/chart/cfyr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -481,7 +481,7 @@ router.get('/:id/chart/cflt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -505,7 +505,7 @@ router.get('/:id/chart/asct', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -529,7 +529,7 @@ router.get('/:id/chart/ballt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -553,7 +553,7 @@ router.get('/:id/chart/balmo', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -577,7 +577,7 @@ router.get('/:id/chart/balyr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -601,7 +601,7 @@ router.get('/:id/chart/catlt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -625,7 +625,7 @@ router.get('/:id/chart/catmo', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -649,7 +649,7 @@ router.get('/:id/chart/catyr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -673,7 +673,7 @@ router.get('/:id/chart/exlt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -697,7 +697,7 @@ router.get('/:id/chart/exmo', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -721,7 +721,7 @@ router.get('/:id/chart/exyr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -745,7 +745,7 @@ router.get('/:id/chart/inlt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -769,7 +769,7 @@ router.get('/:id/chart/inmo', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -793,7 +793,7 @@ router.get('/:id/chart/invrt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -817,7 +817,7 @@ router.get('/:id/chart/inyr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -841,7 +841,7 @@ router.get('/:id/chart/perlt', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -865,7 +865,7 @@ router.get('/:id/chart/peryr', async (req, res) => {
     }
   })
   let searchOptions = {}
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
@@ -891,7 +891,7 @@ router.get('/:id/', async (req, res) => {
     stockTickers.push(value[0])
     }
   })
-  year = new Date().getUTCFullYear()
+  year = new Date().getFullYear()
   month = new Date().getMonth()
   let searchOptions = {}
   searchOptions._id = req.params.id
@@ -903,7 +903,7 @@ router.get('/:id/', async (req, res) => {
     notiam = 0
     for(i = 0;i < account[0].notification.length;i++)
     {
-      if(accountUpdate.notification[i].status == "Off" && accountUpdate.notification[i].tstamp.getDate() == new Date().getDate() && accountUpdate.notification[i].tstamp.getMonth() == new Date().getMonth() && accountUpdate.notification[i].tstamp.getUTCFullYear() == new Date().getUTCFullYear())
+      if(accountUpdate.notification[i].status == "Off" && accountUpdate.notification[i].tstamp.getDate() == new Date().getDate() && accountUpdate.notification[i].tstamp.getMonth() == new Date().getMonth() && accountUpdate.notification[i].tstamp.getFullYear() == new Date().getFullYear())
       {
         notiam++   
         accountUpdate.notification[i].status = "On"
@@ -935,9 +935,9 @@ router.get('/:id/:year/:month', async (req, res) => {
   })
     year = req.params.year
     yearCart = []
-    count = new Date().getUTCFullYear() - 2021
+    count = new Date().getFullYear() - 2021
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
     month = req.params.month-1
     if((month < 0 || month > 11) || isNaN(month))
@@ -948,7 +948,7 @@ router.get('/:id/:year/:month', async (req, res) => {
     y = yearCart
     if(!yearCart.includes(parseInt(year)))
     {
-      year = new Date().getUTCFullYear()
+      year = new Date().getFullYear()
     }
     let searchOptions = {}
     searchOptions._id = req.params.id

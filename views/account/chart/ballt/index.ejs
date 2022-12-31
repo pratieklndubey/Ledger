@@ -9,7 +9,7 @@
   monthlyIncome = 0
   monthlyExpense = 0
   monthlyInvested = 0
-   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getFullYear()))).forEach(entry => {
      transactionCount += 1
      if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -26,7 +26,7 @@
   yearlyIncome = 0
   yearlyExpense = 0
   yearlyInvested = 0
-  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getFullYear()))).forEach(entry => {
      
     if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -94,7 +94,7 @@
 <div class="fixed-action-btn">
   <%      
             link = '/'+year+'/'+parseFloat(month+1)
-            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+            if(month == (new Date().getMonth()) && year == (new Date().getFullYear())){
               link = ''
             }
       %>
@@ -343,9 +343,9 @@
       </div>
       <%
       yearCart = []
-    count = new Date().getUTCFullYear() - element.tcreate.getUTCFullYear()
+    count = new Date().getFullYear() - element.tcreate.getFullYear()
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
       %>
       
@@ -507,7 +507,7 @@
       moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
     }
     lo = moneyOnHold.length-1
-    if("<%=year%>" == "<%=entry.tstamp.getUTCFullYear()%>"){
+    if("<%=year%>" == "<%=entry.tstamp.getFullYear()%>"){
     actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
     onholdBalance.push(moneyOnHold[lo])
     }*/

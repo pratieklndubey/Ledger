@@ -9,7 +9,7 @@
   monthlyIncome = 0
   monthlyExpense = 0
   monthlyInvested = 0
-   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getFullYear()))).forEach(entry => {
      transactionCount += 1
      if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -26,7 +26,7 @@
   yearlyIncome = 0
   yearlyExpense = 0
   yearlyInvested = 0
-  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getFullYear()))).forEach(entry => {
      
     if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -94,7 +94,7 @@
 <div class="fixed-action-btn">
   <%      
             link = '/'+year+'/'+parseFloat(month+1)
-            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+            if(month == (new Date().getMonth()) && year == (new Date().getFullYear())){
               link = ''
             }
       %>
@@ -343,9 +343,9 @@
       </div>
       <%
       yearCart = []
-    count = new Date().getUTCFullYear() - element.tcreate.getUTCFullYear()
+    count = new Date().getFullYear() - element.tcreate.getFullYear()
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
       %>
       
@@ -481,25 +481,25 @@
     income = []
     expense = []
     investment = []
-    length = new Date().getUTCFullYear() - parseFloat("<%=element.tcreate.getUTCFullYear()-1%>")
+    length = new Date().getFullYear() - parseFloat("<%=element.tcreate.getFullYear()-1%>")
     for(i = 0; i <= length;i++){
       balance.push(0)
       income.push(0)
       expense.push(0)
       investment.push(0)
-      year.push(new Date().getUTCFullYear()-i)
+      year.push(new Date().getFullYear()-i)
     }
     year = year.reverse()
     var ctx = document.getElementById('cashflowch').getContext('2d');
     
     "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
-    income["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount%>")
+    income["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount%>")
     "<%})%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {%>"
-    expense["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    expense["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
-    investment["<%=entry.tstamp.getUTCFullYear()-element.tcreate.getUTCFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    investment["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
     "<%})%>"
     for(i=0;i<balance.length;i++) {
       income[i] = income[i].toFixed(2)
