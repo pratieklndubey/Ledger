@@ -365,195 +365,146 @@
   </div>   
   <div class="container" style="width: 100%;">
     <div class="row">
-      <div class="col s3">
-        <ul class="collapsible">
-          <li class="active">
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">currency_exchange</i><b>Cashflow</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a style="color:blueviolet;"><b>Cashflow (Comparison)</b></a>
-                </li>
-                <li>
-                  <a href="chart\cfyr"><b>Cashflow (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\cflt"><b>Cashflow (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">redeem</i><b>Income</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\inmo"><b>Income (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\inyr"><b>Income (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\inlt"><b>Income (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">shopping_cart</i><b>Expense</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\exmo"><b>Expense (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\exyr"><b>Expense (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\exlt"><b>Expense (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">account_balance_wallet</i><b>Balance</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\balmo"><b>Balance (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\balyr"><b>Balance (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\ballt"><b>Balance (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">developer_board</i><b>Assets</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\asct"><b>Asset Cart</b></a>
-                </li>
-                <li>
-                  <a href="chart\invrt"><b>Inv-Ret Compare</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">swap_horiz</i><b>Transactions</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\catmo"><b>Categorywise (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\catyr"><b>Categorywise (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\catlt"><b>Categorywise (LifeTime)</b></a>
-                </li>
-                <li>
-                  <a href="chart\peryr"><b>Periodwise (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\perlt"><b>Periodwise (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-       </div>
+     <div class="col s3">
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">currency_exchange</i><b>Cashflow</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a href="..\chart"><b>Cashflow (Comparison)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\cfyr"><b>Cashflow (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\cflt"><b>Cashflow (LifeTime)</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="active">
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">redeem</i><b>Income</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a style="color:blueviolet;"><b>Income (<%=monthCart[month]%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\inyr"><b>Income (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\inlt"><b>Income (LifeTime)</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">shopping_cart</i><b>Expense</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a href="..\chart\exmo"><b>Expense (<%=monthCart[month]%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\exyr"><b>Expense (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\exlt"><b>Expense (LifeTime)</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">account_balance_wallet</i><b>Balance</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a href="..\chart\balmo" ><b>Balance (<%=monthCart[month]%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\ballt"><b>Balance (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\ballt"><b>Balance (LifeTime)</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">developer_board</i><b>Assets</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a href="..\chart\asct"><b>Asset Cart</b></a>
+              </li>
+              <li>
+                <a href="..\chart\invrt"><b>Inv-Ret Compare</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">swap_horiz</i><b>Transactions</b></div>
+          <div class="collapsible-body" style="font-size: large; text-align: center;">
+            <ul>
+              <li>
+                <a href="..\chart\catmo"><b>Categorywise (<%=monthCart[month]%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\catyr"><b>Categorywise (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\catlt"><b>Categorywise (LifeTime)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\peryr"><b>Periodwise (<%=year%>)</b></a>
+              </li>
+              <li>
+                <a href="..\chart\perlt"><b>Periodwise (LifeTime)</b></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+     </div>
      <div class="col s9">
-      <h5 class="header center blue-text text-darken-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
+      <h5 class="header center blue-text text-darken-4" style="font-family:Roboto;">Income (<%=monthCart[month]%>)</h5>
   <hr width="85%">
-    <canvas id="cashflowcch"></canvas>
+    <canvas id="incomecmch"></canvas>
      </div>
     </div>
-  </div>
+  </div> 
+
   <script type = "text/javascript">
-    var ctx = document.getElementById('cashflowcch').getContext('2d');
-    investment = 0
-    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
-    investment += parseFloat("<%=entry.amount*-1.00%>")
-    "<%})%>"
-    investment = parseFloat(investment).toFixed(2)
-    income = parseFloat("<%=element.income%>")
-    expense = parseFloat("<%=element.expense%>")
-    income = income.toFixed(2)
-      expense = expense.toFixed(2)
-      balance = income-expense
-      balance = balance.toFixed(2)
-      //expense -= investment
-      worth = parseFloat("<%=element.transum+element.onhold+assetsWorth-element.debt%>")
-var chart = new Chart(ctx, {
-type: 'bar',
-data: {
-    labels: [''],
-    datasets: [
-       {
-        label: 'Income',
-        stack: 1,
-        backgroundColor: '#ff9800',
-        //lineTension:0,
-        fill:false,
-        data: [income],
-    },
-    {
-        label: 'Savings',
-        stack: 0,
-        backgroundColor: '#0d47a1',
-        //lineTension:0,
-        fill:false,
-        data: [balance],
-    },
-    {
-        label: 'Expense',
-        stack: 0,
-        backgroundColor: '#00c853',
-        //lineTension:0,
-        fill:false,
-        data: [expense],
-    },
-    {
-        label: 'Networth',
-        stack: 2,
-        backgroundColor: '#ffeb3b',
-        //lineTension:0,
-        fill:false,
-        data: [worth],
-    },
-    {
-        label: 'Investment',
-        stack: 3,
-        backgroundColor: '#9c27b0',
-        //lineTension:0,
-        fill:false,
-        data: [investment],
+    var ctx = document.getElementById('incomecmch').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getUTCFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
     }
-    ]
-},
-options: {
-  scales:{
-    yAxes:[{
-      
-      stacked:true,
-      scaleLabel: {
-        display: true,
-        labelString: 'Amount'
-      }
-    }],
-    xAxes:[{
-      
-      stacked:true,
-      
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
     }]
-  }
-}
+},
 });
     </script>
     <%})%>

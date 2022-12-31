@@ -1,5 +1,6 @@
-start /MAX node app.js
+start /MIN node app.js
 start /MIN stock.py
 start /MIN gold.py
 start /MIN silver.py
-start chrome -kiosk http://localhost:3000/
+start lEdgex
+Rem start chrome -kiosk http://localhost:3000/

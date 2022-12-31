@@ -111,7 +111,7 @@ notation: "compact",
       </a>
       <ul>
         <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
-        <li><a title="Chart Analytics"  href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
+        <li><a title="Chart Analytics"  href="/account/<%=element._id%>/chart" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
         <li><a title="Search" href="/account/<%=element._id%>/search" class="btn-floating teal modal-trigger"><i class="material-icons">search</i></a></li>    
         <li><a title="Pivot Tables"  href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
         <li><a title="Statistics"  href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating blue-grey modal-trigger"><i class="material-icons">functions</i></a></li>
@@ -135,14 +135,14 @@ notation: "compact",
         </form>
       </div>
       <h6 id="warning" style="font-family:Roboto;" class="center red-text"></h6>
-        <script>
+        <!--<script>
           if((window.fullScreen) ||
      (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
        console.log("FullScreen");
   }else{
     document.getElementById('warning').innerHTML = "Warning<br>Pressing YES Will Close All The Tabs!<br>Close The Current Tab Instead By Pressing CTRL+W";
   }
-        </script>
+        </script>-->
   </div>
   
 <div id = "aasset" class="modal white"><h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Add Asset</h5>

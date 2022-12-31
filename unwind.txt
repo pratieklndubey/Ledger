@@ -1,0 +1,14 @@
+[
+    {
+        '$unwind': {
+            'path': '$activity'
+        }
+    }, {
+        '$project': {
+            'activity': 1, 
+            '_id': 0
+        }
+    }, {
+        '$out': 'activity'
+    }
+]

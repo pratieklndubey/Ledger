@@ -3,18 +3,20 @@ import requests
 import pathlib
 import datetime
 
-fname = pathlib.Path('goldPrice.txt')
+fname = pathlib.Path('silverPrice.txt')
 mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).date()
 today = datetime.date.today()
+#print(mtime," | ",today)
 
-if today != mtime:
-	url = 'https://www.melorra.com/jewellery/gold-rate/'
+if mtime != today:
+	url = 'https://www.bankbazaar.com/gold-rate-madhya-pradesh.html'
 	result = requests.get(url) 
 	soup = bs4.BeautifulSoup(result.content,'html.parser') 
-	price = soup.find(class_ = "gold_rate_price")
+	price = soup.find(class_ = "bigfont")
 	show = ""
 	show = price.text.split('₹')[1]
 	show = show.translate({ord(' '):None,ord('₹'):None,ord(','):None})
+	print(show)
 	price = open('goldPrice.txt','w')
 	price.write(show)
 	price.close()
