@@ -9,7 +9,7 @@
   monthlyIncome = 0
   monthlyExpense = 0
   monthlyInvested = 0
-   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+   element.activity.filter(entry => (entry.isActive == true && (month == entry.tstamp.getMonth() && year  == entry.tstamp.getFullYear()))).forEach(entry => {
      transactionCount += 1
      if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -26,7 +26,7 @@
   yearlyIncome = 0
   yearlyExpense = 0
   yearlyInvested = 0
-  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getUTCFullYear()))).forEach(entry => {
+  element.activity.filter(entry => ((entry.isActive == true && (!entry.category.includes('Debit','Credit'))) && (year == entry.tstamp.getFullYear()))).forEach(entry => {
      
     if(!entry.isexpense && (!entry.category.includes('Debit') && !entry.category.includes('Credit')))
      {
@@ -94,7 +94,7 @@
 <div class="fixed-action-btn">
   <%      
             link = '/'+year+'/'+parseFloat(month+1)
-            if(month == (new Date().getMonth()) && year == (new Date().getUTCFullYear())){
+            if(month == (new Date().getMonth()) && year == (new Date().getFullYear())){
               link = ''
             }
       %>
@@ -103,7 +103,7 @@
   </a>
   <ul>
     <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
-    <!--<li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>-->
+    <li><a title="Change Period" data-toggle="modal" href="#chperiod" class="btn-floating red modal-trigger"><i class="material-icons">today</i></a></li>
     <li><a title="Search" href="/account/<%=element._id%>/search" class="btn-floating teal modal-trigger"><i class="material-icons">search</i></a></li>    
     <li><a title="Pivot Tables"  href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
     <li><a title="Statistics"  href="/account/<%=element._id%>/stats<%=link%>" class="btn-floating blue-grey modal-trigger"><i class="material-icons">functions</i></a></li>
@@ -315,14 +315,14 @@
                   </form>
                 </div>
                 <h6 id="warning" style="font-family:Roboto;" class="center red-text"></h6>
-                  <!--<script>
+                  <script>
                     if((window.fullScreen) ||
                (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
                  console.log("FullScreen");
             }else{
               document.getElementById('warning').innerHTML = "Warning<br>Pressing YES Will Close All The Tabs!<br>Close The Current Tab Instead By Pressing CTRL+W";
             }
-                  </script>-->
+                  </script>
             </div>
                 
             
@@ -343,9 +343,9 @@
       </div>
       <%
       yearCart = []
-    count = new Date().getUTCFullYear() - element.tcreate.getUTCFullYear()
+    count = new Date().getFullYear() - element.tcreate.getFullYear()
     for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getUTCFullYear()-i)
+      yearCart.push(new Date().getFullYear()-i)
     }
       %>
       
@@ -362,119 +362,655 @@
       </form>
     </div>
 
-  </div>   
-  <div class="container" style="width: 100%;">
-    <div class="row">
-      <div class="col s3">
-        <ul class="collapsible">
-          <li class="active">
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">currency_exchange</i><b>Cashflow</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a style="color:blueviolet;"><b>Cashflow (Comparison)</b></a>
-                </li>
-                <li>
-                  <a href="chart\cfyr"><b>Cashflow (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\cflt"><b>Cashflow (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">redeem</i><b>Income</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\inmo"><b>Income (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\inyr"><b>Income (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\inlt"><b>Income (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">shopping_cart</i><b>Expense</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\exmo"><b>Expense (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\exyr"><b>Expense (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\exlt"><b>Expense (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">account_balance_wallet</i><b>Balance</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\balmo"><b>Balance (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\balyr"><b>Balance (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\ballt"><b>Balance (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">developer_board</i><b>Assets</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\asct"><b>Asset Cart</b></a>
-                </li>
-                <li>
-                  <a href="chart\invrt"><b>Inv-Ret Compare</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="collapsible-header" style="font-size:larger;"><i class="large material-icons">swap_horiz</i><b>Transactions</b></div>
-            <div class="collapsible-body" style="font-size: large; text-align: center;">
-              <ul>
-                <li>
-                  <a href="chart\catmo"><b>Categorywise (<%=monthCart[month]%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\catyr"><b>Categorywise (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\catlt"><b>Categorywise (LifeTime)</b></a>
-                </li>
-                <li>
-                  <a href="chart\peryr"><b>Periodwise (<%=year%>)</b></a>
-                </li>
-                <li>
-                  <a href="chart\perlt"><b>Periodwise (LifeTime)</b></a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-       </div>
-     <div class="col s9">
-      <h5 class="header center blue-text text-darken-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
+  </div>            
+<div id = "balcm" class="modal white">
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (<%=monthCart[month]%>)</h5>
+  <hr width="85%">
+    <canvas id="balcmch"></canvas>
+  </div>
+  <div id = "balcy" class="modal white">
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="balcych"></canvas>
+  </div>
+  <div id = "balcl" class="modal white">
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="balclch"></canvas>
+  </div>
+  <div id = "exdiscm" class="modal white">
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (<%=monthCart[month]%>)</h5>
+  <hr width="85%">
+    <canvas id="exdiscmch"></canvas>
+  </div>
+  <div id = "exdiscy" class="modal white">
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="exdiscych"></canvas>
+  </div>
+  <div id = "cashflowy" class="modal white">
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="cashflowych"></canvas>
+  </div>
+  <div id = "cashflow" class="modal white">
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="cashflowch"></canvas>
+  </div>
+  <div id = "cashflowc" class="modal white">
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow (Comparison)</h5>
   <hr width="85%">
     <canvas id="cashflowcch"></canvas>
-     </div>
+  </div>
+  <div id = "income" class="modal white">
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="incomech"></canvas>
+  </div>
+  <div id = "expense" class="modal white">
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="expensech"></canvas>
+  </div>
+  <div id = "incomecy" class="modal white">
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="incomecych"></canvas>
+  </div>
+  <div id = "incomecm" class="modal white">
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income (<%=monthCart[month]%>)</h5>
+  <hr width="85%">
+    <canvas id="incomecmch"></canvas>
+  </div>
+  <div id = "invret" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">InvRet (Comparison)</h5>
+  <hr width="85%">
+    <canvas id="invretch"></canvas>
+  </div>
+  <div id = "invcat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Asset Categories</h5>
+  <hr width="85%">
+    <canvas id="invcatch"></canvas>
+  </div>
+  <div id = "equicat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Equity Categories</h5>
+  <hr width="85%">
+    <canvas id="equicatch"></canvas>
+  </div>
+  <div id = "ctransactionm" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Categorywise Transactions (<%=monthCart[month]%>)</h5>
+  <hr width="85%">
+    <canvas id="ctransactionmch"></canvas>
+  </div>
+  <div id = "ctransactiony" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Categorywise Transactions (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="ctransactionych"></canvas>
+  </div>
+  <div id = "ctransaction" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Categorywise Transactions (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="ctransactionch"></canvas>
+  </div>
+  <div id = "ptransactiony" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Periodwise Transactions (<%=year%>)</h5>
+  <hr width="85%">
+    <canvas id="ptransactionych"></canvas>
+  </div>
+  <div id = "ptransaction" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Periodwise Transactions (LifeTime)</h5>
+  <hr width="85%">
+    <canvas id="ptransactionch"></canvas>
+  </div>
+  <div id = "incomecat" class="modal white">
+    <h5 class="header center amber-text text-darken-3" style="font-family:Roboto;">Income</h5>
+  <hr width="85%">
+  <div class="row">
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecm">Income (<%=monthCart[month]%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecy">Income (<%=year%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#income">Income (LifeTime)</a>
+      </div>       
+    </div>
+    
+  </div>
+  <div id = "expensecat" class="modal white">
+    <h5 class="header center green-text text-darken-4" style="font-family:Roboto;">Expenses</h5>
+  <hr width="85%">
+
+  <div class="row">
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#exdiscm">Expenses (<%=monthCart[month]%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#exdiscy">Expenses (<%=year%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#expense">Expenses (LifeTime)</a>
+      </div>  
     </div>
   </div>
+  <div id = "balancecat" class="modal white">
+    <h5 class="header center purple-text text-darken-1" style="font-family:Roboto;">Balance</h5>
+  <hr width="85%">
+  <div class="row">
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcm">Balance (<%=monthCart[month]%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcy">Balance (<%=year%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balcl">Balance (LifeTime)</a>
+      </div>
+      </div>
+    
+  </div>
+  <div id = "cashflowcat" class="modal white">
+    <h5 class="header center red-text text-darken-4" style="font-family:Roboto;">Cashflow</h5>
+  <hr width="85%">
+  <div class="row">
+        <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowy">Cashflow (<%=year%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflow">Cashflow (LifeTime)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowc">Cashflow (Comparison)</a>
+      </div>
+    </div>
+  </div>
+
+  <div id = "transactions" class="modal white">
+    <h5 class="header center pink-text text-darken-1" style="font-family:Roboto;">Transactions</h5>
+  <hr width="85%">
+  <div class="row">
+    <div class="col s4 center">
+      <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#ctransactionm">Categorywise (<%=monthCart[month]%>)</a>
+    </div>
+        <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#ctransactiony">Categorywise (<%=year%>)</a>
+      </div>
+      <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#ctransaction">Categorywise (LifeTime)</a>
+      </div>
+    </div>
+    <div class="row">
+          <div class="col s6 center">
+          <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#ptransactiony">Periodwise (<%=year%>)</a>
+        </div>
+        <div class="col s6 center">
+          <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#ptransaction">Periodwise (LifeTime)</a>
+        </div>
+      </div>
+  </div>
+  
+  <div id = "assetscat" class="modal white">
+    <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Assets</h5>
+  <hr width="85%">
+  <div class="row">
+    
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invcat">Asset Cart</a>
+      </div>
+      <div class="col s6 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#invret">Inv-Ret Compare</a>
+        </div>
+     <!-- <div class="col s4 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#equicat">Equity Cart</a>
+        </div>-->
+        
+      
+        
+      </div>
+    </div>
+    <div class="row">
+      
+    </div>
+  </div>
+
+  <div class = "container">
+    <div class="row">
+     
+      <div class="col s2 offset-s1 center">
+        <a data-toggle="modal" class="modal-trigger btn green darken-4" href="#expensecat">Expenses</a>
+      </div>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn amber darken-3" href="#incomecat">Income</a>
+      </div>
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn light-blue darken-4" href="#assetscat">Assets</a>
+      </div> 
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn purple darken-1" href="#balancecat">Balance</a>
+      </div> 
+      <div class="col s2 center">
+        <a data-toggle="modal" class="modal-trigger btn red darken-4" href="#cashflowcat">Cashflow</a>
+      </div> 
+     
+    </div>
+    <div class="row">
+     
+      <!--<div class="col s3 offset-s1 center">
+        <a data-toggle="modal" class="modal-trigger btn cyan" href="#expensedist">Expense Distribution</a>
+      </div>-->
+      <div class="col s12 center">
+        <a data-toggle="modal" class="modal-trigger btn pink darken-1" href="#transactions">Transactions</a>
+      </div> 
+      <!--<div class="col s3 offset-s1 center">
+        <a data-toggle="modal" class="modal-trigger btn teal" href="#incomedist">Income Distribution</a>
+      </div>-->
+       
+    </div>
+    
+  </div>
+  
+  
+  <!--<script type = "text/javascript">
+    var ctx = document.getElementById('equicatch').getContext('2d');
+    share = []
+    ticker = []
+    color = []
+    "<%element.asset.filter(entry => (entry.isActive == true && entry.category.includes('Equity'))).forEach(entry => {%>"
+    if(!ticker.includes("<%=entry.description%>")){
+      ticker.push("<%=entry.description%>")
+      share.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(ticker.includes("<%=entry.description%>")){
+      i = ticker.indexOf("<%=entry.description%>")
+      share[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: ticker,
+    datasets: [{
+        data: share,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>-->
+  <script type = "text/javascript">
+    var ctx = document.getElementById('invcatch').getContext('2d');
+    investment = []
+    sector = []
+    color = []
+    "<%element.asset.forEach(entry => {%>"
+    if(!sector.includes("<%=entry.category%>")){
+      sector.push("<%=entry.category%>")
+      investment.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(sector.includes("<%=entry.category%>")){
+      i = sector.indexOf("<%=entry.category%>")
+      investment[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: sector,
+    datasets: [{
+        data: investment,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('invretch').getContext('2d');
+    investment = 0
+    value = 0
+    "<%element.asset.filter(entry => entry.isActive == true && entry.category != 'Extra Charge').forEach(entry => {%>"
+    investment += parseFloat("<%=entry.amount%>")
+    if("<%=entry.category%>" == "Equity"){
+      "<%index = stockList.indexOf(entry.description)%>"
+      "<%index = parseFloat(index)%>"
+      value += parseFloat("<%=stockValues[index]*entry.units%>")
+    }
+    else if("<%=entry.category%>" == "Gold"){
+      value += parseFloat("<%=entry.units*priceGold%>")
+    }
+    else if("<%=entry.category%>" == "Silver"){
+      value += parseFloat("<%=entry.units*priceSilver%>")
+    }
+    else if("<%=entry.category%>" == "Extra Charge"){
+      value += 0
+    }
+    else{
+      value += parseFloat("<%=entry.amount%>")
+    }
+    "<%})%>"
+    investment = investment.toFixed(2)
+    value = value.toFixed(2)
+    returns = (value-investment).toFixed(2)
+    if(returns > 0){
+      returnsColor = '#00c853'
+    }else{
+      returnsColor = '#d50000'
+    }
+    
+var chart = new Chart(ctx, {
+type: 'bar',
+data: {
+    labels: [''],
+    datasets: [
+      {
+        label: 'Investment',
+        stack: 1,
+        backgroundColor: '#ff9800',
+        //lineTension:0,
+        fill:false,
+        data: [investment],
+    },{
+        label: 'Value',
+        stack: 2,
+        backgroundColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        data: [value],
+    },
+    {
+        label: 'Returns',
+        stack: 3,
+        backgroundColor: returnsColor,
+        //lineTension:0,
+        fill:false,
+        data: [returns],
+    }
+    ]
+},
+options: {
+  scales:{
+    yAxes:[{
+      
+      stacked:true,
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      
+      stacked:true,
+      
+    }]
+  }
+}
+});
+    </script>
+
+<script type = "text/javascript">
+  var ctx = document.getElementById('ctransactionmch').getContext('2d');
+  balance = []
+  category = []
+  color = []
+  "<%element.activity.filter(entry => (((entry.isActive == true)) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getFullYear()))).forEach(entry => {%>"
+  
+  if(!category.includes("<%=entry.category%>")){
+    category.push("<%=entry.category%>")
+    balance.push(0)
+    r = Math.floor(Math.random() * 200);
+    g = Math.floor(Math.random() * 200);
+    b = Math.floor(Math.random() * 200);
+    color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+  }
+  if(category.includes("<%=entry.category%>")){
+    i = category.indexOf("<%=entry.category%>")
+    balance[i] += 1
+  }
+  "<%})%>"
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+  labels: category,
+  datasets: [{
+      data: balance,
+      backgroundColor: color,
+  }]
+},
+});
+  </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomecmch').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomecych').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && (year == entry.tstamp.getFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+    <script type = "text/javascript">
+      var ctx = document.getElementById('ctransactionch').getContext('2d');
+      balance = []
+      category = []
+      color = []
+      "<%element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {%>"
+      
+      if(!category.includes("<%=entry.category%>")){
+        category.push("<%=entry.category%>")
+        balance.push(0)
+        r = Math.floor(Math.random() * 200);
+        g = Math.floor(Math.random() * 200);
+        b = Math.floor(Math.random() * 200);
+        color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+      }
+      if(category.includes("<%=entry.category%>")){
+        i = category.indexOf("<%=entry.category%>")
+        balance[i] += 1
+      }
+      "<%})%>"
+     
+      
+      
+  var chart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+      labels: category,
+      datasets: [{
+          data: balance,
+          backgroundColor: color,
+      }]
+  },
+  });
+      </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('ctransactionych').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true)) && (year == entry.tstamp.getFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += 1
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('expensech').getContext('2d');
+    "<%if(element.tcreate.getFullYear() == 2021 && element.tcreate.getMonth() == 10 && element.tcreate.getDate() == 12){%>"
+    balance = [parseFloat("<%=element.uexpense%>")]
+    category = ['Unaccounted']
+    color = []
+    r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    "<%}else{%>"
+    balance = []
+    category = []
+    color = []
+    "<%}%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+    
+  <script type = "text/javascript">
+    var ctx = document.getElementById('incomech').getContext('2d');
+    "<%if(element.tcreate.getFullYear() == 2021 && element.tcreate.getMonth() == 10 && element.tcreate.getDate() == 12){%>"
+    balance = [parseFloat("<%=element.uincome%>")]
+    category = ['Unaccounted']
+    color = []
+    r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    "<%}else{%>"
+    balance = []
+    category = []
+    color = []
+    "<%}%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+
+});
+    </script>
   <script type = "text/javascript">
     var ctx = document.getElementById('cashflowcch').getContext('2d');
     investment = 0
@@ -551,6 +1087,845 @@ options: {
       
       stacked:true,
       
+    }]
+  }
+}
+});
+    </script>
+
+    
+  <script type = "text/javascript">
+    year = []
+    balance = []
+    income = []
+    expense = []
+    investment = []
+    length = new Date().getFullYear() - parseFloat("<%=element.tcreate.getFullYear()-1%>")
+    for(i = 0; i <= length;i++){
+      balance.push(0)
+      income.push(0)
+      expense.push(0)
+      investment.push(0)
+      year.push(new Date().getFullYear()-i)
+    }
+    year = year.reverse()
+    var ctx = document.getElementById('cashflowch').getContext('2d');
+    
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')))).forEach(entry => {%>"
+    income["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount%>")
+    "<%})%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))))).forEach(entry => {%>"
+    expense["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')))).forEach(entry => {%>"
+    investment["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    for(i=0;i<balance.length;i++) {
+      income[i] = income[i].toFixed(2)
+      expense[i] = expense[i].toFixed(2)
+      investment[i] = investment[i].toFixed(2)
+      balance[i] = income[i]-expense[i]-investment[i]
+      balance[i] = balance[i].toFixed(2)
+      if(balance[i] < 0){
+        balance[i] = 0.00
+      }
+    }
+   
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: year,
+    datasets: [
+      {
+        label: 'Credit',
+        borderColor: '#ff9800',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: income,
+    },{
+        label: 'Investment',
+        borderColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: investment,
+    },
+    {
+        label: 'Debit',
+        borderColor: '#00c853',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: expense,
+    }
+    ,{
+        label: 'Savings',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: balance,
+    }]
+},
+options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Year'
+      }
+    }]
+  }
+}
+});
+    </script>
+
+<script type = "text/javascript">
+  year = []
+  balance = []
+  ebalance = []
+  ibalance = []
+  abalance = []
+  length = new Date().getFullYear() - parseFloat("<%=element.tcreate.getFullYear()-1%>")
+  for(i = 0; i <= length;i++){
+    balance.push(0)
+    ebalance.push(0)
+    ibalance.push(0)
+    abalance.push(0)
+    year.push(new Date().getFullYear()-i)
+  }
+  year = year.reverse()
+  var ctx = document.getElementById('ptransactionch').getContext('2d');
+  
+  "<%element.activity.filter(entry => (((entry.isActive == true)))).forEach(entry => {%>"
+  balance["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += 1
+  "<%if(entry.isexpense && entry.category != 'Investment'){%>"
+  ebalance["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += 1
+  "<%}if(entry.isexpense && entry.category == 'Investment'){%>"
+  abalance["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += 1
+  "<%}if(!entry.isexpense){%>"
+  ibalance["<%=entry.tstamp.getFullYear()-element.tcreate.getFullYear()+1%>"] += 1
+  "<%}%>"
+  "<%})%>"
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+  labels: year,
+  datasets: [
+    {
+      label: 'Transaction Count',
+      borderColor: '#d81b60',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: balance,
+  },{
+      label: 'Income Count',
+      borderColor: '#00c853',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ibalance,
+  },{
+      label: 'Expense Count',
+      borderColor: '#ff9800',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ebalance,
+  },{
+      label: 'Investment Count',
+      borderColor: '#1976d2 ',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: abalance,
+  }]
+},
+options: {
+responsive: true,
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+scales:{
+  yAxes:[{
+    scaleLabel: {
+      display: true,
+      labelString: 'Count'
+    }
+  }],
+  xAxes:[{
+    scaleLabel: {
+      display: true,
+      labelString: 'Year'
+    }
+  }]
+}
+}
+});
+  </script>
+
+<script type = "text/javascript">
+  var ctx = document.getElementById('ptransactionych').getContext('2d');
+  balance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  ibalance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  ebalance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  abalance = [0,0,0,0,0,0,0,0,0,0,0,0]
+  month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+  "<%element.activity.filter(entry => (((entry.isActive == true)) && year == entry.tstamp.getFullYear())).forEach(entry => {%>"
+  balance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%if(entry.isexpense && entry.category != 'Investment'){%>"
+  ebalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}if(entry.isexpense && entry.category == 'Investment'){%>"
+  abalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}if(!entry.isexpense){%>"
+  ibalance["<%=entry.tstamp.getMonth()%>"] += 1
+  "<%}%>"
+  "<%})%>"
+  
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+  labels: month,
+  datasets: [{
+      label: 'Transaction Count',
+      borderColor: '#d81b60',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: balance,
+  },{
+      label: 'Income Count',
+      borderColor: '#00c853',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ibalance,
+  },{
+      label: 'Expense Count',
+      borderColor: '#ff9800',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: ebalance,
+  },{
+      label: 'Investment Count',
+      borderColor: '#1976d2',
+      lineTension:0,
+      fill:false,
+      radius:0,
+      data: abalance,
+  }
+  ]
+},
+options: {
+responsive: true,
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+scales:{
+  yAxes:[{
+    scaleLabel: {
+      display: true,
+      labelString: 'Count'
+    }
+  }],
+  xAxes:[{
+    scaleLabel: {
+      display: true,
+      labelString: 'Month'
+    }
+  }]
+}
+}
+});
+  </script>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('cashflowych').getContext('2d');
+    balance = [0,0,0,0,0,0,0,0,0,0,0,0]
+    income = [0,0,0,0,0,0,0,0,0,0,0,0]
+    expense = [0,0,0,0,0,0,0,0,0,0,0,0]
+    investment = [0,0,0,0,0,0,0,0,0,0,0,0]
+    month = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    "<%element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Credit')) && year == entry.tstamp.getFullYear())).forEach(entry => {%>"
+    income["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount%>")
+    "<%})%>"
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Investment') && !entry.category.includes('Debit'))) && year == entry.tstamp.getFullYear())).forEach(entry => {%>"
+    expense["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && entry.category.includes('Investment')) && year == entry.tstamp.getFullYear())).forEach(entry => {%>"
+    investment["<%=entry.tstamp.getMonth()%>"] += parseFloat("<%=entry.amount*-1.00%>")
+    "<%})%>"
+    
+    for(i=0;i<balance.length;i++) {
+      income[i] = income[i].toFixed(2)
+      expense[i] = expense[i].toFixed(2)
+      investment[i] = investment[i].toFixed(2)
+      balance[i] = income[i]-expense[i]-investment[i]
+      balance[i] = balance[i].toFixed(2)
+      if(balance[i] < 0){
+        balance[i] = 0.00
+      }
+    }
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: month,
+    datasets: [
+      {
+        label: 'Credit',
+        borderColor: '#ff9800',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: income,
+    },{
+        label: 'Investment',
+        borderColor: '#9c27b0',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: investment,
+    },{
+        label: 'Debit',
+        borderColor: '#00c853',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: expense,
+    }
+    ,{
+        label: 'Savings',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: balance,
+    }]
+},
+options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Month'
+      }
+    }]
+  }
+}
+});
+    </script>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('exdiscmch').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && (month == entry.tstamp.getMonth() && year == entry.tstamp.getFullYear()))).forEach(entry => {%>"
+    
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+
+  <script type = "text/javascript">
+    var ctx = document.getElementById('exdiscych').getContext('2d');
+    balance = []
+    category = []
+    color = []
+    "<%element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Debit')) && year == entry.tstamp.getFullYear())).forEach(entry => {%>"  
+    if(!category.includes("<%=entry.category%>")){
+      category.push("<%=entry.category%>")
+      balance.push(0)
+      r = Math.floor(Math.random() * 200);
+      g = Math.floor(Math.random() * 200);
+      b = Math.floor(Math.random() * 200);
+      color.push('rgb(' + r + ', ' + g + ', ' + b + ')')
+    }
+    if(category.includes("<%=entry.category%>")){
+      i = category.indexOf("<%=entry.category%>")
+      balance[i] += parseFloat("<%=entry.amount*-1.00%>")
+    }
+    "<%})%>"
+   
+    
+    
+var chart = new Chart(ctx, {
+type: 'doughnut',
+data: {
+    labels: category,
+    datasets: [{
+        data: balance,
+        backgroundColor: color,
+    }]
+},
+});
+    </script>
+    <script type = "text/javascript">
+      var ctx = document.getElementById('balclch').getContext('2d');
+      balance = []
+      actualBalance = []
+      points = []
+      amounts = []
+      counter = 1
+      onholdBalance = []
+      moneyOnHold = [0]
+      trend = []
+      
+      "<%element.activity.forEach(entry => {%>"
+      
+      balance.push("<%=entry.postranbal%>")
+      amounts.push("<%=entry.amount%>")
+      points.push(counter)
+      counter++;
+      tlast = "<%=entry.postranbal%>"
+      
+      /*if("<%=entry.category%>" == 'Debit')
+      {
+        li = moneyOnHold.length-1
+        value = moneyOnHold[li]
+        moneyOnHold.push(value+parseFloat("<%=entry.amount*-1.00%>"))
+      }
+      if("<%=entry.category%>" == 'Credit')
+      {
+        li = moneyOnHold.length-1
+        value = moneyOnHold[li]
+        moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
+      }
+      lo = moneyOnHold.length-1
+      if("<%=year%>" == "<%=entry.tstamp.getFullYear()%>"){
+      actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
+      onholdBalance.push(moneyOnHold[lo])
+      }*/
+      "<%})%>"     
+      tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
+      //trend.push(tlast)
+      
+  var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+      labels: points,
+      datasets: [{
+          label: 'Balance',
+          borderColor: '#000000',
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: balance,
+      },
+      {
+          label: 'Amount',
+          borderColor: '#009688',
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: amounts,
+          
+      },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }
+
+      /*,
+      {
+          label: 'Actual Balance',
+          borderColor: '#0d47a1',
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: actualBalance,
+          hidden: true
+      },
+      {
+          label: 'On Hold',
+          borderColor: '#ff5722',
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: onholdBalance,
+          hidden: true
+      }*/
+    ]
+  },
+  options: {
+    responsive: true,
+          tooltips: {
+            mode: 'index',
+            intersect: false,
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+    scales:{
+      yAxes:[{
+        scaleLabel: {
+          display: true,
+          labelString: 'Amount'
+        }
+      }],
+      xAxes:[{
+        scaleLabel: {
+          display: true,
+          labelString: 'Transaction Count'
+        }
+      }]
+    }
+  }
+  });
+      </script>
+  <script type = "text/javascript">
+    var ctx = document.getElementById('balcych').getContext('2d');
+    balance = []
+    actualBalance = []
+    points = []
+    amounts = []
+    counter = 1
+    onholdBalance = []
+    moneyOnHold = [0]
+    trend = []
+      
+    "<%element.activity.filter(entry => (entry.isActive == true && year == entry.tstamp.getFullYear())).forEach(entry => {%>"
+    if("<%=year%>" == "<%=entry.tstamp.getFullYear()%>"){
+    balance.push("<%=entry.postranbal%>")
+    amounts.push("<%=entry.amount%>")
+    tlast = "<%=entry.postranbal%>"
+    }
+    if("<%=entry.category%>" == 'Debit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value+parseFloat("<%=entry.amount*-1.00%>"))
+    }
+    if("<%=entry.category%>" == 'Credit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
+    }
+    lo = moneyOnHold.length-1
+    if("<%=year%>" == "<%=entry.tstamp.getFullYear()%>"){
+    actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
+    onholdBalance.push(moneyOnHold[lo])
+    points.push(counter)
+    counter++;
+    }
+    "<%})%>"
+    tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      step = parseFloat(step.toFixed(2))
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
+      
+      
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: points,
+    datasets: [{
+        label: 'Balance',
+        borderColor: '#000000',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: balance,
+    },
+    /*{
+        label: 'Actual Balance',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: actualBalance,
+        hidden: true
+    },
+    {
+        label: 'On Hold',
+        borderColor: '#ff5722',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: onholdBalance,
+        hidden: true
+    },*/
+    {
+        label: 'Amount',
+        borderColor: '#009688',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: amounts,
+        
+    },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }
+  ]
+},
+options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Transaction Count'
+      }
+    }]
+  }
+}
+});
+    </script>
+
+<script type = "text/javascript">
+    var ctx = document.getElementById('balcmch').getContext('2d');
+    balance = []
+    points = []
+    amounts = []
+    actualBalance = []
+    counter = 1
+    onholdBalance = []
+    moneyOnHold = [0]
+    isDebit = false
+    trend = []
+      
+    "<%element.activity.filter(entry => (entry.category == 'Credit' || entry.category == 'Debit' || (entry.isActive == true && (month == entry.tstamp.getMonth() && year == entry.tstamp.getFullYear())))).forEach(entry => {%>"
+    if("<%=month%>" == "<%=entry.tstamp.getMonth()%>"){
+    balance.push("<%=entry.postranbal%>")
+    amounts.push("<%=entry.amount%>")
+    tlast = "<%=entry.postranbal%>"
+    }
+    if("<%=entry.category%>" == 'Debit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value+parseFloat("<%=entry.amount*-1.00%>"))
+    }
+    if("<%=entry.category%>" == 'Credit')
+    {
+      li = moneyOnHold.length-1
+      value = moneyOnHold[li]
+      moneyOnHold.push(value-parseFloat("<%=entry.amount%>"))
+      
+    }
+    
+    lo = moneyOnHold.length-1
+    if("<%=month%>" == "<%=entry.tstamp.getMonth()%>"){
+    actualBalance.push(parseFloat("<%=entry.postranbal%>")-moneyOnHold[lo])
+    onholdBalance.push(moneyOnHold[lo])
+    points.push(counter)
+    counter++;
+    }
+    "<%})%>"
+    tinit = parseFloat(balance[0])
+      tlast = parseFloat(tlast)
+      step = (tlast-tinit)/(balance.length-1)
+      step = parseFloat(step.toFixed(2))
+      //step = (355000-300000)/(11-1)
+      if(tlast > tinit){
+        trendColor = "#43a047"
+        for(i = tinit;i<=tlast;i=i+step){
+        trend.push(i) 
+      }
+      }
+      else{
+        trendColor = "#e53935"
+        for(i = tinit;i>=tlast;i=i+step){
+        trend.push(i) 
+      } 
+      }
+var chart = new Chart(ctx, {
+type: 'line',
+data: {
+    labels: points,
+    datasets: [{
+        label: 'Balances',
+        borderColor: '#000000',
+        //backgroundColor:'#2962ff',
+        //steppedLine:'true',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: balance,
+        
+    },
+    /*{
+        label: 'Actual Balance',
+        borderColor: '#0d47a1',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: actualBalance,
+        hidden: true
+    },
+    {
+        label: 'On Hold',
+        borderColor: '#ff5722',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: onholdBalance,
+        hidden: true
+    },*/
+    {
+        label: 'Amount',
+        borderColor: '#009688',
+        //lineTension:0,
+        fill:false,
+        radius:0,
+        data: amounts,
+        
+    },
+      {
+          label: 'Trend',
+          borderColor: trendColor,
+          //lineTension:0,
+          fill:false,
+          radius:0,
+          data: trend,
+          
+      }]
+},
+options: {
+  responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+  scales:{
+    yAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Amount'
+      }
+    }],
+    xAxes:[{
+      scaleLabel: {
+        display: true,
+        labelString: 'Transaction Count'
+      }
     }]
   }
 }
