@@ -4,4 +4,4 @@ set month=%fulldate:~4,2%
 set day=%fulldate:~6,2%
 set foldername=%year%%month%%day%
 start rmdir /S /Q E:\Mongo\%foldername% & mongodump /out:%foldername% & mongobu.py
-start taskkill /IM cmd.exe
+start taskkill /F /IM cmd.exe /T

@@ -297,7 +297,7 @@ router.put('/:id/assets', async(req, res) => {
     
 })
 
-router.get('/:id/stats', async (req, res) => {
+router.get('/:id/story', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
@@ -317,10 +317,10 @@ router.get('/:id/stats', async (req, res) => {
   month = new Date().getMonth()
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {page:"| Stats",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
+    res.render('account/story/index', {page:"| story",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
   //res.send(account)
 })
-router.get('/:id/stats/:year/:month', async (req, res) => {
+router.get('/:id/story/:year/:month', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
   let stockData = fs.readFileSync('stockData.csv')
@@ -353,7 +353,7 @@ router.get('/:id/stats/:year/:month', async (req, res) => {
   let searchOptions = {}
     searchOptions._id = req.params.id
     const account = await Account.find(searchOptions)
-    res.render('account/stats/index', {page:"| Stats",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
+    res.render('account/story/index', {page:"| story",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
   //res.send(account)
 })
 router.get('/:id/pivots', async (req, res) => {
@@ -575,8 +575,8 @@ router.get('/:id/:year/:month', async (req, res) => {
   router.put('/pivots', async (req, res) => {
     res.redirect(req.body.id+"/pivots/"+req.body.year+"/"+req.body.month)
   })
-  router.put('/stats', async (req, res) => {
-    res.redirect(req.body.id+"/stats/"+req.body.year+"/"+req.body.month)
+  router.put('/story', async (req, res) => {
+    res.redirect(req.body.id+"/story/"+req.body.year+"/"+req.body.month)
   })
   
     

@@ -4,6 +4,8 @@ import sys
 import os
 import pathlib
 import datetime
+import requests
+from bs4 import BeautifulSoup
 
 fname = pathlib.Path('stockData.csv')
 mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).date()
@@ -35,14 +37,22 @@ if True:#today != mtime
             counter += 1
             print(entry,counter,"/",listSize)
             if entry == ['NIFTYBEES']:
-                ticker = nse.get_index_quote('NIFTY 50')
-                outPut = ['NIFTYBEES',float(ticker['lastPrice']/92.45)]
+                URL = 'https://www.tickertape.in/etfs/nippon-india-nifty-50-bees-etf-NBES'
+                page = requests.get(URL)
+                soup = BeautifulSoup(page.content, 'html.parser')
+                price_div = soup.find(class_='current-price')
+                price = price_div.get_text()
+                outPut = ['NIFTYBEES',float(price)]
             elif entry == ['ICICIB22']:
                 ticker = nse.get_index_quote('NIFTY 50')
                 outPut = ['ICICIB22',float(ticker['lastPrice']/377.87)]
             elif entry == ['SETFNIF50']:
-                ticker = nse.get_index_quote('NIFTY 50')
-                outPut = ['SETFNIF50',float(ticker['lastPrice']/97.76)]
+                URL = 'https://www.tickertape.in/etfs/sbi-nifty-50-etf-SBFP'
+                page = requests.get(URL)
+                soup = BeautifulSoup(page.content, 'html.parser')
+                price_div = soup.find(class_='current-price')
+                price = price_div.get_text()
+                outPut = ['SETFNIF50',float(price)]
             elif entry == ['INDINFO']:
                 outPut = ['INDINFO',1.46]
             else:
