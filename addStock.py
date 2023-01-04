@@ -2,6 +2,8 @@ from nsetools import Nse
 import csv
 import sys
 from os import system,path
+import requests
+from bs4 import BeautifulSoup
 nse = Nse()
 
 def listToString(value):  
@@ -32,14 +34,22 @@ if(validated):
             with open('stockData.csv', 'a', newline='') as file:
                 writer = csv.writer(file)
                 if item == ['NIFTYBEES']:
-                    ticker = nse.get_index_quote('NIFTY 50')
-                    outPut = ['NIFTYBEES',float(ticker['lastPrice']/92.45)]
+                    URL = 'https://www.tickertape.in/etfs/nippon-india-nifty-50-bees-etf-NBES'
+                    page = requests.get(URL)
+                    soup = BeautifulSoup(page.content, 'html.parser')
+                    price_div = soup.find(class_='current-price')
+                    price = price_div.get_text()
+                    outPut = ['NIFTYBEES',float(price)]
                 elif item == ['ICICIB22']:
                     ticker = nse.get_index_quote('NIFTY 50')
                     outPut = ['ICICIB22',float(ticker['lastPrice']/377.87)]
                 elif item == ['SETFNIF50']:
-                    ticker = nse.get_index_quote('NIFTY 50')
-                    outPut = ['SETFNIF50',float(ticker['lastPrice']/97.76)]     
+                    URL = 'https://www.tickertape.in/etfs/sbi-nifty-50-etf-SBFP'
+                    page = requests.get(URL)
+                    soup = BeautifulSoup(page.content, 'html.parser')
+                    price_div = soup.find(class_='current-price')
+                    price = price_div.get_text()
+                    outPut = ['SETFNIF50',float(price)]     
                 elif item == ['INDINFO']:
                     outPut = ['INDINFO',1.46]              
                 else:
