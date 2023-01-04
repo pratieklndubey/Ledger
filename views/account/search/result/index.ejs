@@ -67,7 +67,43 @@
   .yearlyexpense:hover:before {content:"<%=((yearlyIncome+yearlyExpense<=0.00) && (yearlyIncome == 0)?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
   .yearlybalance:hover span {display:none}
   .yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<=0.00?0.00:(100 - (yearlyExpense-yearlyInvested)*-100/yearlyIncome)).toFixed(2)%>%"}
-  
+  .preloader-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+}
+
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+
+.loading-message {
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
   </style>
    
       <%
@@ -385,7 +421,10 @@
   Sum Total <%=tranString%> <%=tranType%> is <%=formatter.format(totalAmount*sign)%>
   </h4>
 
-
+  <div class="preloader-overlay">
+    <div class="spinner"></div>
+    <div class="loading-message">Loading Data</div>
+  </div>
 <hr width="70%">
 
 <div class="container">
@@ -573,5 +612,9 @@
     });
   });
       </script>
-  
+   <script>
+  window.addEventListener('load', function() {
+    document.querySelector('.preloader-overlay').style.display = 'none';
+  });
+</script>
       <%})%>
