@@ -299,282 +299,36 @@
             </div>
                  
               </div>
+<div class="container">
+  <div class="row">
+    <div class="col s12">
 
-              <h4 class = "center" >This account was created on <script type="text/javascript">
-                document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-           </script></h4>
+      <%
+        tot_cred = 0
+        tot_deb = 0
+      element.activity.forEach(entry => {
+        if(!entry.isexpense)
+        {
+          tot_cred += entry.amount
+        }
+        if(entry.isexpense)
+        {
+          tot_deb += entry.amount
+        }
+      })
+      %>
+      
+      <h5 style="font-family: Handlee;" class="center">
+   <%=element.name%>'s account was created on <script type="text/javascript">
+    document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
+</script> with an opening amount of <%=formatter.format(element.activity[0].amount)%>. <br>Since then, <%=formatter.format(tot_cred)%> has been credited and <%=formatter.format(tot_deb*-1.00)%> has been debited, leaving a balance of <%=formatter.format(tot_cred+tot_deb)%>.<br>
+Most amount earned is through...
+  </h5>
+  
+    </div>
+  </div>
+</div>
  
-           <div class = "container">
-            <div class = "row">
-              <div class = "col s4">
-                <div class="card-panel white">
-                  <div class="row">
-                    <div class = "col s3"><img src="<%=relative%>images/income.png" class="circle responsive-img" style="width:50px; height:50px"></div>
-                    <div class="col s8"><span class="black-text" style="font-size:128%">
-                      Greatest Income 
-                      <%
-                  bigLifeAmount = 0
-                  bigLifeCategory = ""
-                  bigLifeDate = ""
-                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit'))))).forEach(entry => {
-                    if(entry.amount > bigLifeAmount){
-                      bigLifeAmount = entry.amount
-                      bigLifeCategory = entry.category
-                      bigLifeDate = entry.tstamp
-                    }
-                  })
-
-                  %>
-                      <p style = "margin-top: 0%;"><%=formatter.format(bigLifeAmount)%></p>
-                      <p style = "margin-top: -13%;"><%=bigLifeCategory%></p>
-                      <p style = "margin-top: -13%;"><script type="text/javascript">
-                        document.write(moment(new Date("<%=bigLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-                   </script></p>
-                    </span>
-                  </div>
-                  <div class="col s1">
-                    <span class="black-text tooltipped" data-position="right" data-tooltip="It shows<br>the greatest amount received<br>in the mentioned period." style="font-size: 18px;">	&#x1f6c8;</span>
-                  </div>
-                  </div>
-                  <div class="row" style="margin-top:0%;">
-                    <div class = "col s5">
-                      <%
-                  bigMonthAmount = 0
-                  bigMonthCategory = ""
-                  bigMonthDate = ""
-                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit') && (year == entry.tstamp.getFullYear()&& month == entry.tstamp.getMonth()))))).forEach(entry => {
-                    if(entry.amount > bigMonthAmount){
-                      bigMonthAmount = entry.amount
-                      bigMonthCategory = entry.category
-                      bigMonthDate = entry.tstamp
-                    }
-                  })
-
-                  %>
-                      <span class="black-text" style="font-size: 18px;"><%=monthCart[month]%>
-                        <%if(bigMonthAmount == 0){%>
-                          <p style = "margin-top: 0%;">No Income</p>
-                        <%}else{%>
-                          <p style = "margin-top: 0%;"><%=formatter.format(bigMonthAmount)%></p>
-                        <p style = "margin-top: -13%;"><%=bigMonthCategory%></p>
-                      <p style = "margin-top: -13%;"><script type="text/javascript">
-                        document.write(moment(new Date("<%=bigMonthDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                   </script></p>
-                          <%}%>
-                      </span>
-                    </div>
-                    <div class = "col s5 offset-s2">
-                      <%
-                  bigYearAmount = 0
-                  bigYearCategory = ""
-                  bigYearDate = ""
-                  element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && (!entry.category.includes('Credit') && (year == entry.tstamp.getFullYear()))))).forEach(entry => {
-                    if(entry.amount > bigYearAmount){
-                      bigYearAmount = entry.amount
-                      bigYearCategory = entry.category
-                      bigYearDate = entry.tstamp
-                    }
-                  })
-
-                  %>
-                      <span class="black-text" style="font-size: 18px;">	<%=year%>
-                        <%if(bigYearAmount == 0){%>
-                          <p style = "margin-top: 0%;">No Income</p>
-                        <%}else{%>
-                        <p style = "margin-top: 0%;"><%=formatter.format(bigYearAmount)%></p>
-                        <p style = "margin-top: -13%;"><%=bigYearCategory%></p>
-                      <p style = "margin-top: -13%;"><script type="text/javascript">
-                        document.write(moment(new Date("<%=bigYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                   </script></p>
-                   <%}%>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <%if(element.expense > 0){%>
-                <div class = "col s4">
-                  <div class="card-panel white">
-                    <div class="row">
-                      <div class = "col s3"><img src="<%=relative%>images/expense.png" class="circle responsive-img" style="width:50px; height:50px"></div>
-                      <div class="col s8"><span class="black-text" style="font-size:128%">
-                        Biggest Expense
-                        <%
-                    smallLifeAmount = 0
-                    smallLifeCategory = ""
-                    smallLifeDate = ""
-                    element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
-                      if(entry.amount < smallLifeAmount){
-                        smallLifeAmount = entry.amount
-                        smallLifeCategory = entry.category
-                        smallLifeDate = entry.tstamp
-                      }
-                    })
-  
-                    %>
-                        <p style = "margin-top: 0%;"><%=formatter.format(-1.00*smallLifeAmount)%></p>
-                        <p style = "margin-top: -13%;"><%=smallLifeCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=smallLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-                     </script></p>
-                      </span>
-                    </div>
-                    <div class="col s1">
-                      <span class="black-text tooltipped" data-position="right" data-tooltip="It shows<br>the biggest amount exhausted<br>in the mentioned period." style="font-size: 18px;">	&#x1f6c8;</span>
-                    </div>
-                    </div>
-                    <div class="row" style="margin-top:0%;">
-                      <div class = "col s5">
-                        <%
-                    smallMonthAmount = 0
-                    smallMonthCategory = ""
-                    smallMonthDate = ""
-                    element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getFullYear()&& month == entry.tstamp.getMonth()) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
-                      if(entry.amount < smallMonthAmount){
-                        smallMonthAmount = entry.amount
-                        smallMonthCategory = entry.category
-                        smallMonthDate = entry.tstamp
-                      }
-                    })
-  
-                    %>
-                        <span class="black-text" style="font-size: 18px;"><%=monthCart[month]%>
-                          <%if(smallMonthAmount == 0){%>
-                            <p style = "margin-top: 0%;">No Expense</p>
-                          <%}else{%>
-                          <p style = "margin-top: 0%;"><%=formatter.format(-1.00*smallMonthAmount)%></p>
-                          <p style = "margin-top: -13%;"><%=smallMonthCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=smallMonthDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                     </script></p>
-                     <%}%>
-                        </span>
-                      </div>
-                      <div class = "col s5 offset-s2">
-                        <%
-                        smallYearAmount = 0
-                        smallYearCategory = ""
-                        smallYearDate = ""
-                        element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && (year == entry.tstamp.getFullYear()) && (!entry.category.includes('Debit') && !entry.category.includes('Investment'))))).forEach(entry => {
-                          if(entry.amount < smallYearAmount){
-                            smallYearAmount = entry.amount
-                            smallYearCategory = entry.category
-                            smallYearDate = entry.tstamp
-                          }
-                        })
-      
-                        %>
-                        <span class="black-text" style="font-size: 18px;">	<%=year%>
-                          <%if(smallYearAmount == 0){%>
-                            <p style = "margin-top: 0%;">No Expense</p>
-                          <%}else{%>
-                          <p style = "margin-top: 0%;"><%=formatter.format(-1.00*smallYearAmount)%></p>
-                          <p style = "margin-top: -13%;"><%=smallYearCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=smallYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                     </script></p>
-                     <%}%>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <%}%>
-              <%if(investment > 0){%>
-                <div class = "col s4">
-                  <div class="card-panel white">
-                    <div class="row">
-                      <div class = "col s3"><img src="<%=relative%>images/wealth.png" class="circle responsive-img" style="width:50px; height:50px"></div>
-                      <div class="col s8"><span class="black-text" style="font-size:128%">
-                        Greatest Investment
-                        <%
-                        investedLifeAmount = 0
-                        investedLifeCategory = ""
-                      investedLifeDate = ""
-                        element.activity.filter(entry => (((entry.isActive == true) && (entry.category.includes('Investment'))))).forEach(entry => {
-                          if(entry.amount < investedLifeAmount){
-                            investedLifeAmount = entry.amount
-                            matchCriteria = /\s(\w+)$/g;
-                            investedLifeCategory = entry.description.match(matchCriteria)
-                            investedLifeDate = entry.tstamp
-                          }
-                        })
-      
-                        %>
-                        <p style = "margin-top: 0%;"><%=formatter.format(-1.00*investedLifeAmount)%></p>
-                        <p style = "margin-top: -13%;"><%=investedLifeCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=investedLifeDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-                     </script></p>
-                      </span>
-                    </div>
-                    <div class="col s1">
-                      <span class="black-text tooltipped" data-position="right" data-tooltip="It shows<br>the greatest amount invested<br>in the mentioned period." style="font-size: 18px;">	&#x1f6c8;</span>
-                    </div>
-                    </div>
-                    <div class="row" style="margin-top:0%;">
-                      <div class = "col s5">
-                        <%
-                        investedMonthAmount = 0
-                        investedMonthCategory = ""
-                        investedMonthDate = ""
-                        element.activity.filter(entry => (((entry.isActive == true) && (year == entry.tstamp.getFullYear() && month == entry.tstamp.getMonth()) &&  (entry.category.includes('Investment'))))).forEach(entry => {
-                          if(entry.amount < investedMonthAmount){
-                            investedMonthAmount = entry.amount
-                            matchCriteria = /\s(\w+)$/g;
-                            investedMonthCategory = entry.description.match(matchCriteria)
-                            investedMonthDate = entry.tstamp
-                          }
-                        })
-                        %>
-                        <span class="black-text" style="font-size: 18px;"><%=monthCart[month]%>
-                          <%if(investedMonthAmount == 0){%>
-                            <p style = "margin-top: 0%;">No Investment</p>
-                          <%}else{%>
-                          <p style = "margin-top: 0%;"><%=formatter.format(-1.00*investedMonthAmount)%></p>
-                          <p style = "margin-top: -13%;"><%=investedMonthCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=investedMonthDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                     </script></p>
-                     <%}%>
-                        </span>
-                      </div>
-                      <div class = "col s5 offset-s2">
-                        <%
-                        investedYearAmount = 0
-                        investedYearCategory = ""
-                      investedYearDate = ""
-                        element.activity.filter(entry => (((entry.isActive == true) && (year == entry.tstamp.getFullYear()) &&  (entry.category.includes('Investment'))))).forEach(entry => {
-                          if(entry.amount < investedYearAmount){
-                            investedYearAmount = entry.amount
-                            matchCriteria = /\s(\w+)$/g;
-                            investedYearCategory = entry.description.match(matchCriteria)
-                            investedYearDate = entry.tstamp
-                          }
-                        })
-                        %>
-                        <span class="black-text" style="font-size: 18px;">	<%=year%>
-                          <%if(investedYearAmount == 0){%>
-                            <p style = "margin-top: 0%;">No Investment</p>
-                          <%}else{%>
-                          <p style = "margin-top: 0%;"><%=formatter.format(-1.00*investedYearAmount)%></p>
-                          <p style = "margin-top: -13%;"><%=investedYearCategory%></p>
-                        <p style = "margin-top: -13%;"><script type="text/javascript">
-                          document.write(moment(new Date("<%=investedYearDate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd, MMM DD")) 
-                     </script></p>
-                     <%}%>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <%}%>
-              
-            </div>
-            
-           </div>
-              
            <div id = "logout" class="modal white bottom-sheet">
             <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Do you want to log out of the App?</h5>
             <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
