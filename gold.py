@@ -16,6 +16,7 @@ if mtime != today:
 	show = ""
 	show = price.text.split('₹')[1]
 	show = show.translate({ord(' '):None,ord('₹'):None,ord(','):None})
+	show = str(float(show)*0.916)
 	print(show)
 	price = open('goldPrice.txt','w')
 	price.write(show)

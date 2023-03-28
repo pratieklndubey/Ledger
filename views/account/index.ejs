@@ -431,7 +431,7 @@ notation: "compact",
                          
                            
                                   <tr style="font-weight:500;">
-                                    <td class="tooltipped" data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>+<%=formatter.format(element.onhold)%>+<%=formatter.format(assetsWorth)%>-<%=formatter.format(element.debt)%> = <%=formatter.format(element.transum+element.onhold+assetsWorth-element.debt)%>"><%= formatterDashboard.format(element.transum+element.onhold+assetsWorth-element.debt)%></td>
+                                    <td class="tooltipped" data-position="bottom" data-tooltip="<%=formatter.format(element.transum)%>+<%=formatter.format(assetsWorth)%>-<%=formatter.format(element.debt)%> = <%=formatter.format(element.transum+assetsWorth-element.debt)%>"><%= formatterDashboard.format(element.transum+assetsWorth-element.debt)%></td>
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(element.debt)%>" class="tooltipped" ><%= formatterDashboard.format(element.debt)%></td>
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(element.income)%>" class = "tooltipped green-text text-darken-1"><%= formatterDashboard.format(element.income)%>&#9650;</td>
                                     <td data-position="bottom" data-tooltip="<%=formatter.format(element.expense)%>" class = "tooltipped red-text text-darken-1"><%= formatterDashboard.format(element.expense)%>&#x25bc;</td>
