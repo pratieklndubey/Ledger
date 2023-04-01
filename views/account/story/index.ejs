@@ -299,17 +299,20 @@
             </div>
                  
               </div>
-<div class="container" style="width: 80%;">
+<div class="container">
   <div class="row">
     <div class="col s12">
 
       <%
-        uaccount = ''
+        uaccount = formatter.format(0)
         tcnt = 0
         ccnt = 0
         dcnt = 0
-        if (element.uincome != 0 || element.uexpense != 0) {
-          uaccount = 'Transactions amounting to ' + formatter.format(element.uincome) + ' could not be accounted for as they were done before creating this account.'
+        if (element.uincome != 0) {
+          uaccount = formatter.format(element.uincome)
+        }
+        else if (element.uexpense != 0) {
+          uaccount = formatter.format(element.uexpense)
         }
         element.activity.forEach(entry => {
           tcnt += 1
@@ -389,13 +392,13 @@
       %>
       
       <h5 style="font-family: Noto Sans;">
-   <%=element.name%>'s account was created on <script type="text/javascript">
+   <%=element.name%>'s account was created on <b><script type="text/javascript">
     document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
-</script>, with an opening amount of <%=formatter.format(element.activity[0].amount)%>. <br>
-Since then, <%=formatter.format(element.income - element.uincome)%> have been credited through <%=ccnt%> transactions, and <%=formatter.format((element.expense - element.uexpense))%> have been debited through <%=dcnt%> transactions.<br> The current balance is <%=formatter.format(element.transum)%> after <%=tcnt%> total transactions.<br>
-<%=uaccount%><br>
-The most amount of money has been spent on <%=mstcat%>, <%=mstcat2%>, <%=mstcat3%>, and so on amounting to <%=formatter.format(mstspnt)%>, <%=formatter.format(mstspnt2)%>, <%=formatter.format(mstspnt3)%>, and so on respectively, but when it comes to the number of times money was spent then <%=xmstcat%>, <%=xmstcat2%>, <%=xmstcat3%>, and so on will top the charts with <%=xmstspnt%>, <%=xmstspnt2%>, <%=xmstspnt3%>, and so on transactions respectively.<br>
-The most amount of money has been earned through <%=mstcatenr%>, <%=mstcatenr2%>, <%=mstcatenr3%>, and so on amounting to <%=formatter.format(mstern)%>, <%=formatter.format(mstern2)%>, <%=formatter.format(mstern3)%>, and so on respectively.
+</script></b>, with an opening amount of <b><%=formatter.format(element.activity[0].amount)%></b>. <br>
+Since then, <b><%=formatter.format(element.income - element.uincome)%></b> have been credited through <b><%=ccnt%></b> transactions, and <b><%=formatter.format((element.expense - element.uexpense))%></b> have been debited through <b><%=dcnt%></b> transactions.<br> The current balance is <b><%=formatter.format(element.transum)%></b> after <b><%=tcnt%></b> total transactions.<br>
+Transactions amounting to <b><%=uaccount%></b> could not be accounted for as they were done before creating this account.<br>
+The most amount of money has been spent on <b><%=mstcat%></b>, <b><%=mstcat2%></b>, <b><%=mstcat3%></b>, and so on amounting to <b><%=formatter.format(mstspnt)%></b>, <b><%=formatter.format(mstspnt2)%></b>, <b><%=formatter.format(mstspnt3)%></b>, and so on respectively, but when it comes to the number of times money was spent then <b><%=xmstcat%></b>, <b><%=xmstcat2%></b>, <b><%=xmstcat3%></b>, and so on will top the charts with <b><%=xmstspnt%></b>, <b><%=xmstspnt2%></b>, <b><%=xmstspnt3%></b>, and so on transactions respectively.<br>
+The most amount of money has been earned through <b><%=mstcatenr%></b>, <b><%=mstcatenr2%></b>, <b><%=mstcatenr3%></b>, and so on amounting to <b><%=formatter.format(mstern)%></b>, <b><%=formatter.format(mstern2)%></b>, <b><%=formatter.format(mstern3)%></b>, and so on respectively.
   </h5>
   
     </div>
