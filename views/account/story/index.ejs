@@ -343,31 +343,31 @@
               actl = balance.length
               mstspnt = Math.max.apply(null,balance)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
-              mstcat = categories[mstindx].toLowerCase();
+              mstcat = categories[mstindx];
               balance.splice(mstindx,1)
               categories.splice(mstindx,1)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstspnt2 = Math.max.apply(null,balance)
-              mstcat2 = categories[mstindx].toLowerCase();
+              mstcat2 = categories[mstindx];
               balance.splice(mstindx,1)
               categories.splice(mstindx,1)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstspnt3 = Math.max.apply(null,balance)
-              mstcat3 = categories[mstindx].toLowerCase();
+              mstcat3 = categories[mstindx];
               
               xmstspnt = Math.max.apply(null,times)
               xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
-              xmstcat = categories[xmstindx].toLowerCase();
+              xmstcat = categories[xmstindx];
               times.splice(xmstindx,1)
               categories.splice(xmstindx,1)
               xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
               xmstspnt2 = Math.max.apply(null,times)
-              xmstcat2 = categories[xmstindx].toLowerCase();
+              xmstcat2 = categories[xmstindx];
               times.splice(xmstindx,1)
               categories.splice(xmstindx,1)
               xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
               xmstspnt3 = Math.max.apply(null,times)
-              xmstcat3 = categories[xmstindx].toLowerCase();
+              xmstcat3 = categories[xmstindx];
 
               categories = []
               balance = []
@@ -389,17 +389,17 @@
               })
               mstern = Math.max.apply(null,balance)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
-              mstcatenr = categories[mstindx].toLowerCase();
+              mstcatenr = categories[mstindx];
               balance.splice(mstindx,1)
               categories.splice(mstindx,1)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstern2 = Math.max.apply(null,balance)
-              mstcatenr2 = categories[mstindx].toLowerCase();
+              mstcatenr2 = categories[mstindx];
               balance.splice(mstindx,1)
               categories.splice(mstindx,1)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstern3 = Math.max.apply(null,balance)
-              mstcatenr3 = categories[mstindx].toLowerCase();
+              mstcatenr3 = categories[mstindx];
 
               icategories = []
                 ibalance = []
@@ -421,12 +421,12 @@
                 astl = ibalance.length
                 imstern = Math.max.apply(null,ibalance)
                 imstindx = parseInt(ibalance.reduce((iMax, x, i, ibalance) => x > ibalance[iMax] ? i : iMax, 0))
-                imstcatenr = icategories[imstindx].toLowerCase()
+                imstcatenr = icategories[imstindx]
                 ibalance.splice(imstindx,1)
                 icategories.splice(imstindx,1)
                 imstindx = parseInt(ibalance.reduce((iMax, x, i, ibalance) => x > ibalance[iMax] ? i : iMax, 0))
                 imstern2 = Math.max.apply(null,ibalance)
-                imstcatenr2 = icategories[imstindx].toLowerCase()
+                imstcatenr2 = icategories[imstindx]
                 
       %>
       
@@ -435,13 +435,13 @@
     document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
 </script></b>, with an opening amount of <b><%=formatter.format(element.activity[0].amount)%></b>. <br>
 Since then, <b><%=formatter.format(element.income - element.uincome)%></b> have been credited through <b><%=ccnt%></b> transactions, and <b><%=formatter.format((element.expense - element.uexpense))%></b> have been debited through <b><%=dcnt%></b> transactions.<br> The current balance is <b><%=formatter.format(element.transum)%></b> after <b><%=tcnt%></b> total transactions.<br>
-Transactions amounting to <b><%=uaccount%></b> could not be accounted for as they were done before creating this account.<br>
+<%if (uaccount > 0){%>Transactions amounting to <b><%=uaccount%></b> could not be accounted for as they were done before creating this account.<br><%}%>
 <%if (actl >= 3) {%>The most amount of money has been spent on <b><%=mstcat%></b>, <b><%=mstcat2%></b>, <b><%=mstcat3%></b>, and so on amounting to <b><%=formatter.format(mstspnt)%></b>, <b><%=formatter.format(mstspnt2)%></b>, <b><%=formatter.format(mstspnt3)%></b>, and so on respectively, but when it comes to the number of times money was spent then <b><%=xmstcat%></b>, <b><%=xmstcat2%></b>, <b><%=xmstcat3%></b>, and so on will top the charts with <b><%=xmstspnt%></b>, <b><%=xmstspnt2%></b>, <b><%=xmstspnt3%></b>, and so on transactions respectively.<br>
 The most amount of money has been earned through <b><%=mstcatenr%></b>, <b><%=mstcatenr2%></b>, <b><%=mstcatenr3%></b>, and so on amounting to <b><%=formatter.format(mstern)%></b>, <b><%=formatter.format(mstern2)%></b>, <b><%=formatter.format(mstern3)%></b>, and so on respectively.<br><%}%>
 <%if (astl >= 2) {%>The most amount of money has been invested on <b><%=imstcatenr%></b>, <b><%=imstcatenr2%></b>, and so on amounting to <b><%=formatter.format(imstern)%></b>, <b><%=formatter.format(imstern2)%></b>, and so on respectively.<br><%}%>
-The single biggest expense till date has been on <b><%=bigxpcat%></b> amounting to <b><%=formatter.format(bigxpam)%></b> for buying <b><%=bigxpdes%></b>.<br>
-The single biggest earning till date has been through <b><%=bigerncat%></b> amounting to <b><%=formatter.format(bigernam)%></b> by receiving <b><%=bigerndes%></b>.<br>
-The single biggest investment till date has been on <b><%=biginvcat%></b> amounting to <b><%=formatter.format(biginvam)%></b> for buying <b><%=biginvunt%>gm <%=biginvdes%></b>.<br>
+<%if (actl >= 1) {%>The single biggest expense till date has been on <b><%=bigxpcat%></b> amounting to <b><%=formatter.format(bigxpam)%></b> for buying <b><%=bigxpdes%></b>.<br>
+The single biggest earning till date has been through <b><%=bigerncat%></b> amounting to <b><%=formatter.format(bigernam)%></b> by receiving <b><%=bigerndes%></b>.<br><%}%>
+<%if (astl >= 2) {%>The single biggest investment till date has been on <b><%=biginvcat%></b> amounting to <b><%=formatter.format(biginvam)%></b> for buying <b><%=biginvunt%>gm <%=biginvdes%></b>.<br><%}%>
   </h5>
   
     </div>
