@@ -299,9 +299,8 @@
             </div>
                  
               </div>
-<div class="container">
-  <div class="row">
-    <div class="col s12">
+              
+
 
       <%
         uaccount = formatter.format(0)
@@ -427,26 +426,106 @@
                 imstindx = parseInt(ibalance.reduce((iMax, x, i, ibalance) => x > ibalance[iMax] ? i : iMax, 0))
                 imstern2 = Math.max.apply(null,ibalance)
                 imstcatenr2 = icategories[imstindx]
-                
+                diffdat = ((new Date()).getTime() - (new Date((element.tcreate))).getTime())/(86400000)
+                cagr = ((element.transum-element.debt+assetsWorth)/element.activity[0].amount)
+                cagr = ((cagr**(1/(diffdat/365.25)) - 1)*100).toFixed(2)
+                cagrc = ((element.transum)/element.activity[0].amount)
+                cagrc = ((cagrc**(1/(diffdat/365.25)) - 1)*100).toFixed(2)
       %>
-      
-      <h5 style="font-family: Noto Sans;">
-   <%=element.name%>'s account was created on <b><script type="text/javascript">
-    document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
-</script></b>, with an opening amount of <b><%=formatter.format(element.activity[0].amount)%></b>. <br>
-Since then, <b><%=formatter.format(element.income - element.uincome)%></b> have been credited through <b><%=ccnt%></b> transactions, and <b><%=formatter.format((element.expense - element.uexpense))%></b> have been debited through <b><%=dcnt%></b> transactions.<br> The current balance is <b><%=formatter.format(element.transum)%></b> after <b><%=tcnt%></b> total transactions.<br>
-<%if (uaccount > 0){%>Transactions amounting to <b><%=uaccount%></b> could not be accounted for as they were done before creating this account.<br><%}%>
-<%if (actl >= 3) {%>The most amount of money has been spent on <b><%=mstcat%></b>, <b><%=mstcat2%></b>, <b><%=mstcat3%></b>, and so on amounting to <b><%=formatter.format(mstspnt)%></b>, <b><%=formatter.format(mstspnt2)%></b>, <b><%=formatter.format(mstspnt3)%></b>, and so on respectively, but when it comes to the number of times money was spent then <b><%=xmstcat%></b>, <b><%=xmstcat2%></b>, <b><%=xmstcat3%></b>, and so on will top the charts with <b><%=xmstspnt%></b>, <b><%=xmstspnt2%></b>, <b><%=xmstspnt3%></b>, and so on transactions respectively.<br>
-The most amount of money has been earned through <b><%=mstcatenr%></b>, <b><%=mstcatenr2%></b>, <b><%=mstcatenr3%></b>, and so on amounting to <b><%=formatter.format(mstern)%></b>, <b><%=formatter.format(mstern2)%></b>, <b><%=formatter.format(mstern3)%></b>, and so on respectively.<br><%}%>
-<%if (astl >= 2) {%>The most amount of money has been invested on <b><%=imstcatenr%></b>, <b><%=imstcatenr2%></b>, and so on amounting to <b><%=formatter.format(imstern)%></b>, <b><%=formatter.format(imstern2)%></b>, and so on respectively.<br><%}%>
-<%if (actl >= 1) {%>The single biggest expense till date has been on <b><%=bigxpcat%></b> amounting to <b><%=formatter.format(bigxpam)%></b> for buying <b><%=bigxpdes%></b>.<br>
-The single biggest earning till date has been through <b><%=bigerncat%></b> amounting to <b><%=formatter.format(bigernam)%></b> by receiving <b><%=bigerndes%></b>.<br><%}%>
-<%if (astl >= 2) {%>The single biggest investment till date has been on <b><%=biginvcat%></b> amounting to <b><%=formatter.format(biginvam)%></b> for buying <b><%=biginvunt%>gm <%=biginvdes%></b>.<br><%}%>
-  </h5>
   
+
+<div class="container">
+  <div class="row">
+    <div class="col s3">
+      <div class="card-panel green darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center"><%=formatter.format(element.income - element.uincome)%> have been credited through <%=ccnt%> transactions or <%=(diffdat/30.4367).toFixed(2)%> months i.e. <%=formatter.format((element.income - element.uincome)/(ccnt))%> per transaction or <%=formatter.format((element.income - element.uincome)/(diffdat/30.4367))%> per month.</h5>
+      </div>
+      <%if (actl >= 3) {%>
+      <div class="card-panel green darken-3">
+        <h6 style="font-family: Noto Sans;" class="white-text center">Top 3 Money Makers</h6>
+        <h6 style="font-family: Noto Sans;" class="white-text center"><%=mstcatenr%> - <%=formatter.format(mstern)%><br><%=mstcatenr2%> - <%=formatter.format(mstern2)%><br><%=mstcatenr3%> - <%=formatter.format(mstern3)%></h6>
+      </div>
+      <%}%>
+    </div>
+    <div class="col s6">
+      <div class="card-panel light-blue darken-4">
+        <h5 style="font-family: Noto Sans;" class="white-text center"><%=element.name%>'s account was created on <script type="text/javascript">
+          document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
+      </script>, with an opening amount of <%=formatter.format(element.activity[0].amount)%>.
+      </h5>
+      </div>
+      <div class="card-panel purple darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">After <%=tcnt%> transactions & <script type="text/javascript">document.write(Math.round("<%=diffdat%>"));</script> days, your current networth is <%=formatter.format(element.transum-element.debt+assetsWorth)%> (CAGR - <%=cagr%>%) 
+      with <%=formatter.format(element.transum)%> (CAGR - <%=cagrc%>%) as liquid cash.
+      </h5>
+      </div>
+      <%if (element.unicome > 0 || element.uexpense > 0){%>
+      <div class="card-panel black">
+        <h5 style="font-family: Noto Sans;" class="white-text center">
+      Transactions amounting to <%=uaccount%> could not be accounted for as they were done before creating this account.
+      </h5>
+      </div>
+      <%}%>
+    </div>
+    <div class="col s3">
+      <div class="card-panel red darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center"><%=formatter.format(element.expense - element.uexpense)%> have been debited through <%=dcnt%> transactions or <%=(diffdat/30.4367).toFixed(2)%> months i.e. <%=formatter.format((element.expense - element.uexpense)/(dcnt))%> per transaction or <%=formatter.format((element.expense - element.uexpense)/(diffdat/30.4367))%> per month.</h5>
+      </div>
+      <%if (actl >= 3) {%>
+      <div class="card-panel red darken-3">
+        <h6 style="font-family: Noto Sans;" class="white-text center">Top 3 Money Exhausters</h6>
+        <h6 style="font-family: Noto Sans;" class="white-text center"><%=mstcat%> - <%=formatter.format(mstspnt)%><br><%=mstcat2%> - <%=formatter.format(mstspnt2)%><br><%=mstcat3%> - <%=formatter.format(mstspnt3)%></h6>
+      </div>
+      <%}%>
+    </div>
+  </div>
+  <%if (astl >= 1) {%>
+  <div class="row">
+    <div class="col s4">
+      <div class="card-panel teal darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">The single biggest earning till date has been through <%=bigerncat%> amounting to <%=formatter.format(bigernam)%> by receiving <%=bigerndes%>.</h5>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card-panel orange darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">The single biggest investment till date has been on <%=biginvcat%> amounting to <%=formatter.format(biginvam)%> for buying <%=biginvunt%>gm <%=biginvdes%>.</h5>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card-panel pink darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">The single biggest expense till date has been on <%=bigxpcat%> amounting to <%=formatter.format(bigxpam)%> for buying <%=bigxpdes%>.</h5>
+      </div>
+    </div>
+  </div>
+  <%}
+  else {
+  %>
+  <div class="row">
+    <div class="col s6">
+      <div class="card-panel teal darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">The single biggest earning till date has been through <%=bigerncat%> amounting to <%=formatter.format(bigernam)%> by receiving <%=bigerndes%>.</h5>
+      </div>
+    </div>
+    <div class="col s6">
+      <div class="card-panel pink darken-1">
+        <h5 style="font-family: Noto Sans;" class="white-text center">The single biggest expense till date has been on <%=bigxpcat%> amounting to <%=formatter.format(bigxpam)%> for buying <%=bigxpdes%>.</h5>
+      </div>
+    </div>
+  </div>
+  <%}%>
+  <div class="row">
+    <div class="col s12">
+      <%if (astl >= 2) {%>
+        <div class="card-panel yellow darken-4">
+          <h5 style="font-family: Noto Sans;" class="white-text center">
+            The most amount of money has been invested on <%=imstcatenr%>, <%=imstcatenr2%>, and so on amounting to <%=formatter.format(imstern)%>, <%=formatter.format(imstern2)%>, and so on respectively.
+        </h5>
+        </div>
+        <%}%>
     </div>
   </div>
 </div>
+
  
            <div id = "logout" class="modal white bottom-sheet">
             <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Do you want to log out of the App?</h5>
