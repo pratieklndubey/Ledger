@@ -308,6 +308,8 @@
         tcnt = 0
         ccnt = 0
         dcnt = 0
+        actl = 0
+        astl = 0
         if (element.uincome != 0) {
           uaccount = formatter.format(element.uincome)
         }
@@ -322,7 +324,11 @@
               categories = []
               balance = []
               times = []
+              bigxpam = 0
+              bigxpcat = ''
+              bigxpdes = ''
               element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Investment')))).forEach(entry => {
+                if (parseFloat(entry.amount*-1.00) > bigxpam){bigxpam = parseFloat(entry.amount*-1.00);bigxpcat = entry.category;bigxpdes = entry.description;}
                 if(!categories.includes(entry.category)){
                  categories.push(entry.category)
                     balance.push(0)
@@ -334,6 +340,7 @@
                     times[i] += 1
                     }
               })
+              actl = balance.length
               mstspnt = Math.max.apply(null,balance)
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstcat = categories[mstindx].toLowerCase();
@@ -364,7 +371,11 @@
 
               categories = []
               balance = []
+              bigernam = 0
+              bigerncat = ''
+              bigerndes = ''
               element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Savings')))).forEach(entry => {
+                if (parseFloat(entry.amount) > bigernam){bigernam = parseFloat(entry.amount);bigerncat = entry.category;bigerndes = entry.description;}
                 if(!categories.includes(entry.category)){
                  categories.push(entry.category)
                     balance.push(0)
@@ -389,6 +400,34 @@
               mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
               mstern3 = Math.max.apply(null,balance)
               mstcatenr3 = categories[mstindx].toLowerCase();
+
+              icategories = []
+                ibalance = []
+                biginvam = 0
+                biginvunt = 0
+              biginvcat = ''
+              biginvdes = ''
+                element.asset.filter(entry => (((entry.isActive == true)))).forEach(entry => {
+                  if (parseFloat(entry.amount) > biginvam){biginvam = parseFloat(entry.amount);biginvcat = entry.category;biginvdes = entry.description;biginvunt = entry.units}
+                  if(!icategories.includes(entry.category)){
+                   icategories.push(entry.category)
+                      ibalance.push(0)
+                  }
+                  if(icategories.includes(entry.category)){
+                  i = icategories.indexOf(entry.category)
+                      ibalance[i] += parseFloat(entry.amount)
+                      }
+                })
+                astl = ibalance.length
+                imstern = Math.max.apply(null,ibalance)
+                imstindx = parseInt(ibalance.reduce((iMax, x, i, ibalance) => x > ibalance[iMax] ? i : iMax, 0))
+                imstcatenr = icategories[imstindx].toLowerCase()
+                ibalance.splice(imstindx,1)
+                icategories.splice(imstindx,1)
+                imstindx = parseInt(ibalance.reduce((iMax, x, i, ibalance) => x > ibalance[iMax] ? i : iMax, 0))
+                imstern2 = Math.max.apply(null,ibalance)
+                imstcatenr2 = icategories[imstindx].toLowerCase()
+                
       %>
       
       <h5 style="font-family: Noto Sans;">
@@ -397,8 +436,12 @@
 </script></b>, with an opening amount of <b><%=formatter.format(element.activity[0].amount)%></b>. <br>
 Since then, <b><%=formatter.format(element.income - element.uincome)%></b> have been credited through <b><%=ccnt%></b> transactions, and <b><%=formatter.format((element.expense - element.uexpense))%></b> have been debited through <b><%=dcnt%></b> transactions.<br> The current balance is <b><%=formatter.format(element.transum)%></b> after <b><%=tcnt%></b> total transactions.<br>
 Transactions amounting to <b><%=uaccount%></b> could not be accounted for as they were done before creating this account.<br>
-The most amount of money has been spent on <b><%=mstcat%></b>, <b><%=mstcat2%></b>, <b><%=mstcat3%></b>, and so on amounting to <b><%=formatter.format(mstspnt)%></b>, <b><%=formatter.format(mstspnt2)%></b>, <b><%=formatter.format(mstspnt3)%></b>, and so on respectively, but when it comes to the number of times money was spent then <b><%=xmstcat%></b>, <b><%=xmstcat2%></b>, <b><%=xmstcat3%></b>, and so on will top the charts with <b><%=xmstspnt%></b>, <b><%=xmstspnt2%></b>, <b><%=xmstspnt3%></b>, and so on transactions respectively.<br>
-The most amount of money has been earned through <b><%=mstcatenr%></b>, <b><%=mstcatenr2%></b>, <b><%=mstcatenr3%></b>, and so on amounting to <b><%=formatter.format(mstern)%></b>, <b><%=formatter.format(mstern2)%></b>, <b><%=formatter.format(mstern3)%></b>, and so on respectively.
+<%if (actl >= 3) {%>The most amount of money has been spent on <b><%=mstcat%></b>, <b><%=mstcat2%></b>, <b><%=mstcat3%></b>, and so on amounting to <b><%=formatter.format(mstspnt)%></b>, <b><%=formatter.format(mstspnt2)%></b>, <b><%=formatter.format(mstspnt3)%></b>, and so on respectively, but when it comes to the number of times money was spent then <b><%=xmstcat%></b>, <b><%=xmstcat2%></b>, <b><%=xmstcat3%></b>, and so on will top the charts with <b><%=xmstspnt%></b>, <b><%=xmstspnt2%></b>, <b><%=xmstspnt3%></b>, and so on transactions respectively.<br>
+The most amount of money has been earned through <b><%=mstcatenr%></b>, <b><%=mstcatenr2%></b>, <b><%=mstcatenr3%></b>, and so on amounting to <b><%=formatter.format(mstern)%></b>, <b><%=formatter.format(mstern2)%></b>, <b><%=formatter.format(mstern3)%></b>, and so on respectively.<br><%}%>
+<%if (astl >= 2) {%>The most amount of money has been invested on <b><%=imstcatenr%></b>, <b><%=imstcatenr2%></b>, and so on amounting to <b><%=formatter.format(imstern)%></b>, <b><%=formatter.format(imstern2)%></b>, and so on respectively.<br><%}%>
+The single biggest expense till date has been on <b><%=bigxpcat%></b> amounting to <b><%=formatter.format(bigxpam)%></b> for buying <b><%=bigxpdes%></b>.<br>
+The single biggest earning till date has been through <b><%=bigerncat%></b> amounting to <b><%=formatter.format(bigernam)%></b> by receiving buying <b><%=bigerndes%></b>.<br>
+The single biggest investment till date has been on <b><%=biginvcat%></b> amounting to <b><%=formatter.format(biginvam)%></b> for buying <b><%=biginvunt%>gm <%=biginvdes%></b>.<br>
   </h5>
   
     </div>
