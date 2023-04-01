@@ -122,7 +122,7 @@
       <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">roofing</i></a>
     </div>
   <div class="col s11">
-          <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -10px; margin-top: 0px; margin-right: 120px;">Stats for <%=element.name%></h2>
+          <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -10px; margin-top: 0px; margin-right: 120px;"><%=element.name%>'s Financial Story</h2>
     </div>
           
     </div>
@@ -299,30 +299,103 @@
             </div>
                  
               </div>
-<div class="container">
+<div class="container" style="width: 80%;">
   <div class="row">
     <div class="col s12">
 
       <%
-        tot_cred = 0
-        tot_deb = 0
-      element.activity.forEach(entry => {
-        if(!entry.isexpense)
-        {
-          tot_cred += entry.amount
+        uaccount = ''
+        tcnt = 0
+        ccnt = 0
+        dcnt = 0
+        if (element.uincome != 0 || element.uexpense != 0) {
+          uaccount = 'Transactions amounting to ' + formatter.format(element.uincome) + ' could not be accounted for as they were done before creating this account.'
         }
-        if(entry.isexpense)
-        {
-          tot_deb += entry.amount
-        }
-      })
+        element.activity.forEach(entry => {
+          tcnt += 1
+          if(entry.isexpense){dcnt += 1}
+          else {ccnt += 1}
+        })
+              categories = []
+              balance = []
+              times = []
+              element.activity.filter(entry => (((entry.isActive == true && entry.isexpense) && !entry.category.includes('Investment')))).forEach(entry => {
+                if(!categories.includes(entry.category)){
+                 categories.push(entry.category)
+                    balance.push(0)
+                    times.push(0)
+                }
+                if(categories.includes(entry.category)){
+                i = categories.indexOf(entry.category)
+                    balance[i] += parseFloat(entry.amount*-1.00)
+                    times[i] += 1
+                    }
+              })
+              mstspnt = Math.max.apply(null,balance)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstcat = categories[mstindx].toLowerCase();
+              balance.splice(mstindx,1)
+              categories.splice(mstindx,1)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstspnt2 = Math.max.apply(null,balance)
+              mstcat2 = categories[mstindx].toLowerCase();
+              balance.splice(mstindx,1)
+              categories.splice(mstindx,1)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstspnt3 = Math.max.apply(null,balance)
+              mstcat3 = categories[mstindx].toLowerCase();
+              
+              xmstspnt = Math.max.apply(null,times)
+              xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
+              xmstcat = categories[xmstindx].toLowerCase();
+              times.splice(xmstindx,1)
+              categories.splice(xmstindx,1)
+              xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
+              xmstspnt2 = Math.max.apply(null,times)
+              xmstcat2 = categories[xmstindx].toLowerCase();
+              times.splice(xmstindx,1)
+              categories.splice(xmstindx,1)
+              xmstindx = parseInt(times.reduce((iMax, x, i, times) => x > times[iMax] ? i : iMax, 0))
+              xmstspnt3 = Math.max.apply(null,times)
+              xmstcat3 = categories[xmstindx].toLowerCase();
+
+              categories = []
+              balance = []
+              element.activity.filter(entry => (((entry.isActive == true && !entry.isexpense) && !entry.category.includes('Savings')))).forEach(entry => {
+                if(!categories.includes(entry.category)){
+                 categories.push(entry.category)
+                    balance.push(0)
+                    times.push(0)
+                }
+                if(categories.includes(entry.category)){
+                i = categories.indexOf(entry.category)
+                    balance[i] += parseFloat(entry.amount)
+                    times[i] += 1
+                    }
+              })
+              mstern = Math.max.apply(null,balance)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstcatenr = categories[mstindx].toLowerCase();
+              balance.splice(mstindx,1)
+              categories.splice(mstindx,1)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstern2 = Math.max.apply(null,balance)
+              mstcatenr2 = categories[mstindx].toLowerCase();
+              balance.splice(mstindx,1)
+              categories.splice(mstindx,1)
+              mstindx = parseInt(balance.reduce((iMax, x, i, balance) => x > balance[iMax] ? i : iMax, 0))
+              mstern3 = Math.max.apply(null,balance)
+              mstcatenr3 = categories[mstindx].toLowerCase();
       %>
       
-      <h5 style="font-family: Handlee;" class="center">
+      <h5 style="font-family: Noto Sans;">
    <%=element.name%>'s account was created on <script type="text/javascript">
-    document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd DD MMM, YYYY")) 
-</script> with an opening amount of <%=formatter.format(element.activity[0].amount)%>. <br>Since then, <%=formatter.format(tot_cred)%> has been credited and <%=formatter.format(tot_deb*-1.00)%> has been debited, leaving a balance of <%=formatter.format(tot_cred+tot_deb)%>.<br>
-Most amount earned is through...
+    document.write(moment(new Date("<%=element.tcreate%>"),"ddd MMM DD YYYY HH:MM:SS ZZ").format("ddd MMM DD, YYYY")) 
+</script>, with an opening amount of <%=formatter.format(element.activity[0].amount)%>. <br>
+Since then, <%=formatter.format(element.income - element.uincome)%> have been credited through <%=ccnt%> transactions, and <%=formatter.format((element.expense - element.uexpense))%> have been debited through <%=dcnt%> transactions.<br> The current balance is <%=formatter.format(element.transum)%> after <%=tcnt%> total transactions.<br>
+<%=uaccount%><br>
+The most amount of money has been spent on <%=mstcat%>, <%=mstcat2%>, <%=mstcat3%>, and so on amounting to <%=formatter.format(mstspnt)%>, <%=formatter.format(mstspnt2)%>, <%=formatter.format(mstspnt3)%>, and so on respectively, but when it comes to the number of times money was spent then <%=xmstcat%>, <%=xmstcat2%>, <%=xmstcat3%>, and so on will top the charts with <%=xmstspnt%>, <%=xmstspnt2%>, <%=xmstspnt3%>, and so on transactions respectively.<br>
+The most amount of money has been earned through <%=mstcatenr%>, <%=mstcatenr2%>, <%=mstcatenr3%>, and so on amounting to <%=formatter.format(mstern)%>, <%=formatter.format(mstern2)%>, <%=formatter.format(mstern3)%>, and so on respectively.
   </h5>
   
     </div>
@@ -344,17 +417,7 @@ Most amount earned is through...
                 </form>
               </div>
               <h6 id="warning" style="font-family:Roboto;" class="center red-text"></h6>
-                <!--<script>
-        if((window.fullScreen) ||
-   (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
-     console.log("FullScreen");
-}else{
-  document.getElementById('warning').innerHTML = "Warning<br>Pressing YES Will Close All The Tabs!<br>Close The Current Tab Instead By Pressing CTRL+W";
-}
-      </script>-->
           </div>
-              
-              
               <div id = "chperiod" class="modal white">
                 <h5 class="header center light-blue-text text-darken-4" style="font-family:Roboto;">Change Period</h5>
     <a class="modal-close waves-effect waves-grey btn-flat right" style="top: -45px;"><i class="material-icons">close</i></a>
