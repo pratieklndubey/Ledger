@@ -51,22 +51,7 @@
   .expense:hover:before {content:"<%=((element.expense)*100/element.income).toFixed(2)%>%"}
   .balance:hover span {display:none}
   .balance:hover:before {content:"<%=(100 - element.expense*100/element.income).toFixed(2)%>%"}
-  .monthlyincome:hover span {display:none}
-  .monthlyincome:hover:before {content:"100%"}
-  .monthlyinvested:hover span {display:none}
-  .monthlyinvested:hover:before {content:"<%=((monthlyIncome+monthlyExpense<=0)  && (monthlyIncome == 0)?0.00:(monthlyInvested)*100/monthlyIncome).toFixed(2)%>%"}
-.monthlyexpense:hover span {display:none}
-.monthlyexpense:hover:before {content:"<%=((monthlyIncome+monthlyExpense<=0.00) && (monthlyIncome == 0)?0.00:(monthlyExpense*-100/monthlyIncome)).toFixed(2)%>%"}
-  .monthlybalance:hover span {display:none}
-  .monthlybalance:hover:before {content:"<%=(monthlyIncome+monthlyExpense<=0.00?0.00:(100 - (monthlyExpense-monthlyInvested)*-100/monthlyIncome)).toFixed(2)%>%"}
-  .yearlyincome:hover span {display:none}
-  .yearlyincome:hover:before {content:"100%"}
-  .yearlyinvested:hover span {display:none}
-  .yearlyinvested:hover:before {content:"<%=((yearlyIncome+yearlyExpense<=0.00) && (yearlyIncome == 0)?0.00:(yearlyInvested)*100/yearlyIncome).toFixed(2)%>%"}
-  .yearlyexpense:hover span {display:none}
-  .yearlyexpense:hover:before {content:"<%=((yearlyIncome+yearlyExpense<=0.00) && (yearlyIncome == 0)?0.00:(yearlyExpense*-100/yearlyIncome)).toFixed(2)%>%"}
-  .yearlybalance:hover span {display:none}
-  .yearlybalance:hover:before {content:"<%=(yearlyIncome+yearlyExpense<=0.00?0.00:(100 - (yearlyExpense-yearlyInvested)*-100/yearlyIncome)).toFixed(2)%>%"}
+  
   
   </style>
    
@@ -92,20 +77,15 @@
      %>
     
       <div class="fixed-action-btn">
-        <%      
-                  link = '/'+year+'/'+parseFloat(month+1)
-                  if(month == (new Date().getMonth()) && year == (new Date().getFullYear())){
-                    link = ''
-                  }
-            %>
+       
       <a class="btn-floating btn-large light-blue darken-4 pulse">
         <i class="large material-icons">layers</i>
       </a>
         <ul>
           <li><a title="Logout" data-toggle="modal" href="#logout" class="btn-floating black modal-trigger"><i class="material-icons">logout</i></a></li>
-          <li><a title="Story" href="/account/<%=element._id%>/story<%=link%>" class="btn-floating blue-grey modal-trigger"><i class="material-icons">auto_stories</i></a></li>
-          <li><a title="Chart Analytics" href="/account/<%=element._id%>/chart<%=link%>" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
-          <li><a title="Pivot Tables" href="/account/<%=element._id%>/pivots<%=link%>" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
+          <li><a title="Story" href="/account/<%=element._id%>/story" class="btn-floating blue-grey modal-trigger"><i class="material-icons">auto_stories</i></a></li>
+          <li><a title="Chart Analytics" href="/account/<%=element._id%>/chart" class="btn-floating purple darken-1 modal-trigger"><i class="material-icons">analytics</i></a></li>
+          <li><a title="Pivot Tables" href="/account/<%=element._id%>/pivots" class="btn-floating pink accent-3 modal-trigger"><i class="material-icons">pivot_table_chart</i></a></li>
           <li><a title="Asset Management" href="/account/<%=element._id%>/assets" class="btn-floating orange modal-trigger"><i class="material-icons">account_balance</i></a></li>   
         </ul>
       </div>
@@ -120,7 +100,7 @@
               link = '../../'+element._id+'/'+year+'/'+parseFloat(month+1)
             }
         %>
-        <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../<%=link%>"><i class="material-icons">roofing</i></a>
+        <a title = "Home" class="btn-floating btn-medium waves-effect waves-light blue darken-4" href="../"><i class="material-icons">roofing</i></a>
       </div>
     <div class="col s11">
             <h2 class="header center blue-text text-darken-4" style="font-family:Roboto; margin-bottom: -10px; margin-top: 0px; margin-right: 120px;"><%=element.name%>'s Search</h2>
@@ -218,88 +198,9 @@
                
     
                   
-                   
+               <br>    
                 
                  
-                
-                
-            <div class="container">
-              <div class="row">
-                <div class="col s6">
-                  <table class="striped centered responsive-table">
-                    <thead>
-                              <tr>
-                                  <th><%=monthCart[month]%>
-                        <hr>
-                        </th>                    
-                              </tr>
-                            </thead>
-                            <tbody>
-                  <table class="striped centered responsive-table" style="margin-top:-30px">      
-                            <thead>
-                              <tr>
-                                <th class = "monthlyincome"><span>Credit</span></th>
-                              <th class = "monthlyexpense"><span>Debit</span></th>
-                              <th class = "monthlyinvested"><span>Invested</span></th>
-                              <th class = "monthlybalance"><span>Balance</span></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-      
-                                      
-                              <tr style="font-weight:500;">
-                                
-                                <td class = "green-text text-darken-1"><%= formatter.format(monthlyIncome)%>&#9650;</td>
-                                <td class = "red-text text-darken-1"><%= formatter.format((monthlyExpense == 0)?monthlyExpense:monthlyExpense*-1)%>&#x25bc;</td>
-                                <td><%= formatter.format(monthlyInvested)%></td>
-                                <td><%= formatter.format(monthlyIncome+monthlyExpense>0?monthlyIncome+monthlyExpense-monthlyInvested:0.00)%></td>
-                               
-                                
-                              </tr>
-                            </tbody>
-                          </table>
-                        </tbody>
-                        </table>
-                </div>
-                <div class="col s6">
-                  <table class="striped centered responsive-table">
-                    <thead>
-                              <tr>
-                                  <th><%=year%>
-                        <hr>
-                        </th>                    
-                              </tr>
-                            </thead>
-                            <tbody>
-                  <table class="striped centered responsive-table" style="margin-top:-30px">      
-                            <thead>
-                              <tr>
-                                <th class = "yearlyincome"><span>Credit</span></th>
-                              <th class = "yearlyexpense"><span>Debit</span></th>
-                              <th class = "yearlyinvested"><span>Invested</span></th>
-                              <th class = "yearlybalance"><span>Balance</span></th>
-                              </tr>
-                            </thead>
-                            <tbody>
-      
-                                      
-                              <tr style="font-weight:500;">
-                                
-                                <td class = "green-text text-darken-1"><%= formatter.format(yearlyIncome)%>&#9650;</td>
-                                <td class = "red-text text-darken-1"><%= formatter.format((yearlyExpense == 0)?yearlyExpense:yearlyExpense*-1)%>&#x25bc;</td>
-                                <td><%= formatter.format(yearlyInvested)%></td>
-                                <td><%= formatter.format(yearlyIncome+yearlyExpense>0?yearlyIncome+yearlyExpense-yearlyInvested:0.00)%></td>
-                               
-                                
-                              </tr>
-                            </tbody>
-                          </table>
-                        </tbody>
-                        </table>
-                </div>
-              </div>
-                   
-                </div>
 
                 
                     <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Search" />

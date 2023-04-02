@@ -320,42 +320,6 @@ router.get('/:id/story', async (req, res) => {
     res.render('account/story/index', {page:"| story",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
   //res.send(account)
 })
-router.get('/:id/story/:year/:month', async (req, res) => {
-  let goldData = fs.readFileSync('goldPrice.txt')
-  let silverData = fs.readFileSync('silverPrice.txt')
-  let stockData = fs.readFileSync('stockData.csv')
-  stockData = String(stockData)
-  stockData = stockData.split("\r\n")
-  stockTickers = []
-  stockPrices = []
-  stockData.forEach(stock => {
-    if(stock != ""){
-      value = stock.split(",") 
-    stockPrices.push(parseFloat(value[1]))
-    stockTickers.push(value[0])
-    }
-  })
-  year = req.params.year
-    yearCart = []
-    count = new Date().getFullYear() - 2021
-    for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getFullYear()-i)
-    }
-    month = req.params.month-1
-    if((month < 0 || month > 11) || isNaN(month))
-    {
-      month = new Date().getMonth()
-    }
-    if(!yearCart.includes(parseInt(year)))
-    {
-      year = new Date().getFullYear()
-    }
-  let searchOptions = {}
-    searchOptions._id = req.params.id
-    const account = await Account.find(searchOptions)
-    res.render('account/story/index', {page:"| story",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"laxmimata",noticount:""});
-  //res.send(account)
-})
 router.get('/:id/pivots', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -381,42 +345,6 @@ router.get('/:id/pivots', async (req, res) => {
 })
 
 
-router.get('/:id/pivots/:year/:month', async (req, res) => {
-  let goldData = fs.readFileSync('goldPrice.txt')
-  let silverData = fs.readFileSync('silverPrice.txt')
-  let stockData = fs.readFileSync('stockData.csv')
-  stockData = String(stockData)
-  stockData = stockData.split("\r\n")
-  stockTickers = []
-  stockPrices = []
-  stockData.forEach(stock => {
-    if(stock != ""){
-      value = stock.split(",") 
-    stockPrices.push(parseFloat(value[1]))
-    stockTickers.push(value[0])
-    }
-  })
-  year = req.params.year
-    yearCart = []
-    count = new Date().getFullYear() - 2021
-    for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getFullYear()-i)
-    }
-    month = req.params.month-1
-    if((month < 0 || month > 11) || isNaN(month))
-    {
-      month = new Date().getMonth()
-    }
-    if(!yearCart.includes(parseInt(year)))
-    {
-      year = new Date().getFullYear()
-    }
-  let searchOptions = {}
-    searchOptions._id = req.params.id
-    const account = await Account.find(searchOptions)
-    res.render('account/pivots/index', {page:"| Pivots",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",bell:"",searchRelative:'',relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"saraswatimata",noticount:""});
-  //res.send(account)
-})
 router.get('/:id/chart', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -441,42 +369,6 @@ router.get('/:id/chart', async (req, res) => {
   
 })
 
-router.get('/:id/chart/:year/:month', async (req, res) => {
-  let goldData = fs.readFileSync('goldPrice.txt')
-  let silverData = fs.readFileSync('silverPrice.txt')
-  let stockData = fs.readFileSync('stockData.csv')
-  stockData = String(stockData)
-  stockData = stockData.split("\r\n")
-  stockTickers = []
-  stockPrices = []
-  stockData.forEach(stock => {
-    if(stock != ""){
-      value = stock.split(",") 
-    stockPrices.push(parseFloat(value[1]))
-    stockTickers.push(value[0])
-    }
-  })
-  year = req.params.year
-    yearCart = []
-    count = new Date().getFullYear() - 2021
-    for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getFullYear()-i)
-    }
-    month = req.params.month-1
-    if((month < 0 || month > 11) || isNaN(month))
-    {
-      month = new Date().getMonth()
-    }
-    if(!yearCart.includes(parseInt(year)))
-    {
-      year = new Date().getFullYear()
-    }
-  let searchOptions = {}
-    searchOptions._id = req.params.id
-    const account = await Account.find(searchOptions)
-    res.render('account/chart/index', {page:"| Charts",title:account[0].name, account: account,month:month,year:year, option: "",calculate:"",search:"",searchRelative:'',bell:"",relative:'../../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"ganeshji",noticount:""});
-  //res.send(account)
-})
 router.get('/:id/', async (req, res) => {
   let goldData = fs.readFileSync('goldPrice.txt')
   let silverData = fs.readFileSync('silverPrice.txt')
@@ -519,43 +411,7 @@ router.get('/:id/', async (req, res) => {
   }
   res.render('account/index', {page:"",title:account[0].name, month:month, year:year, account: account,calculate:"../../images/calculator.png", option: "../../images/settings.png" ,search:"../../images/search.png",searchRelative:req.params.id+'/',bell:"🔔",relative:'../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"ramji",noticount:notiam});
 })
-router.get('/:id/:year/:month', async (req, res) => {
-  let goldData = fs.readFileSync('goldPrice.txt')
-  let silverData = fs.readFileSync('silverPrice.txt')
-  let stockData = fs.readFileSync('stockData.csv')
-  stockData = String(stockData)
-  stockData = stockData.split("\r\n")
-  stockTickers = []
-  stockPrices = []
-  stockData.forEach(stock => {
-    if(stock != ""){
-      value = stock.split(",") 
-    stockPrices.push(parseFloat(value[1]))
-    stockTickers.push(value[0])
-    }
-  })
-    year = req.params.year
-    yearCart = []
-    count = new Date().getFullYear() - 2021
-    for(i = 0;i<=count;i++){
-      yearCart.push(new Date().getFullYear()-i)
-    }
-    month = req.params.month-1
-    if((month < 0 || month > 11) || isNaN(month))
-    {
-      month = new Date().getMonth()
-    }
-    x = year
-    y = yearCart
-    if(!yearCart.includes(parseInt(year)))
-    {
-      year = new Date().getFullYear()
-    }
-    let searchOptions = {}
-    searchOptions._id = req.params.id
-    const account = await Account.find(searchOptions)
-    res.render('account/index', {page:"",title:account[0].name, month:month, year:year, account: account,calculate:"../../../../images/calculator.png", option: "../../../../images/settings.png",search:"../../../../images/search.png",bell:"🔔",searchRelative:'../../'+req.params.id+'/',relative:'../../../',priceStocks:stockPrices,tickerStocks:stockTickers,priceGold:goldData,priceSilver:silverData,god:"ramji",noticount:""});
-  })
+
   router.put('/', async (req, res) => {
     if(req.body.action == 'logout')
     {
