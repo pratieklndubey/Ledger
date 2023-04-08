@@ -19,6 +19,6 @@ dir_name = year+month+day
 
 shutil.make_archive(output_filename, 'zip', dir_name)
 
-#shutil.rmtree(dir_name)
+shutil.rmtree(dir_name)
 
 

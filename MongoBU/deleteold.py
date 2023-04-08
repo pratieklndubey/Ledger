@@ -2,7 +2,7 @@ import os
 import datetime
 
 # The directory where the zip files are located
-directory = 'D:\Documents\Mongo'
+directory = ''
 
 # Get the current time
 current_time = datetime.datetime.now()
