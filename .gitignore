@@ -1,5 +1,2 @@
 .env
 node_modules
-stocks.csv
-stockData.csv
-stockDataStore.csv
