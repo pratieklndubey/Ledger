@@ -1,6 +1,7 @@
 
 import shutil
-from datetime import date,datetime
+from os import path,mkdir
+from datetime import date
 
 year = str(date.today().year)
 
@@ -19,6 +20,15 @@ dir_name = year+month+day
 
 shutil.make_archive(output_filename, 'zip', dir_name)
 
+store = open(r"bustore.txt", 'r')
+
+fpath = store.readlines()[0]
+
+if not path.exists(fpath):
+    mkdir(fpath)
+
 shutil.rmtree(dir_name)
+
+shutil.move(output_filename+'.zip',fpath+output_filename+'.zip')
 
 

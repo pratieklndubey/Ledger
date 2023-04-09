@@ -415,24 +415,22 @@ router.get('/:id/', async (req, res) => {
   router.put('/', async (req, res) => {
     if(req.body.action == 'logout')
     {
-      //const logout = spawn('bat', ['./shut_server.bat'])
-      //logout.stdout.on('data', function (data) {});
       const logout = spawn('python', ['./shutApp.py'])
       logout.stdout.on('data', function (data) {});
     }
     else {
-      res.redirect("account/"+req.body.id+"/"+req.body.year+"/"+req.body.month)
+      res.redirect("account/"+req.body.id)
     }
 
   })
   router.put('/chart', async (req, res) => {
-    res.redirect(req.body.id+"/chart/"+req.body.year+"/"+req.body.month)
+    res.redirect(req.body.id+"/chart")
   })
   router.put('/pivots', async (req, res) => {
-    res.redirect(req.body.id+"/pivots/"+req.body.year+"/"+req.body.month)
+    res.redirect(req.body.id+"/pivots")
   })
   router.put('/story', async (req, res) => {
-    res.redirect(req.body.id+"/story/"+req.body.year+"/"+req.body.month)
+    res.redirect(req.body.id+"/story")
   })
   
     
