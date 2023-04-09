@@ -71,7 +71,7 @@ router.get('/:id/search/result/:query', async (req, res) => {
   })
   Values[3]==''?From=new Date(account[0].tcreate):From=new Date(Values[3])
   Values[4]==''?To=new Date():To=new Date(Values[4])
-  res.render('account/search/result/index', {page:"| Search Result",tranType:Category,totalAmount:sum,searchto:To,searchfrom:From,result:result,month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../../',search:"",calculate:"",bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
+  res.render('account/search/result/index', {page:"| Search Result",tranType:Category,totalAmount:sum,searchto:To,searchfrom:From,result:result,month:month,year:year,option:"",title:account[0].name, account: account,relative:'../../../../',search:"",calculate:req.params.query,bell:"",searchRelative:'',god:"hanumanji",noticount:"",priceGold:goldData,priceSilver:silverData,priceStocks:stockPrices,tickerStocks:stockTickers});
   
 })
 router.get('/:id/assets', async (req, res) => {
@@ -556,6 +556,7 @@ router.get('/:id/', async (req, res) => {
 
         }
         await account.save()
+        pageDirect = "../"+req.params.id
       }
     }
 
@@ -568,9 +569,22 @@ router.get('/:id/', async (req, res) => {
       entry.title = req.body.title   
       entry.category = req.body.category 
       await account.save()
+      pageDirect = "../"+req.params.id
     }
     }
-    res.redirect("../"+req.params.id)
+    else if(req.body.action == 'SearchUpdate'){
+      if(req.body.amount != 0){
+      let account = await Account.findById(req.params.id)
+      let transaction = account.activity
+      let entry = transaction.find(entry => entry._id == req.params.tid)
+      entry.description = req.body.description      
+      entry.title = req.body.title   
+      entry.category = req.body.category 
+      await account.save()
+      pageDirect = "../"+req.params.id+"/search/result/"+req.body.pageid
+    }
+    }
+    res.redirect(pageDirect)
   })
 
   router.post('/', async (req, res) => {

@@ -363,7 +363,8 @@
     
       <form action="/account/<%=element._id%>/<%=entry._id%>?_method=PUT" method="POST">
        
-        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "Update" />
+        <input name = "action" type="hidden" class="validate" required="" aria-required="true" value = "SearchUpdate" />
+        <input name = "pageid" type="hidden" class="validate" required="" aria-required="true" value = "<%=calculate%>" />
         <div class="row">
         <div class="input-field col s3 offset-s1 center">
         
