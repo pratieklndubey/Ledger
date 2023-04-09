@@ -57,13 +57,15 @@ router.get('/:id/search/result/:query', async (req, res) => {
   const Title = Values[0]
   const Description = Values[1]
   const Category = Values[2]
-  var From = new Date(Values[3])
-  var To = new Date(Values[4])
+  var From = new Date(Values[3]+' UTC')
+  var To = new Date(Values[4]+' UTC')
+  To.setDate(To.getDate()+1)
+  From.setDate(From.getDate()+1)
   var result = []
   var sum = 0
   var matchCriteriaTitle = "^.*?"+Title+".*?$"
   var matchCriteriaDescription = "^.*?"+Description+".*?$"
-  account[0].activity.filter(record => record.isActive && ((Category != 'All Expenses' && Category != 'All Incomes')?true:(Category == 'All Expenses'?record.isexpense:!record.isexpense)) && (Values[3]==''?true:record.tstamp >= From) && (Values[4]==''?true:record.tstamp <= To) && ((Category=='All Transactions' || Category=='All Expenses' || Category=='All Incomes')?true:record.category == Category) && (Description==''?true:record.description.match(matchCriteriaDescription)) && (Title==''?true:record.title.match(matchCriteriaTitle))).forEach(record =>{
+  account[0].activity.filter(record => record.isActive && ((Category != 'All Expenses' && Category != 'All Incomes')?true:(Category == 'All Expenses'?record.isexpense:!record.isexpense)) && (Values[3]==''?true:record.tstamp > From) && (Values[4]==''?true:record.tstamp < To) && ((Category=='All Transactions' || Category=='All Expenses' || Category=='All Incomes')?true:record.category == Category) && (Description==''?true:record.description.match(matchCriteriaDescription)) && (Title==''?true:record.title.match(matchCriteriaTitle))).forEach(record =>{
     result.push(record)
     sum+=record.amount
   })
