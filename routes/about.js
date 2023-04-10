@@ -1,12 +1,26 @@
-const express = require('express')
-const router = express.Router()
-const Account = require('../models/account')
-const fs = require('fs')
-const spawn = require('child_process').spawn
-const util = require('util')
+const express = require('express');
+const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.render('about/index', {page:"",title: 'About',relative:'../',option:"",search:"",bell:"",searchRelative:'',calculate:"",god:"shivaji",noticount:""});
-})
+const getAboutPage = async (req, res) => {
+  try {
+    res.render('about/index', {
+      page: '',
+      title: 'About',
+      relative: '../',
+      option: '',
+      search: '',
+      bell: '',
+      searchRelative: '',
+      calculate: '',
+      god: 'shivaji',
+      noticount: '',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
 
-module.exports = router
+router.get('/', getAboutPage);
+
+module.exports = router;

@@ -1,184 +1,105 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const activitySchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    
-  },
-  title: {
-    type: String,
-    
-  },
-  amount: {
-    type: Number,
-    
-  },
-  category: {
-    type: String,
-    
-  },
-  isexpense: {
-    type: Boolean,
-    
-  },
-  postranbal:{
-    type: Number,
-    
-  },
+  id: mongoose.Schema.Types.ObjectId,
+  title: String,
+  amount: Number,
+  category: String,
+  isexpense: Boolean,
+  postranbal: Number,
   tstamp: {
     type: Date,
-    default: Date.now(),    
+    default: Date.now()
   },
-  description: {
-    type: String
-  },
+  description: String,
   isActive: {
     type: Boolean,
     default: true
   }
-})
-
+});
 
 const notificationSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    
-  },
-  title: {
-    type: String,
-    
-  },
-  amount: {
-    type: Number,
-    
-  },
-  category: {
-    type: String,
-    
-  },
-  isexpense: {
-    type: Boolean,
-    
-  },
-  tstamp: {
-    type: Date,
-  },
-  repeat: {
-    type: String
-  },
-  description: {
-    type: String
-  },
-  status: {
-    type: String,
-  }
-})
-
+  id: mongoose.Schema.Types.ObjectId,
+  title: String,
+  amount: Number,
+  category: String,
+  isexpense: Boolean,
+  tstamp: Date,
+  repeat: String,
+  description: String,
+  status: String
+});
 
 const assetSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
-  description: {
-    type: String
-  },
-  amount: {
-    type: Number,
-  },
-  units: {
-    type: Number,
-  },
-  category: {
-    type: String,
-  },
+  id: mongoose.Schema.Types.ObjectId,
+  description: String,
+  amount: Number,
+  units: Number,
+  category: String,
   tape: {
-    type:String,
-    default:"Nothing"
+    type: String,
+    default: 'Nothing'
   },
   isActive: {
     type: Boolean,
     default: true
   }
-})
+});
 
 const accountSchema = new mongoose.Schema({
-  id: {
-    type: mongoose.Schema.Types.ObjectId,
-    
-  },
-  name: {
-    type: String,
-    
-  },
+  id: mongoose.Schema.Types.ObjectId,
+  name: String,
   tcreate: {
     type: Date,
-    default: Date.now(),    
+    default: Date.now()
   },
   dob: {
     type: Date,
-    default: Date.now(),    
+    default: Date.now()
   },
-  dnw:{
+  dnw: {
     type: Number,
-    default:0
+    default: 0
   },
-  aor:{
+  aor: {
     type: Number,
-    default:50
+    default: 50
   },
-  expense:{
+  expense: {
     type: Number,
-    default:0
+    default: 0
   },
-  income:{
+  income: Number,
+  uexpense: {
     type: Number,
+    default: 0
   },
-  uexpense:{
+  uincome: {
     type: Number,
-    default:0
+    default: 0
   },
-  uincome:{
-    type: Number,
-    default:0
-  },
-  transum:{
-    type: Number,
-    
-  },
-  currency:{
-    type:String,
-  },
-  currbal: {
-    type: Number,
-    
-  },
+  transum: Number,
+  currency: String,
+  currbal: Number,
   onhold: {
     type: Number,
-    default:0
+    default: 0
   },
   debt: {
     type: Number,
-    default:0
-    
+    default: 0
   },
-  isActive:{
+  isActive: {
     type: Boolean,
     default: true
+  },
+  prook: {
+    type: Number,
+    default: 0
+  },
+  activity: [activitySchema],
+  asset: [assetSchema],
+  notification: [notificationSchema]
+});
 
-  },
-  prook:{
-    type:Number,
-    default:0
-  },
-  activity: {
-    type: [activitySchema]
-  },
-  asset: {
-    type: [assetSchema]
-  },
-  notification: {
-    type: [notificationSchema]
-  }
-})
-
-module.exports = mongoose.model('Account', accountSchema)
+module.exports = mongoose.model('Account', accountSchema);
