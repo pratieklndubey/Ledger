@@ -60,7 +60,6 @@ router.get('/:id/search/result/:query', async (req, res) => {
   var From = new Date(Values[3]+' UTC')
   var To = new Date(Values[4]+' UTC')
   To.setDate(To.getDate()+1)
-  From.setDate(From.getDate()-1)
   var result = []
   var sum = 0
   var matchCriteriaTitle = "^.*?"+Title+".*?$"
