@@ -562,95 +562,79 @@ router.put('/story', async (req, res) => {
   res.redirect(`${req.body.id}/story`);
 });
 
-  
-    
-  router.put('/:id/', async (req, res) => {
-    let account = await Account.findById(req.params.id)
-    if(req.body.action == 'UpBal')
-    {
-      account.currbal = req.body.currbal
-    await account.save()
-    res.redirect(req.params.id)
-    }
-    
-    else if(req.body.action == 'addNot')
-    {
-  const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Loan","Rebate"]//,"Credit"
-      checkExpense = categoriesIncome.includes(req.body.category)
-      actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
-      let newReminder = {title: req.body.title, amount: actualAmount, category: req.body.category,tstamp:req.body.start, description: req.body.description, isexpense: !checkExpense, status: "Off", repeat: req.body.repeat}
-      account.notification.push(newReminder)
-      await account.save()
-      res.redirect(req.params.id)
-    }
-    else if(req.body.action == 'Settings')
-    {
-      account.name = req.body.name
-      account.dnw = req.body.dnw
-      account.aor = req.body.aor
-      account.dob= req.body.dob
-      account.income -= account.uincome*1.00
-      account.expense -= account.uexpense*1.00
-      account.income += req.body.uincome*1.00
-      account.expense += req.body.uexpense*1.00
-      account.uincome = req.body.uincome*1.00
-      account.uexpense = req.body.uexpense*1.00
-      if(!req.body.state)
-      {
-        account.isActive = false
-        await account.save()
-        res.redirect("../../")
-      }
-      else{
-        await account.save()
-      res.redirect("../"+req.params.id)
-      }
-    }
-    else if(req.body.action == 'Creatran')
-    {
-      if(req.body.amount != 0){
-        const categoriesIncome = ["Savings","Salary","Interest","Dividend","Asset Liquidation","Gift","Business Payment","Loan","Rebate"]
-        let account = await Account.findById(req.params.id)
-        checkExpense = categoriesIncome.includes(req.body.category)
-        actualAmount = (checkExpense?req.body.amount*1.00:req.body.amount*-1.00)
-        balance = actualAmount
-        if(req.body.category == "Debit" || req.body.category == "Credit")
-        {
-          balance = 0.00
-        }
-        let newTransaction = {title: req.body.title, amount: actualAmount, category: req.body.category,tstamp:Date.now(), description: req.body.description, isexpense: !checkExpense, postranbal: ((account.transum+balance+account.onhold)*1.00)}
-        account.activity.push(newTransaction)
-        account.transum = (account.transum+actualAmount)*1.00
-        if(checkExpense && req.body.category != "Credit")
-        {
-          account.income += req.body.amount*1.00
-        }
-        if(!checkExpense && req.body.category != "Debit"){
+router.put('/:id/', async (req, res) => {
+  try {
+    const account = await Account.findById(req.params.id);
 
-          account.expense += req.body.amount*1.00
-        }
-        if(req.body.category == 'Debit')
-        {
-          account.onhold += req.body.amount*1.00
-        }
-        if(req.body.category == 'Credit')
-        {
-          account.onhold -= req.body.amount*1.00
-        }
-        if(req.body.category == 'Loan')
-        {
-          account.debt += req.body.amount*1.00
-        }
-        if(req.body.category == 'Loan Repayment')
-        {
-          account.debt -= req.body.amount*1.00
-        }
-        await account.save()
-        res.redirect("../"+req.params.id)
+    if (req.body.action === 'UpBal') {
+      account.currbal = req.body.currbal;
+      await account.save();
+      res.redirect(req.params.id);
+    } else if (req.body.action === 'Settings') {
+      account.name = req.body.name;
+      account.dnw = req.body.dnw;
+      account.aor = req.body.aor;
+      account.dob = req.body.dob;
+      account.income -= account.uincome;
+      account.expense -= account.uexpense;
+      account.income += parseFloat(req.body.uincome);
+      account.expense += parseFloat(req.body.uexpense);
+      account.uincome = parseFloat(req.body.uincome);
+      account.uexpense = parseFloat(req.body.uexpense);
+
+      if (!req.body.state) {
+        account.isActive = false;
+        await account.save();
+        res.redirect('../../');
+      } else {
+        await account.save();
+        res.redirect(`../${req.params.id}`);
       }
+    } else if (req.body.action === 'Creatran') {
+      if (parseFloat(req.body.amount) !== 0) {
+        const categoriesIncome = ['Savings', 'Salary', 'Interest', 'Dividend', 'Asset Liquidation', 'Gift', 'Business Payment', 'Loan', 'Rebate'];
+        const account = await Account.findById(req.params.id);
+        const checkExpense = categoriesIncome.includes(req.body.category);
+        const actualAmount = checkExpense ? parseFloat(req.body.amount) : -parseFloat(req.body.amount);
+        let balance = actualAmount;
+
+        const newTransaction = {
+          title: req.body.title,
+          amount: actualAmount,
+          category: req.body.category,
+          tstamp: Date.now(),
+          description: req.body.description,
+          isexpense: !checkExpense,
+          postranbal: ((account.transum + balance + account.onhold) * 1.0)
+        };
+
+        account.activity.push(newTransaction);
+        account.transum = (account.transum + actualAmount) * 1.0;
+
+        if (checkExpense) {
+          account.income += parseFloat(req.body.amount);
+        } else {
+          account.expense += parseFloat(req.body.amount);
+        }
+
+        if (req.body.category === 'Loan') {
+          account.debt += parseFloat(req.body.amount);
+        }
+
+        if (req.body.category === 'Loan Repayment') {
+          account.debt -= parseFloat(req.body.amount);
+        }
+
+        await account.save();
+        res.redirect(`../${req.params.id}`);
       }
-  
-  })
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 
 router.put('/:id/:tid', async (req, res) => {
     let pageDirect;
