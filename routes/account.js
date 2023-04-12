@@ -285,7 +285,7 @@ router.put('/:id/assets', async(req, res) => {
 
   }
   else{
-    let newAsset = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description,tape:req.body.amount}
+    let newAsset = {units:req.body.units,amount:req.body.amount,category:req.body.category,description:req.body.description}
     account.asset.push(newAsset)
     descriptionTransaction = req.body.description
     let newTransaction = {title: req.body.category, amount: req.body.amount*-1.00, category: "Investment",tstamp:Date.now(), description: descriptionTransaction, isexpense: true, postranbal:(account.transum+account.onhold-req.body.amount)}
