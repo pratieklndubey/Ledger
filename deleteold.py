@@ -19,5 +19,5 @@ for zip_file in zip_files[:-1]:
     file_path = os.path.join(directory, zip_file)
     # Check the age of the file
     age = current_time - datetime.datetime.fromtimestamp(os.path.getmtime(file_path))
-    if age.days >= 15:
+    if age.days >= 10:
         os.remove(file_path)

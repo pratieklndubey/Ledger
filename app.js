@@ -33,7 +33,7 @@ app.use('/account', accountRouter);
 app.use('/about', aboutRouter);
 
 // Start the server
-const port = 3000;
+const port = 7000;
 const hostname = 'localhost';
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
