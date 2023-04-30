@@ -1,25 +1,13 @@
-import bs4 
-import requests 
-import pathlib
-import datetime
+import requests
+from bs4 import BeautifulSoup
 
-fname = pathlib.Path('silverPrice.txt')
-mtime = datetime.datetime.fromtimestamp(fname.stat().st_mtime).date()
-today = datetime.date.today()
-#print(mtime," | ",today)
+url = "https://www.amazon.com/Apple-iPhone-13-Pro-Max/dp/B097P9B819"
 
-if mtime != today:
-	url = 'https://www.bankbazaar.com/gold-rate-madhya-pradesh.html'
-	result = requests.get(url) 
-	soup = bs4.BeautifulSoup(result.content,'html.parser') 
-	price = soup.find(class_ = "bigfont")
-	show = ""
-	show = price.text.split('₹')[1]
-	show = show.translate({ord(' '):None,ord('₹'):None,ord(','):None})
-	show = str(float(show)*0.916)
-	print(show)
-	price = open('goldPrice.txt','w')
-	price.write(show)
-	price.close()
+page = requests.get(url)
+soup = BeautifulSoup(page.content, "html.parser")
 
+price = soup.find(class_='bigfont')
+if price is None:
+    price = "N/A"
 
+print(price)
